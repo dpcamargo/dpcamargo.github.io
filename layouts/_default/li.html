@@ -1,1 +1,2 @@
-<li><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></li>
+<li><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a> <span class="date">{{ .Date.Format "2006-01-02"
+        }}</span></li>
