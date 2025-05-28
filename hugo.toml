@@ -1,5 +1,4 @@
 baseURL = "https://dpcamargo.github.io/"
-theme = "risotto"
 title = "Dario Camargo"
 author = "Dario Camargo"
 pagination.pagerSize = 3
@@ -42,6 +41,12 @@ url = "https://linkedin.com/in/dpcamargo"
     name = "About"
     url = "/about/"
     weight = 10
+
+  [[menu.main]]
+    identifier = "til"
+    name = "TIL"
+    url = "/til/"
+    weight = 20
 
 [taxonomies]
 category = "categories"

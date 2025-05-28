@@ -5,6 +5,8 @@
     align-items: bottom;
     margin-top: auto;
     align-self: flex-end;
+    margin-top: 2rem;
+    margin-bottom: 0rem;
 }
 
 .about__logo {
@@ -26,14 +28,12 @@
     object-fit: cover;
 }
 
-/* Social media links */
 .aside__social-links {
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: center;
     padding: 0;
     font-size: 2rem;
+    margin-bottom: 0rem;
 }
 
 .aside__social-links i {

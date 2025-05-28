@@ -1,7 +1,8 @@
 +++
 aliases = ["posts", "articles", "blog", "showcase", "docs"]
 title = "TIL"
-author = "Hugo Authors"
-description = "Example posts demonstrating hugo's markup features"
-tags = ["index"]
+author = "Dario Camargo"
+description = "Today I Learned"
+tags = ["til"]
+date = "2024-12-20"
 +++
