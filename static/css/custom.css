@@ -1,0 +1,18 @@
+/* Sidebar image */
+.about__image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.aside__social-links {
+    padding: 110;
+}
+
+.page__404 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
