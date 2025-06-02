@@ -1,0 +1,17 @@
+<nav class="page__nav main-nav">
+    <ul>
+    <a href="{{ .Site.BaseURL }}" class="page__logo-inner">
+      <span class="head-circle">o</span>
+      <span class="head-arrow">➜</span>
+      <span class="head-text">{{ .Site.Params.Theme.header_text }}</span>
+      <span class="head-branch">{{ .Site.Params.Theme.branch }}</span>
+      <span class="head-x">✗</span>
+      <span class="blinking-underscore">_</span>
+    </a>
+    {{ $currentPage := . }}
+    {{ range .Site.Menus.main }}
+    <li class="main-nav__item"><a class="nav-main-item{{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) (eq ($currentPage.Permalink) (.URL | absLangURL)) }} active{{end}}" href="{{ .URL | absLangURL }}" title="{{ .Title }}">{{ .Name }}</a></li>
+    {{ end }}
+    </ul>
+</nav>
+

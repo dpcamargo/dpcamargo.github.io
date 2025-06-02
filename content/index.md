@@ -1,9 +1,8 @@
 +++
-title = "Dario Camargo - Software Developer"
-author = "Dario Camargo"
-date = "2024-12-20" 
+date = '2025-05-29T22:45:21-03:00'
+title = 'Dario Camargo'
 +++
 
-<div style="display: flex; justify-content: center; align-items: center; height: calc(100vh - 100px); margin: 0; padding: 0;">
-  <img src="/images/standing_t.png" alt="Dario Camargo" style="max-height: calc(60vh - 100px); width: auto; height: auto; object-fit: contain;">
+<div class="home__image"">
+  <img src="/images/standing.png" alt="Standing" style="height: 50vh;">
 </div>
