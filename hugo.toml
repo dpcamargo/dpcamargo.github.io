@@ -1,5 +1,4 @@
 baseURL = "https://dpcamargo.github.io/"
-theme = "risotto"
 title = "Dario Camargo"
 author = "Dario Camargo"
 pagination.pagerSize = 3
