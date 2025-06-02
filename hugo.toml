@@ -23,6 +23,11 @@ header_text = "dpcamargo.github.io"
 branch = "main"
 
 
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
+
+
 # Sidebar: social links
 # Available icon sets:
 # * FontAwesome 6 <https://fontawesome.com/> ('fa-brands', 'fa-normal', or 'fa-solid' for brands)
