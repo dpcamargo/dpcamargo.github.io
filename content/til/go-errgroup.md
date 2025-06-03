@@ -1,6 +1,6 @@
 +++
-date = '2025-05-30T11:28:02-03:00'
-title = 'Go Errgroup'
+date = "2025-06-03"
+title = "Go Errgroup"
 +++
 
 "golang.org/x/sync/errgroup" lets you combine WaitGroup with error handling.
