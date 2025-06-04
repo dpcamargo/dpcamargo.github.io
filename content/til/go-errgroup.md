@@ -1,30 +1,33 @@
 +++
 date = "2025-06-03"
-title = "Go Errgroup"
+title = "Go: errgroup - WaitGroup with error handling"
+tags = ["go", "til", "concurrency", "errgroup"]
 +++
 
-"golang.org/x/sync/errgroup" lets you combine WaitGroup with error handling.
+### Why use it?
 
-- g.Go() to start a go routine
-- g.Wait() to wait for all go routines
-- no need to wg.Add()
+- Start goroutines with `g.Go()`, passing a function that returns an error.
+- Wait for all to finish (and get the first error, if any) with `g.Wait()`.
+- No need to call `Add()` or manage error channels yourself.
 
-{{< highlight go >}}
+### Example:
+
+```go
 package main
 
 import (
-"fmt"
-"golang.org/x/sync/errgroup"
+    "fmt"
+    "golang.org/x/sync/errgroup"
 )
 
 func main() {
-var g errgroup.Group
+    var g errgroup.Group
 
     for i := 1; i <= 3; i++ {
         id := i
         g.Go(func() error {
             fmt.Printf("Goroutine %d is running\n", id)
-            return nil // No error
+            return nil // return error if something fails
         })
     }
 
@@ -33,6 +36,14 @@ var g errgroup.Group
     } else {
         fmt.Println("All goroutines finished")
     }
-
 }
-{{< /highlight >}}
+```
+
+### Summary
+
+- No boilerplate for adding/waiting.
+- Easy error handling from concurrent tasks.
+
+### Reference:
+
+- [errgroup docs](https://pkg.go.dev/golang.org/x/sync/errgroup)

@@ -5,8 +5,6 @@ pagination.pagerSize = 3
 languageCode = "en"
 DefaultContentLanguage = "en"
 enableInlineShortcodes = true
-# prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
-# See https://github.com/gohugoio/hugo/issues/7228#issuecomment-714490456
 ignoreErrors = ["error-remote-getjson"]
 
 # Automatically add content sections to main menu
@@ -15,23 +13,15 @@ ignoreErrors = ["error-remote-getjson"]
 [params]
 noindex = false
 
-
 [params.theme]
 logo = "images/rice.svg"
 palette = "base16-dark"
 header_text = "dpcamargo.github.io"
 branch = "main"
 
-
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
-
-
-# Sidebar: social links
-# Available icon sets:
-# * FontAwesome 6 <https://fontawesome.com/> ('fa-brands', 'fa-normal', or 'fa-solid' for brands)
-# * Academicons <https://jpswalsh.github.io/academicons> ('ai ai-')
 
 [[params.socialLinks]]
 icon = "fa-brands fa-github"
@@ -56,24 +46,18 @@ url = "https://linkedin.com/in/dpcamargo"
     url = "/til/"
     weight = 20
 
-[taxonomies]
 
 
-# For hugo >= 0.60.0, enable inline HTML
 [markup.goldmark.renderer]
 unsafe = true
 
 [markup]
-
-  # Table of contents
-  # Add toc = true to content front matter to enable
   [markup.tableOfContents]
     startLevel = 2
     endLevel   = 3
     ordered    = true
 
 [privacy]
-
   [privacy.vimeo]
     disabled = false
     simple = true
@@ -87,6 +71,9 @@ unsafe = true
     privacyEnhanced = true
 
 [services]
-
   [services.instagram]
     disableInlineCSS = true
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>til on Dario Camargo</title>
-    <link>http://localhost:1313/til/</link>
-    <description>Recent content in til on Dario Camargo</description>
+    <title>Go on Dario Camargo</title>
+    <link>http://localhost:1313/tags/go/</link>
+    <description>Recent content in Go on Dario Camargo</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Wed, 04 Jun 2025 11:38:23 -0300</lastBuildDate>
-    <atom:link href="http://localhost:1313/til/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Go: Sort structs with slices.SortFunc and cmp.Compare</title>
       <link>http://localhost:1313/til/go-sorting/</link>

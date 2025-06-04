@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><title>Go: Sort structs with slices.SortFunc and cmp.Compare &ndash; Dario Camargo</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/palettes/base16-dark.css">
+<link rel="stylesheet" href="http://localhost:1313/css/risotto.css">
+<link rel="stylesheet" href="http://localhost:1313/css/custom.css">
+
+
+
+
+
+
+
+</head>
+
+    <body>
+        <div class="page">
+
+            <header class="page__header"><nav class="page__nav main-nav">
+    <ul>
+    <a href="http://localhost:1313/" class="page__logo-inner">
+      <span class="head-circle">o</span>
+      <span class="head-arrow">➜</span>
+      <span class="head-text">dpcamargo.github.io</span>
+      <span class="head-branch">main</span>
+      <span class="head-x">✗</span>
+      <span class="blinking-underscore">_</span>
+    </a>
+    
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="http://localhost:1313/about/" title="">About</a></li>
+    
+    <li class="main-nav__item"><a class="nav-main-item" href="http://localhost:1313/til/" title="">TIL</a></li>
+    
+    </ul>
+</nav>
+
+</header>
+
+            <section class="page__body">
+
+                <div class="page_main">
+    <header class="content__header">
+        <h1>Go: Sort structs with slices.SortFunc and cmp.Compare</h1>
+    </header>
+    <div class="content__body">
+        <p>You can easily sort slices of structs in Go 1.21+ using the generic packages <code>slices</code> and <code>cmp</code>.</p>
+<h3 id="how-cmpcompare-works">How <code>cmp.Compare</code> works</h3>
+<p>
+<p><code>cmp.Compare(a, b)</code> returns:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-t" data-lang="t"><span style="display:flex;"><span><span style="color:#f92672">-</span> <span style="color:#e6db74">`-1`</span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">`a &lt; b`</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-</span> <span style="color:#e6db74">`0`</span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">`a == b`</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">-</span> <span style="color:#e6db74">`1`</span> <span style="color:#66d9ef">if</span> <span style="color:#e6db74">`a &gt; b`</span>
+</span></span></code></pre></div><p>It&rsquo;s perfect for concise custom comparators in sorting functions.</p>
+<h3 id="example-sorting-structs">Example: Sorting structs</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;cmp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;slices&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Book</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Title</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Year</span>  <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">books</span> <span style="color:#f92672">:=</span> []<span style="color:#a6e22e">Book</span>{
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;The Go Programming Language&#34;</span>, <span style="color:#ae81ff">2015</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;Learning Go&#34;</span>, <span style="color:#ae81ff">2021</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#34;Introducing Go&#34;</span>, <span style="color:#ae81ff">2016</span>},
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Sort books by Year (ascending)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">slices</span>.<span style="color:#a6e22e">SortFunc</span>(<span style="color:#a6e22e">books</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#a6e22e">Book</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cmp</span>.<span style="color:#a6e22e">Compare</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Year</span>, <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">Year</span>)
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Sort books by Title (ascending)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">slices</span>.<span style="color:#a6e22e">SortFunc</span>(<span style="color:#a6e22e">books</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#a6e22e">Book</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cmp</span>.<span style="color:#a6e22e">Compare</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Title</span>, <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">Title</span>)
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p>No need to implement sort.Interface or manage index logic manually—just use generics!</p>
+<h3 id="references">References:</h3>
+<ul>
+<li><a href="https://pkg.go.dev/cmp">cmp docs</a></li>
+<li><a href="https://pkg.go.dev/slices">slices docs</a></li>
+</ul>
+
+    </div>
+    <footer class="content__footer"></footer>
+
+                </div>
+
+                <div class="page_socials"><ul class="body__social-links">
+    
+    <li>
+        <a href="https://github.com/dpcamargo" rel="me" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>&nbsp;
+    </li>
+    
+    <li>
+        <a href="https://linkedin.com/in/dpcamargo" rel="me" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>&nbsp;
+    </li>
+    
+</ul>
+</div>
+            </section>
+
+        </div>
+    </body>
+
+</html>
