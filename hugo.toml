@@ -1,4 +1,4 @@
-baseURL = "https://dpcamargo.github.io/"
+baseURL = "https://dario.dev.br/"
 title = "Dario Camargo"
 author = "Dario Camargo"
 pagination.pagerSize = 3
@@ -16,7 +16,7 @@ noindex = false
 [params.theme]
 logo = "images/rice.svg"
 palette = "base16-dark"
-header_text = "dpcamargo.github.io"
+header_text = "dario.dev.br"
 branch = "main"
 
 [caches]
