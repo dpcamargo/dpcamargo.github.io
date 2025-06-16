@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>til on Dario Camargo</title>
+    <title>Today I Learned on Dario Camargo</title>
     <link>http://localhost:1313/til/</link>
-    <description>Recent content in til on Dario Camargo</description>
+    <description>Recent content in Today I Learned on Dario Camargo</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Sun, 08 Jun 2025 22:37:23 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/til/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Using Katex</title>
+      <title>Using KaTeX</title>
       <link>http://localhost:1313/til/using-katex/</link>
       <pubDate>Sun, 08 Jun 2025 22:37:23 -0300</pubDate>
       <guid>http://localhost:1313/til/using-katex/</guid>

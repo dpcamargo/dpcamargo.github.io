@@ -2,9 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/til/linear-systems-as-matrices/</loc>
-    <lastmod>2025-06-08T22:37:23-03:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/math/</loc>
     <lastmod>2025-06-08T22:37:23-03:00</lastmod>
   </url><url>
@@ -12,6 +9,9 @@
     <lastmod>2025-06-08T22:37:23-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-06-08T22:37:23-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/til/using-katex/</loc>
     <lastmod>2025-06-08T22:37:23-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/cmp/</loc>
@@ -49,9 +49,6 @@
   </url><url>
     <loc>http://localhost:1313/about/</loc>
     <lastmod>2024-05-30T22:50:43-03:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/til/math-typesetting/</loc>
-    <lastmod>2019-03-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url>
