@@ -26,6 +26,8 @@ body, html {
     margin-bottom: 0.5rem;
     flex: 1;
     border: 3px solid var(--crt-green);
+    display: flex;
+    flex-direction: column;
 }
 
 .page__header {
@@ -113,7 +115,6 @@ body, html {
     height: auto;
     z-index: 2;
     text-decoration: none;
-    color: red;
 }
 
 #close-button {
@@ -160,6 +161,7 @@ body, html {
     justify-content: center;
     align-items: center;
     height: 100%;
+    flex: 1;
 }
 
 .page__body::before {
