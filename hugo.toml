@@ -1,6 +1,5 @@
 baseURL = "https://dario.dev.br/"
 title = "Dario Camargo"
-author = "Dario Camargo"
 pagination.pagerSize = 3
 languageCode = "en"
 DefaultContentLanguage = "en"
