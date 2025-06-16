@@ -7,13 +7,13 @@
 
     <body>
         <div class="page">
-
+            
             <header class="page__header">
                 {{- partial "header.html" . -}}
             </header>
 
             <section class="page__body">
-
+                {{ partial "title.html" . }}
                 <div class="page_main">
                     {{- block "main" . }}{{- end }}
                 </div>

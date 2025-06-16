@@ -1,14 +1,15 @@
 {{ define "main" }}
     <header class="content__header">
-        <h1>Today I Learned</h1>
         {{ .Content }}
     </header>
+    <div class="content__body">
 
-    {{ range .Pages }}
-    <article class="post">
-        <header class="post__header">
-            <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a><span class="til__date"> - {{ .Date.Format "02/01/2006" }}</span>
-        </header>
-    </article>
-    {{ end }}
+        {{ range .Pages }}
+        <article class="post">
+            <header class="post__header">
+                <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a><span class="til__date"> - {{ .Date.Format "02/01/2006" }}</span>
+            </header>
+        </article>
+        {{ end }}
+    </div>
 {{ end }}
