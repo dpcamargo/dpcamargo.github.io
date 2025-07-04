@@ -18,10 +18,12 @@
     content: "./";
 }
 
+
 .page__logo-inner {
     display: block;
     padding: 0.25rem;
     font-weight: 600;
+    margin-right: 2rem;
 }
 
 a.page__logo-inner:link, a.page__logo-inner:visited {

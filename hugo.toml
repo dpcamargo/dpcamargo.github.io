@@ -16,23 +16,18 @@ noindex = false
 logo = "images/rice.svg"
 palette = "base16-dark"
 header_text = "dario.dev.br"
-branch = "main"
 
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
 
-[[params.socialLinks]]
-icon = "fa-brands fa-github"
-title = "GitHub"
-url = "https://github.com/dpcamargo"
-
-[[params.socialLinks]]
-icon = "fa-brands fa-linkedin"
-title = "LinkedIn"
-url = "https://linkedin.com/in/dpcamargo"
-
 [menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 1
+
   [[menu.main]]
     identifier = "about"
     name = "About"

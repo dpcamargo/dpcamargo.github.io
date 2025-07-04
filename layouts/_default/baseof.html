@@ -12,18 +12,20 @@
                 {{- partial "header.html" . -}}
             </header>
 
-            <section class="page__body">
-                {{ partial "title.html" . }}
-                <div class="page_main">
-                    {{- block "main" . }}{{- end }}
-                </div>
+            <div class="page__body">
+                <section class="page__content">
+                    {{ partial "title.html" . }}
+                    <div class="page_main">
+                        {{- block "main" . }}{{- end }}
+                    </div>
+                </section>
 
-                <div class="page_socials">
-                    {{- partial "socials.html" . -}}
-                </div>
-            </section>
+                <section class="right__content">
+                        {{- partial "side_image.html" . -}}
+                        {{- partial "side_socials.html" . -}}
+                </section>
+            </div>
 
         </div>
     </body>
-
 </html>
