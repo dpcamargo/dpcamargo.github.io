@@ -7,7 +7,7 @@
         {{ range .Pages }}
         <article class="post">
             <header class="post__header">
-                <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a><span class="til__date"> - {{ .Date.Format "02/01/2006" }}</span>
+                <span class="til__date">({{ .Date.Format "02/01/06" }}) </span><a href="{{ .Permalink }}">{{ .Title | markdownify }}<p></p></a>
             </header>
         </article>
         {{ end }}

@@ -1,17 +1,12 @@
 :root {
-	/* Background */
-	--bg: var(--base00);
-	--off-bg: var(--base01);
-	--inner-bg: var(--base02);
-
-	/* Text */
-	--fg: var(--base05);
-	--off-fg: var(--base04);
-	--muted: var(--base03);
-	--link: var(--base0D);
-	--hover: var(--base0C);
-	--highlight: var(--base0A);
-
-	/* Logo */
-	--logo: var(--base0B);
+	--link: #7cafc2;;
+	--hover: #86c1b9;
+	--bg-body: #1e2434;
+    --bg: #0a1019;
+    --text:#878d9d;
+    --border-pink: #815f86;
+    --border-blue: #779aa1;
+    --text-header: #f94eca;
+    --text-subheader: #60d3cc;
+    --text-body: #9ca0b1;
 }

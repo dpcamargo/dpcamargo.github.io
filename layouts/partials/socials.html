@@ -1,7 +1,0 @@
-<ul class="body__social-links">
-    {{ range $item := .Site.Params.socialLinks }}
-    <li>
-        <a href="{{ $item.url }}" rel="me" aria-label="{{ $item.title }}" title="{{ $item.title }}" target="_blank" rel="noopener noreferrer"><i class="{{ $item.icon }}" aria-hidden="true"></i></a>&nbsp;
-    </li>
-    {{ end }}
-</ul>
