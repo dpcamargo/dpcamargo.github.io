@@ -100,9 +100,11 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    flex: 0 0 20%;
-    gap: 2rem;
+    justify-content: flex-start;
+    flex: 0 0 22%;
+    gap: 0.75rem;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* Responsive Images */
