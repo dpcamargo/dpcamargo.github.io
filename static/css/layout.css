@@ -6,7 +6,7 @@ body, html {
     background-color: var(--bg);
     align-items: center;
     justify-content: center;
-    font-family: 'Press Start 2P', 'press-start-2p-regular', 'VT323', 'Fira Mono', 'Consolas', monospace;
+    font-family: var(--font-body);
     overflow: hidden;
 }
 
@@ -54,7 +54,7 @@ body, html {
 
 .page__content {
     padding: 1rem;
-    color: var(--text-header);
+    color: var(--text-body);
     background-color: var(--bg-body);
     overflow-wrap: break-word;
     border: 2px solid var(--border-pink);

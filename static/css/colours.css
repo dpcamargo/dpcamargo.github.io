@@ -8,5 +8,9 @@
     --border-blue: #779aa1;
     --text-header: #f94eca;
     --text-subheader: #60d3cc;
-    --text-body: #9ca0b1;
+    --text-body: #b8bcc9;
+    --inner-bg: #151b2b;
+    --off-fg: #a3be8c;
+    --muted: #878d9d;
+    --highlight: #815f86;
 }

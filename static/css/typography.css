@@ -1,19 +1,21 @@
 /* Fonts */
 :root {
-    --font-monospace: "Press Start 2P", "press-start-2p-regular", "VT323", "Fira Mono", "Consolas", monospace;
+    --font-heading: "Press Start 2P", "press-start-2p-regular", monospace;
+    --font-body: "VT323", "Fira Mono", "Consolas", monospace;
 }
 
 body {
-    font-family: var(--font-monospace);
-    font-size: 16px;
-    line-height: 1.5rem;
+    font-family: var(--font-body);
+    font-size: 22px;
+    line-height: 1.8rem;
 }
 
 /* Headings */
 h1 {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     margin: 0;
     font-weight: 600;
+    color: var(--text-header);
 }
 
 h2, 
@@ -21,9 +23,10 @@ h3,
 h4, 
 h5, 
 h6 {
-    font-size: 1rem;
+    font-size: 1.7rem;
     margin: 1.5rem 0 0 0;
     font-weight: 600;
+    color: var(--text-header);
 }
 
 h1+h2,
@@ -131,14 +134,17 @@ code,
 kbd,
 samp {
     background: var(--inner-bg) !important;
-    font-family: var(--font-monospace);
+    font-family: var(--font-body);
     color: var(--off-fg);
+    font-size: 22px;
 }
 
 pre {
     overflow-x: auto;
     padding: 1.5rem;
     margin: 0 0 1.5rem 0;
+    border: 1px solid var(--border-blue);
+    border-radius: 4px;
 }
 
 /* Fix overflow when config markup.highlight.lineNos is true */
@@ -151,6 +157,7 @@ pre {
 b,
 strong {
     font-weight: 600;
+    color: var(--off-fg);
 }
 
 /* Highlighting */
