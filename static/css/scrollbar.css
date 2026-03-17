@@ -1,0 +1,29 @@
+/* Custom scrollbar - Webkit */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-pink);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-header);
+    box-shadow: 0 0 6px rgba(249, 78, 202, 0.4);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--bg);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-pink) var(--bg);
+}

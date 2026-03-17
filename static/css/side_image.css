@@ -20,6 +20,12 @@
     width: auto;
     height: auto;
     object-fit: contain;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.side__image:hover img {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(249, 78, 202, 0.5));
 }
 
 /* Content images */

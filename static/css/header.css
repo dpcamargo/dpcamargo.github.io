@@ -2,28 +2,64 @@
 .main-nav ul {
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-start;
+    align-items: center;
     margin: 0;
-    padding: 0 0 0 0;
-    gap: 0rem 1.5rem;
+    padding: 0;
+    gap: 0 1.5rem;
 }
 
 .main-nav li {
-    padding-top: 0.25rem;
-    margin-left: 1rem;
+    padding: 0;
+    margin: 0;
     text-transform: lowercase;
+    list-style: none;
+}
+
+.main-nav li::before {
+    content: "./";
+    color: var(--muted);
 }
 
 .main-nav li::marker {
-    content: "./";
+    content: none;
 }
 
+.main-nav li a {
+    position: relative;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.main-nav li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: var(--text-header);
+    box-shadow: 0 0 6px rgba(249, 78, 202, 0.5);
+    transition: width 0.3s ease;
+}
+
+.main-nav li a:hover::after,
+.main-nav li a.active::after {
+    width: 100%;
+}
+
+.main-nav li a:hover {
+    color: var(--text-header);
+    text-shadow: 0 0 8px rgba(249, 78, 202, 0.4);
+}
 
 .page__logo-inner {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
     padding: 0.25rem;
     font-weight: 600;
     margin-right: 2rem;
+    white-space: nowrap;
 }
 
 a.page__logo-inner:link, a.page__logo-inner:visited {
@@ -38,7 +74,7 @@ a.page__logo-inner:active {
 }
 
 .head-circle {
-    color: gray
+    color: gray;
 }
 
 .head-arrow {
@@ -69,7 +105,7 @@ a.page__logo-inner:active {
 
 .blinking-underscore {
     display: inline-block;
-    color: inherit; /* or set a specific color */
+    color: inherit;
     animation: blink 1s steps(1) infinite;
 }
 
