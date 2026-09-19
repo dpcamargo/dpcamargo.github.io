@@ -1,7 +1,7 @@
 baseURL = "https://dario.dev.br/"
 title = "Dario Camargo"
 pagination.pagerSize = 3
-languageCode = "en"
+locale = "en"
 DefaultContentLanguage = "en"
 enableInlineShortcodes = true
 ignoreErrors = ["error-remote-getjson"]
