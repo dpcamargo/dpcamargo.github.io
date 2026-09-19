@@ -46,6 +46,8 @@ header_text = "dario.dev.br"
 unsafe = true
 
 [markup]
+  [markup.highlight]
+    noClasses = false
   [markup.tableOfContents]
     startLevel = 2
     endLevel   = 3
