@@ -16,7 +16,7 @@ h1 {
     margin: 0;
     font-weight: 600;
     color: var(--text-header);
-    text-shadow: 0 0 8px rgba(249, 78, 202, 0.6), 0 0 20px rgba(249, 78, 202, 0.25);
+    text-shadow: 0 0 8px rgba(var(--glow), calc(0.6 * var(--glow-k))), 0 0 20px rgba(var(--glow), calc(0.25 * var(--glow-k)));
 }
 
 h2, 
@@ -28,7 +28,7 @@ h6 {
     margin: 1.5rem 0 0 0;
     font-weight: 600;
     color: var(--text-header);
-    text-shadow: 0 0 6px rgba(249, 78, 202, 0.5), 0 0 15px rgba(249, 78, 202, 0.2);
+    text-shadow: 0 0 6px rgba(var(--glow), calc(0.5 * var(--glow-k))), 0 0 15px rgba(var(--glow), calc(0.2 * var(--glow-k)));
 }
 
 h1+h2,
@@ -166,7 +166,7 @@ strong {
 ::selection,
 mark {
     background-color: var(--highlight);
-    color: var(--bg);
+    color: var(--on-highlight);
 }
 
 /* Other typographic elements */

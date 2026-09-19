@@ -12,7 +12,7 @@ body::after {
         to bottom,
         transparent 0px,
         transparent 2px,
-        rgba(0, 0, 0, 0.08) 2px,
-        rgba(0, 0, 0, 0.08) 4px
+        rgba(0, 0, 0, var(--scan-a)) 2px,
+        rgba(0, 0, 0, var(--scan-a)) 4px
     );
 }

@@ -44,11 +44,12 @@ body, html {
     padding-top: 0.7rem;
     padding-bottom: 0.3rem;
     padding-left: 3rem;
+    padding-right: 3rem;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
-    color: #fff;
-    background-color: #1e2434;
+    color: var(--header-fg);
+    background-color: var(--header-bg);
     border-bottom: 3px solid var(--border-pink);
 }
 

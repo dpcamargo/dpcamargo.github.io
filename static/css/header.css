@@ -38,7 +38,7 @@
     width: 0;
     height: 2px;
     background-color: var(--text-header);
-    box-shadow: 0 0 6px rgba(249, 78, 202, 0.5);
+    box-shadow: 0 0 6px rgba(var(--glow), calc(0.5 * var(--glow-k)));
     transition: width 0.3s ease;
 }
 
@@ -49,7 +49,7 @@
 
 .main-nav li a:hover {
     color: var(--text-header);
-    text-shadow: 0 0 8px rgba(249, 78, 202, 0.4);
+    text-shadow: 0 0 8px rgba(var(--glow), calc(0.4 * var(--glow-k)));
 }
 
 .page__logo-inner {
@@ -116,4 +116,55 @@ a.page__logo-inner:active {
     50.01%, 100% {
         opacity: 0;
     }
+}
+
+/* Theme toggle: pixel-art sun / moon pinned to the right of the header */
+.main-nav {
+    flex: 1;
+}
+
+.main-nav li.theme-item {
+    margin-left: auto;
+}
+
+.main-nav li.theme-item::before {
+    content: none;
+}
+
+.theme-toggle {
+    appearance: none;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--text-subheader);
+    cursor: pointer;
+    transition: color 0.2s ease, filter 0.2s ease;
+}
+
+.theme-toggle:hover {
+    color: var(--text-header);
+    filter: drop-shadow(0 0 6px rgba(var(--glow), calc(0.6 * var(--glow-k))));
+}
+
+.theme-toggle:focus-visible {
+    outline: 1px solid var(--border-blue);
+    outline-offset: 2px;
+}
+
+/* 33px = 3 device pixels per icon pixel, so the edges stay crisp */
+.theme-toggle__icon {
+    width: 33px;
+    height: 33px;
+}
+
+/* Show the icon of the mode you would switch to: sun while dark, moon while light */
+.theme-toggle__moon,
+:root[data-theme="light"] .theme-toggle__sun {
+    display: none;
+}
+
+:root[data-theme="light"] .theme-toggle__moon {
+    display: block;
 }

@@ -54,7 +54,7 @@
 }
 
 .socials__link:hover {
-    background-color: rgba(163, 190, 140, 0.1);
+    background-color: rgba(var(--off-fg-rgb), 0.1);
     border-color: var(--off-fg);
 }
 
@@ -160,7 +160,7 @@
     padding: 0.2rem 0.5rem;
     border: 1px solid var(--border-blue);
     color: var(--text-subheader);
-    background: rgba(119, 154, 161, 0.08);
+    background: rgba(var(--border-blue-rgb), 0.08);
 }
 
 /* Status line */

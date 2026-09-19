@@ -15,7 +15,7 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-header);
-    box-shadow: 0 0 6px rgba(249, 78, 202, 0.4);
+    box-shadow: 0 0 6px rgba(var(--glow), calc(0.4 * var(--glow-k)));
 }
 
 ::-webkit-scrollbar-corner {

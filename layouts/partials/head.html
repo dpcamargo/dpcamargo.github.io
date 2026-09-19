@@ -11,7 +11,9 @@
 <!-- Academicons <https://jpswalsh.github.io/academicons/> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+{{ partial "theme_init.html" . }}
 <link rel="stylesheet" href="{{ "css/custom.css" | absURL }}">
+<script defer src="{{ "js/theme.js" | absURL }}"></script>
 
 <!-- favicon -->
 {{ if os.FileExists "static/favicon.ico" }}<link rel="icon" href="{{ "favicon.ico" | absURL }}">{{ end }}

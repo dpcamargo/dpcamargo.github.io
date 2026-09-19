@@ -1,5 +1,9 @@
+/* Dark is the default palette. The light palette overrides it via [data-theme="light"],
+   which is set on <html> by layouts/partials/theme_init.html before first paint. */
 :root {
-	--link: #7cafc2;;
+	color-scheme: dark;
+
+	--link: #7cafc2;
 	--hover: #86c1b9;
 	--bg-body: #1e2434;
     --bg: #0a1019;
@@ -13,4 +17,44 @@
     --off-fg: #a3be8c;
     --muted: #878d9d;
     --highlight: #815f86;
+
+    --header-bg: #1e2434;
+    --header-fg: #fff;
+    --on-highlight: #0a1019;
+
+    /* rgb triplets for translucent tints; glow-k scales every neon glow, scan-a the CRT scanlines */
+    --glow: 249, 78, 202;
+    --glow-k: 1;
+    --off-fg-rgb: 163, 190, 140;
+    --border-blue-rgb: 119, 154, 161;
+    --scan-a: 0.08;
+}
+
+:root[data-theme="light"] {
+	color-scheme: light;
+
+	--link: #3d7a94;
+	--hover: #2f8a82;
+	--bg-body: #f4f5f9;
+    --bg: #dde1ec;
+    --text: #5b6274;
+    --border-pink: #a06fa6;
+    --border-blue: #5f8e99;
+    --text-header: #b8127f;
+    --text-subheader: #167a74;
+    --text-body: #2a3142;
+    --inner-bg: #e8ebf3;
+    --off-fg: #4f7a2f;
+    --muted: #6b7285;
+    --highlight: #d3aad9;
+
+    --header-bg: #f4f5f9;
+    --header-fg: #1a1f2e;
+    --on-highlight: #1a1f2e;
+
+    --glow: 184, 18, 127;
+    --glow-k: 0.3;
+    --off-fg-rgb: 79, 122, 47;
+    --border-blue-rgb: 95, 142, 153;
+    --scan-a: 0.04;
 }
