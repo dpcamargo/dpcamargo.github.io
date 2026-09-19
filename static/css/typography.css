@@ -8,6 +8,8 @@ body {
     font-family: var(--font-body);
     font-size: 22px;
     line-height: 1.8rem;
+    /* VT323 and Press Start 2P fuse "fi" into one glyph; keep letters separate */
+    font-variant-ligatures: none;
 }
 
 /* Headings */
