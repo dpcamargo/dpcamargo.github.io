@@ -1,7 +1,7 @@
 +++
 aliases = ["til"]
-title = "Today I Learned"
+title = "today i learned"
 author = "Dario Camargo"
-description = "Today I Learned"
+description = "today i learned"
 date = "2025-05-29T22:45:21-03:00"
 +++

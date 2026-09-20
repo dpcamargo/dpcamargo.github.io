@@ -48,13 +48,13 @@ header_text = "dario.dev.br"
 [menu]
   [[menu.main]]
     identifier = "home"
-    name = "Home"
+    name = "boot"
     url = "/"
     weight = 1
 
   [[menu.main]]
     identifier = "about"
-    name = "About"
+    name = "whoami"
     url = "/about/"
     weight = 10
 

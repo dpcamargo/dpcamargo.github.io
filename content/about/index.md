@@ -1,5 +1,5 @@
 +++
-title = "About"
+title = "whoami"
 author = "Dario Camargo"
 description = "About"
 date = "2024-05-30T22:50:43-03:00"
