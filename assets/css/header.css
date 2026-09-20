@@ -60,6 +60,7 @@
     font-weight: 600;
     margin-right: 2rem;
     white-space: nowrap;
+    min-width: 0;
 }
 
 a.page__logo-inner:link, a.page__logo-inner:visited {
@@ -127,53 +128,59 @@ a.page__logo-inner:active {
     }
 }
 
-/* Theme toggle: pixel-art sun / moon pinned to the right of the header */
+/* Palette picker: the button is pinned to the right of the header, its popup opens below it */
 .main-nav {
     flex: 1;
+    min-width: 0;
 }
 
-.main-nav li.theme-item {
+.main-nav li.palette-item {
+    position: relative;
     margin-left: auto;
 }
 
-.main-nav li.theme-item::before {
+.main-nav li.palette-item::before {
     content: none;
 }
 
-.theme-toggle {
+.palette-popup {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    z-index: 100;
+    min-width: 12rem;
+}
+
+.palette-popup .win__body {
+    padding: var(--space-2);
+}
+
+.palette-option {
     appearance: none;
-    display: flex;
-    align-items: center;
+    display: block;
+    width: 100%;
+    padding: var(--space-1) var(--space-2);
+    font: inherit;
+    text-align: left;
+    color: var(--win-fg);
     background: none;
     border: 0;
-    padding: 0;
-    color: var(--text-subheader);
     cursor: pointer;
-    transition: color 0.2s ease, filter 0.2s ease;
 }
 
-.theme-toggle:hover {
-    color: var(--text-header);
-    filter: drop-shadow(0 0 6px rgba(var(--glow), calc(0.6 * var(--glow-k))));
+.palette-option::before {
+    content: "  ";
+    white-space: pre;
 }
 
-.theme-toggle:focus-visible {
-    outline: 1px solid var(--border-blue);
-    outline-offset: 2px;
+.palette-option[aria-pressed="true"]::before {
+    content: "> ";
+    color: var(--off-fg);
 }
 
-/* 33px = 3 device pixels per icon pixel, so the edges stay crisp */
-.theme-toggle__icon {
-    width: 33px;
-    height: 33px;
-}
-
-/* Show the icon of the mode you would switch to: sun while dark, moon while light */
-.theme-toggle__moon,
-:root[data-palette="light"] .theme-toggle__sun {
-    display: none;
-}
-
-:root[data-palette="light"] .theme-toggle__moon {
-    display: block;
+.palette-option:hover,
+.palette-option:focus-visible {
+    color: var(--win-title-fg);
+    background-color: var(--win-title-bg);
+    outline: 0;
 }
