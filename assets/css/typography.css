@@ -1,36 +1,52 @@
 /* Fonts */
+@font-face {
+    font-family: "Departure Mono";
+    src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
-    --font-heading: "Press Start 2P", "press-start-2p-regular", monospace;
-    --font-body: "VT323", "Fira Mono", "Consolas", monospace;
+    --font-body: "Departure Mono", "Fira Mono", "Consolas", monospace;
+    --font-heading: var(--font-body);
 }
 
 body {
     font-family: var(--font-body);
-    font-size: 22px;
-    line-height: 1.8rem;
-    /* VT323 and Press Start 2P fuse "fi" into one glyph; keep letters separate */
+    /* 22px is 2x the font's native 11px pixel grid, so glyph edges stay crisp */
+    font-size: 1.375rem;
+    line-height: 1.5;
+    /* Departure Mono has a single weight; a synthesised bold would smear the pixels */
+    font-synthesis: none;
+    /* keep letters separate; pixel fonts look wrong with fused ligatures */
     font-variant-ligatures: none;
 }
 
 /* Headings */
 h1 {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
     margin: 0;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--text-header);
     text-shadow: 0 0 8px rgba(var(--glow), calc(0.6 * var(--glow-k))), 0 0 20px rgba(var(--glow), calc(0.25 * var(--glow-k)));
 }
 
-h2, 
-h3, 
-h4, 
-h5, 
+h2,
+h3,
+h4,
+h5,
 h6 {
-    font-size: 1.7rem;
-    margin: 1.5rem 0 0 0;
-    font-weight: 600;
+    font-size: 1.375rem;
+    margin: var(--space-5) 0 var(--space-2) 0;
+    font-weight: 400;
     color: var(--text-header);
     text-shadow: 0 0 6px rgba(var(--glow), calc(0.5 * var(--glow-k))), 0 0 15px rgba(var(--glow), calc(0.2 * var(--glow-k)));
+}
+
+/* 33px = 3x the pixel grid */
+h2 {
+    font-size: 2.0625rem;
 }
 
 h1+h2,
@@ -58,7 +74,7 @@ h1:first-child {
 
 /* Paragraphs */
 p {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 var(--space-4) 0;
 }
 
 /* Links */
@@ -76,12 +92,12 @@ a:hover {
 
 /* Lists */
 ul {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 var(--space-4) 0;
     padding-left: 1.25rem;
 }
 
 ol {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 var(--space-4) 0;
     padding-left: 1.75rem;
 }
 
@@ -103,50 +119,50 @@ ol li::marker {
 
 dt {
   margin: 0;
-  font-weight: bold;
+  color: var(--off-fg);
 }
 
 dd {
-  margin: 0 0 0 1.5rem;
+  margin: 0 0 0 var(--space-4);
   font-style: italic;
 }
 
 dd + dt {
-  margin-top: 1.5rem;
+  margin-top: var(--space-4);
 }
 
 dl {
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 var(--space-4) 0;
 }
 
 /* Blockquotes */
 blockquote {
     position: relative;
-    margin: 0 0 1.5rem 1.5rem;
+    margin: 0 0 var(--space-4) var(--space-4);
 }
 
 blockquote::before {
     position: absolute;
-    left: -1.5rem;
+    left: calc(-1 * var(--space-4));
     content: ">";
     color: var(--muted);
 }
 
 /* Code */
 pre,
-code, 
+code,
 kbd,
 samp {
     background: var(--inner-bg) !important;
     font-family: var(--font-body);
     color: var(--off-fg);
-    font-size: 22px;
+    font-size: 1.375rem;
 }
 
 pre {
     overflow-x: auto;
-    padding: 1.5rem;
-    margin: 0 0 1.5rem 0;
+    padding: var(--space-4);
+    margin: 0 0 var(--space-4) 0;
     border: 1px solid var(--border-blue);
     border-radius: 4px;
 }
@@ -157,10 +173,10 @@ pre {
 	overflow-x: auto;
 }
 
-/* Emphasis */
+/* Emphasis: one weight only, so colour does the work */
 b,
 strong {
-    font-weight: 600;
+    font-weight: 400;
     color: var(--off-fg);
 }
 
@@ -174,7 +190,7 @@ mark {
 /* Other typographic elements */
 hr {
     border: 0;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-4);
 }
 
 hr:after {
@@ -187,21 +203,21 @@ hr:after {
 sup, sub {
     vertical-align: baseline;
     position: relative;
-    top: -0.25rem;
+    top: calc(-1 * var(--space-1));
     font-size: unset;
 }
-sub { 
-    top: 0.25rem; 
+sub {
+    top: var(--space-1);
 }
 
 /* Tables */
 table {
     border-spacing: 0;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 var(--space-4) 0;
     overflow-wrap: anywhere;
 }
 th, td {
-    padding: 0 .75rem;
+    padding: 0 var(--space-3);
     vertical-align: top;
 }
 th:first-child, td:first-child {
