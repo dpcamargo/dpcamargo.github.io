@@ -100,7 +100,7 @@ group_background() {
     echo "background"
     expect "generator script is executable" test -x scripts/gen-dither.py
     expect "dither mask is committed" test -s static/images/dither.png
-    expect "dither mask is a PNG" sh -c 'head -c 4 static/images/dither.png | grep -q PNG'
+    expect "dither mask is a PNG" sh -c 'head -c 4 static/images/dither.png | LC_ALL=C grep -qa PNG'
     expect "background.css is bundled" grep -q '"background"' layouts/partials/head.html
     expect "background.css masks the dither image" grep -q "/images/dither.png" assets/css/background.css
     expect "dots and blobs are drawn in --dither-ink" count_ge 2 "--dither-ink" assets/css/background.css
