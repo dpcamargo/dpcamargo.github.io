@@ -1,0 +1,39 @@
+/* Halftone background: a dot grid and dithered blobs, both drawn in --dither-ink.
+   Two fixed layers behind .page; the windows are opaque, so they read as floating over it. */
+html::before,
+html::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Dot grid */
+html::before {
+    background-image: radial-gradient(var(--dither-ink) 1px, transparent 1.5px);
+    background-size: 4px 4px;
+    opacity: var(--dot-a);
+}
+
+/* Blobs: one alpha image, recoloured per palette by painting --dither-ink through it as a mask.
+   Regenerate with scripts/gen-dither.py */
+html::after {
+    background-color: var(--dither-ink);
+    opacity: var(--blob-a);
+    -webkit-mask: url("/images/dither.png") center / cover no-repeat;
+    mask: url("/images/dither.png") center / cover no-repeat;
+    image-rendering: pixelated;
+}
+
+.page {
+    position: relative;
+    z-index: 1;
+}
+
+@media print {
+    html::before,
+    html::after {
+        display: none;
+    }
+}
