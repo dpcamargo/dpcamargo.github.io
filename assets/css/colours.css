@@ -1,6 +1,10 @@
-/* Dark is the default palette. The light palette overrides it via [data-theme="light"],
-   which is set on <html> by layouts/partials/theme_init.html before first paint. */
-:root {
+/* Palettes. [data-palette] is set on <html> by layouts/partials/theme_init.html before first paint.
+   Dark is the default, so with no attribute (no JS) the page is dark.
+   Every palette defines every token; add a palette by adding one block here (and one option in
+   layouts/partials/header.html plus the PALETTES list in assets/js/theme.js and theme_init.html). */
+
+:root,
+:root[data-palette="dark"] {
 	color-scheme: dark;
 
 	--link: #7cafc2;
@@ -28,9 +32,24 @@
     --off-fg-rgb: 163, 190, 140;
     --border-blue-rgb: 119, 154, 161;
     --scan-a: 0.08;
+
+    /* windows and buttons */
+    --win-title-bg: var(--border-pink);
+    --win-title-fg: #fff;
+    --win-bg: var(--bg-body);
+    --win-fg: var(--text-body);
+    --win-border: var(--border-pink);
+    --btn-bg: var(--border-pink);
+    --btn-fg: #fff;
+    --btn-shadow: var(--border-blue);
+
+    /* background: dot grid (--dot-a) and dithered blobs (--blob-a), both drawn in --dither-ink */
+    --dither-ink: var(--border-pink);
+    --dot-a: 0.12;
+    --blob-a: 0.1;
 }
 
-:root[data-theme="light"] {
+:root[data-palette="light"] {
 	color-scheme: light;
 
 	--link: #3d7a94;
@@ -57,4 +76,60 @@
     --off-fg-rgb: 79, 122, 47;
     --border-blue-rgb: 95, 142, 153;
     --scan-a: 0.04;
+
+    --win-title-bg: var(--text-body);
+    --win-title-fg: var(--bg-body);
+    --win-bg: var(--bg-body);
+    --win-fg: var(--text-body);
+    --win-border: var(--text-body);
+    --btn-bg: var(--highlight);
+    --btn-fg: var(--on-highlight);
+    --btn-shadow: var(--text-body);
+
+    --dither-ink: var(--border-pink);
+    --dot-a: 0.18;
+    --blob-a: 0.14;
+}
+
+/* typesafe.ai: pink halftone ground, light-grey windows, black title bars */
+:root[data-palette="pink"] {
+	color-scheme: light;
+
+	--link: #0a5f5a;
+	--hover: #a3106f;
+	--bg-body: #dcdcdc;
+    --bg: #e88ba0;
+    --text: #4a4a4a;
+    --border-pink: #1e1e1e;
+    --border-blue: #1e1e1e;
+    --text-header: #a3106f;
+    --text-subheader: #0a5f5a;
+    --text-body: #1e1e1e;
+    --inner-bg: #ececec;
+    --off-fg: #2f5f1a;
+    --muted: #4a4a4a;
+    --highlight: #d65cbb;
+
+    --header-bg: #dcdcdc;
+    --header-fg: #1e1e1e;
+    --on-highlight: #1e1e1e;
+
+    --glow: 163, 16, 111;
+    --glow-k: 0;
+    --off-fg-rgb: 47, 95, 26;
+    --border-blue-rgb: 30, 30, 30;
+    --scan-a: 0;
+
+    --win-title-bg: #1e1e1e;
+    --win-title-fg: #dcdcdc;
+    --win-bg: #dcdcdc;
+    --win-fg: #1e1e1e;
+    --win-border: #1e1e1e;
+    --btn-bg: #d65cbb;
+    --btn-fg: #1e1e1e;
+    --btn-shadow: #1e1e1e;
+
+    --dither-ink: #1e1e1e;
+    --dot-a: 0.35;
+    --blob-a: 0.9;
 }

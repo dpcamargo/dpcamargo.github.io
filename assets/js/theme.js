@@ -4,11 +4,11 @@
     var query = matchMedia("(prefers-color-scheme: light)");
 
     function stored() {
-        try { return localStorage.getItem("theme"); } catch (e) { return null; }
+        try { return localStorage.getItem("palette"); } catch (e) { return null; }
     }
 
     function apply(theme) {
-        root.setAttribute("data-theme", theme);
+        root.setAttribute("data-palette", theme);
         if (button) {
             var label = "Switch to " + (theme === "light" ? "dark" : "light") + " mode";
             button.setAttribute("aria-label", label);
@@ -16,13 +16,13 @@
         }
     }
 
-    apply(root.getAttribute("data-theme") === "light" ? "light" : "dark");
+    apply(root.getAttribute("data-palette") === "light" ? "light" : "dark");
 
     if (button) {
         button.addEventListener("click", function () {
-            var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+            var next = root.getAttribute("data-palette") === "light" ? "dark" : "light";
             apply(next);
-            try { localStorage.setItem("theme", next); } catch (e) {}
+            try { localStorage.setItem("palette", next); } catch (e) {}
         });
     }
 

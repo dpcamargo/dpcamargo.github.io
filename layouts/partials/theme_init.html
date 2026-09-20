@@ -1,11 +1,13 @@
-<!-- Resolve the theme before first paint (stored choice, else OS preference) to avoid a flash -->
+<!-- Resolve the palette before first paint (stored choice, else OS preference) to avoid a flash.
+     "theme" is the key an older version of the site stored; dark/light there are still valid palettes. -->
 <script>
 (function () {
-    var theme;
-    try { theme = localStorage.getItem("theme"); } catch (e) {}
-    if (theme !== "light" && theme !== "dark") {
-        theme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    var palettes = ["dark", "light", "pink"];
+    var palette;
+    try { palette = localStorage.getItem("palette") || localStorage.getItem("theme"); } catch (e) {}
+    if (palettes.indexOf(palette) === -1) {
+        palette = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
     }
-    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-palette", palette);
 })();
 </script>

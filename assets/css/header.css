@@ -170,10 +170,10 @@ a.page__logo-inner:active {
 
 /* Show the icon of the mode you would switch to: sun while dark, moon while light */
 .theme-toggle__moon,
-:root[data-theme="light"] .theme-toggle__sun {
+:root[data-palette="light"] .theme-toggle__sun {
     display: none;
 }
 
-:root[data-theme="light"] .theme-toggle__moon {
+:root[data-palette="light"] .theme-toggle__moon {
     display: block;
 }
