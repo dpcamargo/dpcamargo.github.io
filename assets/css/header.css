@@ -97,6 +97,15 @@ a.page__logo-inner:active {
 
 .head-branch {
     color: brown;
+    /* Long page titles must not push the nav onto a second line. 27ch (incl. the
+       "git:(" and ")" pseudo-elements) leaves about 12ch spare at 1280px for a
+       palette button to be added to the nav later. */
+    display: inline-block;
+    max-width: 27ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
 }
 
 .head-x {
