@@ -56,12 +56,10 @@
 /* A trailing margin deeper in the last block (pre inside .highlight, p inside blockquote, li or a footnote's li,
    p inside a nested list) collapses through its parents and adds to the body's inset. It is zeroed along the
    chain of last children only, up to five levels deep: matching every nested :last-child would also zero the
-   gaps between the items of a trailing loose list. The 404 message is a flex item, so its margin never
-   collapses. */
+   gaps between the items of a trailing loose list. */
 .content__body > :last-child > :last-child,
 .content__body > :last-child > :last-child > :last-child,
 .content__body > :last-child > :last-child > :last-child > :last-child,
-.content__body > :last-child > :last-child > :last-child > :last-child > :last-child,
-.page__404 > :last-child {
+.content__body > :last-child > :last-child > :last-child > :last-child > :last-child {
     margin-bottom: 0;
 }

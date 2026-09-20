@@ -1,5 +1,5 @@
 <header class="content__header">
     <div class="header__container">
-        <h1>{{ .Title | markdownify }}</h1>
+        <h1>{{ if eq .Kind "404" }}404{{ else }}{{ .Title | markdownify }}{{ end }}</h1>
     </div>
 </header>
