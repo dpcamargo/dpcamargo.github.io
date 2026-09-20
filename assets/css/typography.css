@@ -180,6 +180,13 @@ strong {
     color: var(--off-fg);
 }
 
+/* Colour stands in for the missing italic (font-synthesis is off) */
+em,
+i,
+dd {
+    color: var(--text-subheader);
+}
+
 /* Highlighting */
 ::selection,
 mark {
