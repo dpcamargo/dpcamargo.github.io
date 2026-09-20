@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background
+# Groups: layout type palette window picker background typewriter
 set -u
 cd "$(dirname "$0")/.."
 
@@ -108,7 +108,21 @@ group_background() {
     expect ".page sits above the background layers" grep -q "z-index: 1" assets/css/background.css
 }
 
-ALL="layout type palette window picker background"
+group_typewriter() {
+    echo "typewriter"
+    expect "typewriter.js exists" test -s assets/js/typewriter.js
+    expect "typewriter.css exists and is bundled" sh -c 'test -s assets/css/typewriter.css && grep -q "\"typewriter\"" layouts/partials/head.html'
+    expect "typing_init partial exists and is included" sh -c 'test -s layouts/partials/typing_init.html && grep -q "typing_init.html" layouts/partials/head.html'
+    expect "init script respects prefers-reduced-motion" grep -q "prefers-reduced-motion" layouts/partials/typing_init.html
+    expect "init script has a failsafe timeout" grep -q "setTimeout" layouts/partials/typing_init.html
+    expect "built page hides the content before first paint" grep -Eq 'classList.add\("?typing"?\)' "$OUT/index.html"
+    expect "built page loads typewriter.js" grep -Eq 'typewriter[^"]*\.js' "$OUT/index.html"
+    expect "content window text is hidden while typing" grep -q "\.typing \.win__scroll" assets/css/typewriter.css
+    expect "typed characters are hidden until revealed" grep -q "\.tw\.on" assets/css/typewriter.css
+    expect "boot stagger is switched off while typing" grep -Eq "typewriter \.boot__line" assets/css/typewriter.css
+}
+
+ALL="layout type palette window picker background typewriter"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

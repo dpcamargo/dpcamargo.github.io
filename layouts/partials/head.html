@@ -12,15 +12,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {{ partial "theme_init.html" . }}
+{{ partial "typing_init.html" . }}
 {{- /* One fingerprinted bundle, in cascade order, so a changed stylesheet always gets a new URL (no stale @import caches). */ -}}
 {{ $sheets := slice }}
-{{ range slice "spacing" "colours" "window" "button" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" "background" }}
+{{ range slice "spacing" "colours" "window" "button" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" "background" "typewriter" }}
 {{ $sheets = $sheets | append (resources.Get (printf "css/%s.css" .)) }}
 {{ end }}
 {{ $css := $sheets | resources.Concat "css/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ $js := resources.Get "js/theme.js" | minify | fingerprint }}
 <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{ $typing := resources.Get "js/typewriter.js" | minify | fingerprint }}
+<script defer src="{{ $typing.RelPermalink }}" integrity="{{ $typing.Data.Integrity }}"></script>
 
 <!-- favicon -->
 {{ if os.FileExists "static/favicon.ico" }}<link rel="icon" href="{{ "favicon.ico" | absURL }}">{{ end }}
