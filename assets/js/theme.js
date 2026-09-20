@@ -55,6 +55,20 @@
             if (!popup.hidden && !popup.contains(event.target) && !button.contains(event.target)) setOpen(false);
         });
 
+        // A mouse press on the trigger is a toggle (its click handler), not focus leaving the popup
+        var pressingButton = false;
+        button.addEventListener("mousedown", function () { pressingButton = true; });
+        document.addEventListener("mouseup", function () { pressingButton = false; });
+
+        // Tabbing out of the popup closes it and leaves focus where the browser put it. A null relatedTarget
+        // (window blur, a click on something unfocusable) is left to the click-outside handler above.
+        popup.addEventListener("focusout", function (event) {
+            var next = event.relatedTarget;
+            if (popup.hidden || !next || popup.contains(next)) return;
+            if (button.contains(next) && pressingButton) return;
+            setOpen(false);
+        });
+
         document.addEventListener("keydown", function (event) {
             if (event.key === "Escape" && !popup.hidden) {
                 setOpen(false);
