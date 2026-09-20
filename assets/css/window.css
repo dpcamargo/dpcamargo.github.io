@@ -46,3 +46,10 @@
 .content__body > :last-child {
     margin-bottom: 0;
 }
+
+/* A trailing margin deeper in the last block (pre inside .highlight, p inside blockquote or li) collapses
+   through its parents and adds to the body's inset; the 404 message is a flex item, so its margin never collapses */
+.content__body > :last-child :last-child,
+.page__404 > :last-child {
+    margin-bottom: 0;
+}
