@@ -125,6 +125,7 @@ img {
     .right__content {
         flex: none;
         overflow: visible;
+        padding: 0;
     }
 
     .side__image img {
