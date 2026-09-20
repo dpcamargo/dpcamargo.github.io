@@ -9,4 +9,4 @@ I'm a Software Engineer focused on designing and building scalable distributed s
 
 I primarily work with **Go**, **Java**, and **Python** to develop resilient services, data pipelines, and distributed architectures. I'm particularly interested in system design, performance optimization, and reliability engineering.
 
-I hold a degree in **Control and Automation Engineering**, a postgraduate certification in Go from <a href="https://goexpert.fullcycle.com.br/pos-goexpert/" target="_blank">**Full Cycle**</a>, and I'm currently pursuing a postgraduate program in **Java Architecture and Development** at <a href="https://postech.fiap.com.br/curso/arquitetura-desenvolvimento-java" target="_blank">**FIAP**</a>.
+I hold a degree in **Control and Automation Engineering**, a postgraduate certification in Go from <a href="https://goexpert.fullcycle.com.br/pos-goexpert/" target="_blank">**Full Cycle**</a>, and a postgraduate certification in **Java Architecture and Development** from <a href="https://postech.fiap.com.br/curso/arquitetura-desenvolvimento-java" target="_blank">**FIAP**</a>.
