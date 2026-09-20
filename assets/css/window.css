@@ -23,11 +23,14 @@
 }
 
 .win__body {
+    /* the inner frame line sits at 3px..4px inside the border; a scroller nests 5px in, one pixel clear of it */
+    --frame-inset: 5px;
     padding: var(--space-4);
     color: var(--win-fg);
     background-color: var(--win-bg);
     border: 2px solid var(--win-border);
-    /* second, thinner frame 3px inside the first; inset shadows stay put while the body scrolls */
+    /* second, thinner frame 3px inside the first (drawn under the content, so a scrolling window keeps its
+       scroller inside it: see .win__scroll) */
     box-shadow: inset 0 0 0 3px var(--win-bg), inset 0 0 0 4px var(--win-border);
 }
 
@@ -36,12 +39,15 @@
     border-top: 0;
 }
 
-/* The body owns the inset, so its first and last blocks add no margin of their own */
-.win__body > :first-child {
+/* The body (or, in the scrolling content window, .win__scroll) owns the inset, so its first and last blocks add
+   no margin of their own */
+.win__body > :first-child,
+.win__scroll > :first-child {
     margin-top: 0;
 }
 
 .win__body > :last-child,
+.win__scroll > :last-child,
 .page__main > :last-child,
 .content__body > :last-child {
     margin-bottom: 0;

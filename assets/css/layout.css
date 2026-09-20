@@ -35,15 +35,26 @@ body, html {
     overflow: hidden;
 }
 
-/* The content window fills the column; only its body scrolls, so the title bar stays put */
+/* The content window fills the column. Its body is a non-scrolling frame; only .win__scroll scrolls, clipped
+   inside the inner frame line so text never crosses it, and the title bar stays put */
 .page__content {
     flex: 1;
     min-height: 0;
 }
 
 .page__content .win__body {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     min-height: 0;
+    padding: var(--frame-inset);
+}
+
+.win__scroll {
+    flex: 1;
+    min-height: 0;
+    /* the body's --frame-inset plus this padding make up the window's --space-4 inset */
+    padding: calc(var(--space-4) - var(--frame-inset));
     overflow-x: hidden;
     overflow-y: auto;
     overflow-wrap: break-word;
@@ -118,6 +129,10 @@ img {
     }
 
     .page__content .win__body {
+        flex: none;
+    }
+
+    .win__scroll {
         flex: none;
         overflow: visible;
     }

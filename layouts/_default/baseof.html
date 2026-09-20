@@ -16,9 +16,11 @@
                 <section class="page__content win">
                     <header class="win__title">~/{{ replace (lower .Title) " " "_" }}</header>
                     <div class="win__body">
-                        {{ partial "title.html" . }}
-                        <div class="page__main">
-                            {{- block "main" . }}{{- end }}
+                        <div class="win__scroll">
+                            {{ partial "title.html" . }}
+                            <div class="page__main">
+                                {{- block "main" . }}{{- end }}
+                            </div>
                         </div>
                     </div>
                 </section>
