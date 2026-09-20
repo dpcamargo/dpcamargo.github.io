@@ -127,13 +127,4 @@ img {
         overflow: visible;
         padding: 0;
     }
-
-    .side__image img {
-        max-height: 150px;
-        width: auto;
-    }
-
-    .content__body img {
-        margin: var(--space-2) 0;
-    }
 }

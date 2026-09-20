@@ -33,6 +33,13 @@
     min-height: 2rem;
 }
 
+@media screen and (max-width: 768px) {
+    .side__image img {
+        max-height: 150px;
+        width: auto;
+    }
+}
+
 @media screen and (max-width: 480px) {
     .side__image img {
         max-height: 100px;
