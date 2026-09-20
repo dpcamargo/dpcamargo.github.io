@@ -1,0 +1,58 @@
+/* systemd-style boot log on the home page */
+.boot {
+    margin: 2rem 2rem 1rem;
+}
+
+.boot__line {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.boot__tag {
+    flex: none;
+    white-space: pre;
+    color: var(--text-body);
+}
+
+.boot__ok {
+    color: var(--off-fg);
+}
+
+.boot__busy {
+    color: var(--text-subheader);
+    animation: blink 1s steps(1) infinite;
+}
+
+.boot__text {
+    color: var(--text-body);
+}
+
+.boot__swatches {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.boot__swatches span {
+    width: 1.6rem;
+    height: 1.1rem;
+}
+
+/* Lines appear one after another, like a real boot */
+@media (prefers-reduced-motion: no-preference) {
+    .boot__line,
+    .boot__swatches {
+        animation: boot-in 0s both;
+        animation-delay: calc(var(--i) * 0.2s);
+    }
+}
+
+@keyframes boot-in {
+    from { visibility: hidden; }
+    to   { visibility: visible; }
+}
+
+@media screen and (max-width: 480px) {
+    .boot {
+        margin: 1rem 0.5rem;
+    }
+}

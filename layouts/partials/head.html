@@ -14,7 +14,7 @@
 {{ partial "theme_init.html" . }}
 {{- /* One fingerprinted bundle, in cascade order, so a changed stylesheet always gets a new URL (no stale @import caches). */ -}}
 {{ $sheets := slice }}
-{{ range slice "colours" "footer" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "scrollbar" }}
+{{ range slice "colours" "footer" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" }}
 {{ $sheets = $sheets | append (resources.Get (printf "css/%s.css" .)) }}
 {{ end }}
 {{ $css := $sheets | resources.Concat "css/main.css" | minify | fingerprint }}

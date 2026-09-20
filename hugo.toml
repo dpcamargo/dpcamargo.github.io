@@ -17,6 +17,30 @@ logo = "images/rice.svg"
 palette = "base16-dark"
 header_text = "dario.dev.br"
 
+[params.boot]
+  # since = 2015   # uncomment and set the year you started coding to add a "System up N years." line
+
+  [[params.boot.lines]]
+    text = "Started Software Engineer."
+
+  [[params.boot.lines]]
+    text = "Loaded kernel modules: Go, Java, Python."
+
+  [[params.boot.lines]]
+    text = "Reached target Distributed Systems."
+
+  [[params.boot.lines]]
+    text = "Reached target Reliability Engineering."
+
+  [[params.boot.lines]]
+    text = "Mounted Control & Automation Engineering."
+
+  [[params.boot.lines]]
+    text = "Mounted Go Expert (Full Cycle)."
+
+  [[params.boot.lines]]
+    text = "Mounted Java Architecture and Development (FIAP)."
+
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
