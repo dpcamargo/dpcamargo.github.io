@@ -3,13 +3,11 @@
     border: 3px solid var(--border-blue);
     background-color: var(--bg-body);
     padding: 1rem;
-    width: calc(100% - 2rem);
     max-width: 100%;
     flex-shrink: 1;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
 }
 
 .socials__header {
@@ -92,10 +90,8 @@
     border: 3px solid var(--border-blue);
     background-color: var(--bg-body);
     padding: 1rem;
-    width: calc(100% - 2rem);
     max-width: 100%;
     box-sizing: border-box;
-    margin: 0 auto;
 }
 
 .side__section h2 {
@@ -169,10 +165,8 @@
     border: 3px solid var(--border-blue);
     background-color: var(--bg-body);
     padding: 0.8rem 1rem;
-    width: calc(100% - 2rem);
     max-width: 100%;
     box-sizing: border-box;
-    margin: 0 auto;
     font-size: 1.45rem;
 }
 

@@ -1,6 +1,6 @@
 /* systemd-style boot log on the home page */
 .boot {
-    margin: 2rem 2rem 1rem;
+    margin: 0 0 var(--space-3);
 }
 
 .boot__line {
@@ -49,10 +49,4 @@
 @keyframes boot-in {
     from { visibility: hidden; }
     to   { visibility: visible; }
-}
-
-@media screen and (max-width: 480px) {
-    .boot {
-        margin: 1rem 0.5rem;
-    }
 }

@@ -4,8 +4,6 @@ body, html {
     margin: 0;
     padding: 0;
     background-color: var(--bg);
-    align-items: center;
-    justify-content: center;
     font-family: var(--font-body);
     overflow: hidden;
 }
@@ -17,35 +15,9 @@ body, html {
     overflow: hidden;
 }
 
-.page__body {
-    display: flex;
-    flex: 1;
-    gap: 1rem;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    min-height: 28.125rem;
-    overflow: hidden;
-}
-
-.page__main {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-height: 0;
-}
-
 .page__header {
     flex-shrink: 0;
-    padding-top: 0.7rem;
-    padding-bottom: 0.3rem;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    margin-bottom: 1rem;
+    padding: var(--space-2) var(--gutter);
     display: flex;
     align-items: center;
     color: var(--header-fg);
@@ -53,36 +25,46 @@ body, html {
     border-bottom: 3px solid var(--border-pink);
 }
 
+/* The only place that insets the page: everything below sits one --gutter from its neighbours */
+.page__body {
+    display: flex;
+    flex: 1;
+    gap: var(--gutter);
+    padding: var(--gutter);
+    min-height: 28.125rem;
+    overflow: hidden;
+}
+
 .page__content {
-    padding: 1rem;
-    color: var(--text-body);
-    background-color: var(--bg-body);
-    overflow-wrap: break-word;
-    border: 2px solid var(--border-pink);
     flex: 1;
     display: flex;
     flex-direction: column;
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
+    min-width: 0;
     min-height: 0;
+    padding: var(--space-4);
+    color: var(--text-body);
+    background-color: var(--bg-body);
+    border: 2px solid var(--border-pink);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+}
+
+.page__main {
+    min-width: 0;
 }
 
 .content__header {
-    text-align: center;
     width: 100%;
 }
 
 .content__body {
-    padding: 2rem;
     position: relative;
     z-index: 2;
 }
 
 .header__container {
-    padding: 0.5rem;
-    font-size: 1.3rem;
-    text-align: left;
+    margin-bottom: var(--space-4);
 }
 
 .page__404 {
@@ -100,10 +82,8 @@ body, html {
 .right__content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    gap: var(--gutter);
     flex: 0 0 clamp(18rem, 22%, 26rem);
-    gap: 0.75rem;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -123,41 +103,22 @@ img {
         overflow-y: auto;
         overflow-x: hidden;
     }
-    
+
     .page__content {
         flex: none;
-        margin-bottom: 1rem;
     }
-    
+
     .right__content {
         flex: none;
-        flex-direction: row;
-        justify-content: center;
-        gap: 2rem;
-        flex-wrap: wrap;
+        overflow: visible;
     }
-    
+
     .side__image img {
         max-height: 150px;
         width: auto;
     }
-    
+
     .content__body img {
-        margin: 0.5rem 0;
+        margin: var(--space-2) 0;
     }
 }
-
-/* Further responsive adjustments for very small screens */
-@media screen and (max-width: 480px) {
-    .right__content {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .side__image {
-        width: 100%;
-        max-width: 200px;
-    }
-}
-
