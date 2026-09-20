@@ -1,8 +1,10 @@
-<div class="side__section">
-    <h2>Latest TILs</h2>
-    <ul class="til__list">
-        {{ range first 5 (where .Site.RegularPages "Section" "til") }}
-        <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
-        {{ end }}
-    </ul>
-</div>
+<section class="win side__tils">
+    <header class="win__title">latest_til</header>
+    <div class="win__body">
+        <ul class="til__list">
+            {{ range first 5 (where .Site.RegularPages "Section" "til") }}
+            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+        </ul>
+    </div>
+</section>

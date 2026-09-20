@@ -35,16 +35,15 @@ body, html {
     overflow: hidden;
 }
 
+/* The content window fills the column; only its body scrolls, so the title bar stays put */
 .page__content {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
     min-height: 0;
-    padding: var(--space-4);
-    color: var(--text-body);
-    background-color: var(--bg-body);
-    border: 2px solid var(--border-pink);
+}
+
+.page__content .win__body {
+    flex: 1;
+    min-height: 0;
     overflow-x: hidden;
     overflow-y: auto;
     overflow-wrap: break-word;
@@ -86,6 +85,16 @@ body, html {
     flex: 0 0 clamp(18rem, 22%, 26rem);
     overflow-y: auto;
     overflow-x: hidden;
+    /* room for the windows' 2px hard shadow, which the overflow would otherwise clip */
+    padding: 0 var(--space-1) var(--space-1) 0;
+}
+
+.right__content > .win {
+    flex-shrink: 0;
+}
+
+.right__content .win__body {
+    padding: var(--space-3);
 }
 
 /* Responsive Images */
@@ -106,6 +115,11 @@ img {
 
     .page__content {
         flex: none;
+    }
+
+    .page__content .win__body {
+        flex: none;
+        overflow: visible;
     }
 
     .right__content {

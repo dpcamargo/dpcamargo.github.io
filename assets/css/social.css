@@ -1,50 +1,23 @@
-.side__socials {
-    color: var(--text-subheader);
-    border: 3px solid var(--border-blue);
-    background-color: var(--bg-body);
-    padding: 1rem;
-    max-width: 100%;
-    flex-shrink: 1;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-}
-
-.socials__header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 0.75rem;
-}
-
-.socials__header h2 {
-    margin: 0;
-    font-size: 1.7rem;
-}
-
-.socials__header h2::before {
-    content: "> ";
-    color: var(--off-fg);
-}
-
-.socials__nav {
-    width: 100%;
-}
-
-.socials__nav .socials__list {
+/* Inside the sidebar windows: link lists, the TIL list and the status line.
+   The frames come from window.css. */
+.socials__list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: var(--space-2);
+}
+
+.socials__item {
+    width: 100%;
 }
 
 .socials__link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0.6rem;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-2);
     text-decoration: none;
     border: 1px solid transparent;
     transition: all 0.2s ease;
@@ -62,8 +35,8 @@
 }
 
 .socials__text {
-    font-size: 1.5rem;
-    color: var(--text-body);
+    font-size: 1.375rem;
+    color: var(--win-fg);
 }
 
 .socials__link:hover .socials__text {
@@ -80,31 +53,6 @@
     color: var(--off-fg);
 }
 
-.socials__item {
-    width: 100%;
-}
-
-/* Sidebar section shared styles */
-.side__section {
-    color: var(--text-body);
-    border: 3px solid var(--border-blue);
-    background-color: var(--bg-body);
-    padding: 1rem;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-.side__section h2 {
-    margin: 0 0 0.75rem 0;
-    font-size: 1.7rem;
-    color: var(--text-header);
-}
-
-.side__section h2::before {
-    content: "> ";
-    color: var(--off-fg);
-}
-
 /* Latest TILs */
 .til__list {
     list-style: none;
@@ -112,7 +60,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: var(--space-1);
 }
 
 .til__list li {
@@ -131,9 +79,8 @@
 }
 
 .til__list li a {
-    font-size: 1.2rem;
     text-decoration: none;
-    color: var(--text-body);
+    color: var(--win-fg);
     transition: color 0.2s ease;
 }
 
@@ -141,44 +88,15 @@
     color: var(--off-fg);
 }
 
-/* Tech Stack */
-.stack__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.stack__item {
-    font-size: 0.85rem;
-    padding: 0.2rem 0.5rem;
-    border: 1px solid var(--border-blue);
-    color: var(--text-subheader);
-    background: rgba(var(--border-blue-rgb), 0.08);
-}
-
 /* Status line */
-.side__status {
-    color: var(--text-body);
-    border: 3px solid var(--border-blue);
-    background-color: var(--bg-body);
-    padding: 0.8rem 1rem;
-    max-width: 100%;
-    box-sizing: border-box;
-    font-size: 1.45rem;
-}
-
 .status__line {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.3rem;
+    gap: var(--space-2);
 }
 
-.status__line:last-child {
-    margin-bottom: 0;
+.status__line + .status__line {
+    margin-top: var(--space-1);
 }
 
 .status__dot {

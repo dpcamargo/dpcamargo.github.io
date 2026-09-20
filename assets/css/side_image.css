@@ -1,15 +1,13 @@
+/* Sidebar portrait; the frame comes from window.css */
 .side__image {
-    border: 3px solid var(--border-blue);
-    background-color: var(--bg-body);
-    padding: 0.5rem;
-    max-width: 100%;
     flex-shrink: 0;
-    height: auto;
-    min-height: 0;
-    box-sizing: border-box;
+}
+
+.side__image .win__body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: var(--space-2);
     overflow: hidden;
 }
 
@@ -31,7 +29,7 @@
 .content__body img {
     max-width: 100%;
     height: auto;
-    margin: 1rem 0;
+    margin: var(--space-3) 0;
     min-height: 2rem;
 }
 
@@ -40,8 +38,8 @@
         max-height: 100px;
         width: auto;
     }
-    
+
     .content__body img {
-        margin: 0.25rem 0;
+        margin: var(--space-1) 0;
     }
 }

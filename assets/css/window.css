@@ -1,0 +1,48 @@
+/* Window: black title bar over a light panel with an inset double frame (typesafe.ai style).
+   <section class="win"><header class="win__title">name</header><div class="win__body">…</div></section> */
+.win {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    box-shadow: 2px 2px 0 var(--win-border);
+}
+
+.win[hidden] {
+    display: none;
+}
+
+.win__title {
+    padding: var(--space-1) var(--space-2);
+    color: var(--win-title-fg);
+    background-color: var(--win-title-bg);
+    border: 2px solid var(--win-border);
+    border-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.win__body {
+    padding: var(--space-4);
+    color: var(--win-fg);
+    background-color: var(--win-bg);
+    border: 2px solid var(--win-border);
+    /* second, thinner frame 3px inside the first; inset shadows stay put while the body scrolls */
+    box-shadow: inset 0 0 0 3px var(--win-bg), inset 0 0 0 4px var(--win-border);
+}
+
+/* Under a title bar the bar supplies the top edge */
+.win__title + .win__body {
+    border-top: 0;
+}
+
+/* The body owns the inset, so its first and last blocks add no margin of their own */
+.win__body > :first-child {
+    margin-top: 0;
+}
+
+.win__body > :last-child,
+.page__main > :last-child,
+.content__body > :last-child {
+    margin-bottom: 0;
+}
