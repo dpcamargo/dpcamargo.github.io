@@ -21,7 +21,7 @@
 
 .socials__header h2 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.7rem;
 }
 
 .socials__header h2::before {
@@ -64,7 +64,7 @@
 }
 
 .socials__text {
-    font-size: 1rem;
+    font-size: 1.5rem;
     color: var(--text-body);
 }
 
@@ -73,7 +73,7 @@
 }
 
 .fa-brands {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     color: var(--text-subheader);
     transition: color 0.2s ease;
 }
@@ -100,7 +100,7 @@
 
 .side__section h2 {
     margin: 0 0 0.75rem 0;
-    font-size: 1rem;
+    font-size: 1.7rem;
     color: var(--text-header);
 }
 
@@ -135,7 +135,7 @@
 }
 
 .til__list li a {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     text-decoration: none;
     color: var(--text-body);
     transition: color 0.2s ease;
@@ -173,7 +173,7 @@
     max-width: 100%;
     box-sizing: border-box;
     margin: 0 auto;
-    font-size: 0.85rem;
+    font-size: 1.45rem;
 }
 
 .status__line {
@@ -189,8 +189,8 @@
 
 .status__dot {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background-color: var(--off-fg);
     animation: blink-dot 1.5s infinite;
