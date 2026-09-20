@@ -178,6 +178,12 @@ a.page__logo-inner:active {
     color: var(--off-fg);
 }
 
+/* On the inverted hover/focus bar the marker takes the bar's text colour; --off-fg is too faint against it */
+.palette-option:hover::before,
+.palette-option:focus-visible::before {
+    color: inherit;
+}
+
 .palette-option:hover,
 .palette-option:focus-visible {
     color: var(--win-title-fg);
