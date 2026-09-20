@@ -13,7 +13,7 @@
     <li class="main-nav__item"><a class="nav-main-item{{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) (eq ($currentPage.Permalink) (.URL | absLangURL)) }} active{{end}}" href="{{ .URL | absLangURL }}" title="{{ .Title }}">{{ .Name }}</a></li>
     {{ end }}
     <li class="main-nav__item palette-item">
-        <button type="button" id="palette-btn" class="btn" aria-haspopup="true" aria-expanded="false" aria-controls="palette-popup">
+        <button type="button" id="palette-btn" class="btn" aria-expanded="false" aria-controls="palette-popup">
             <span class="palette-btn__label">dark</span>
         </button>
         <div id="palette-popup" class="win palette-popup" role="group" aria-label="Palette" hidden>
