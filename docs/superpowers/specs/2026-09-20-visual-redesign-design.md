@@ -93,7 +93,7 @@ Initial values (tunable during build):
 Behavior:
 
 - Header: the sun/moon `<button>` is removed. A `.btn` labelled with the current palette name, `aria-expanded` and `aria-controls`, opens a `.win` popup titled `palette`.
-- Popup lists the three palettes as buttons with `aria-pressed`. Choosing one applies it immediately, saves it and closes the popup. Esc or a click outside closes it and returns focus to the trigger. Tab order follows the DOM.
+- Popup lists the three palettes as buttons with `aria-pressed`. Choosing one applies it immediately, saves it and closes the popup. Esc closes it and returns focus to the trigger; a click outside, or tabbing focus out of it, closes it without moving focus (it stays where the visitor put it). Tab order follows the DOM.
 - `theme_init.html` (runs before first paint) sets `data-palette` from `localStorage["palette"]`. Fallbacks: a legacy `localStorage["theme"]` of `dark` or `light`, then the OS `prefers-color-scheme`. Invalid values are ignored.
 - `assets/js/theme.js` becomes the palette script (file may be renamed `palette.js`; the bundle reference in `head.html` changes with it). It follows the OS until the visitor picks a palette themselves, as it does now.
 - CRT scanlines (`crt.css`) stay for dark and light. `--scan-a: 0` in pink turns them off.
