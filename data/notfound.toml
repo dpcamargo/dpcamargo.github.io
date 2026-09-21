@@ -1,0 +1,8 @@
+# The 404 page serves every missing URL of both languages, so its text is not in i18n/ (which is per page language)
+[en]
+error = "No such file or directory"
+placeholder = "the/page/you/wanted"
+
+[pt]
+error = "Arquivo ou diretório inexistente"
+placeholder = "a/pagina/que/voce/queria"

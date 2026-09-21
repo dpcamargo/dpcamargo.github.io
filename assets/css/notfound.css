@@ -36,3 +36,8 @@
     flex-wrap: wrap;
     gap: var(--space-3);
 }
+
+/* Without JavaScript both languages show: keep them apart */
+.notfound + .notfound {
+    margin-top: var(--space-5);
+}

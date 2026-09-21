@@ -1,24 +1,36 @@
 {{ define "main" }}
-<div class="notfound">
-    <p><span class="notfound__prompt">$</span> cd <span class="notfound__path" data-notfound-path>the/page/you/wanted</span></p>
-    <p class="notfound__error">bash: cd: <span data-notfound-path>the/page/you/wanted</span>: No such file or directory</p>
+{{ range slice "en" "pt" }}
+{{ $lang := . }}
+{{ $strings := index hugo.Data.notfound $lang }}
+{{ $prefix := cond (eq $lang "pt") "/pt" "" }}
+<div class="notfound" data-notfound-lang="{{ $lang }}" lang="{{ cond (eq $lang "pt") "pt-BR" "en" }}">
+    <p><span class="notfound__prompt">$</span> cd <span class="notfound__path" data-notfound-path>{{ $strings.placeholder }}</span></p>
+    <p class="notfound__error">bash: cd: <span data-notfound-path>{{ $strings.placeholder }}</span>: {{ $strings.error }}</p>
     <p><span class="notfound__prompt">$</span> ls ~</p>
     <ul class="notfound__ls">
-        {{ range .Site.Menus.main }}
-        <li><a href="{{ .URL | absLangURL }}">{{ lower .Name }}/</a></li>
+        {{ range site.Menus.main }}
+        <li><a href="{{ printf "%s%s" $prefix .URL | absURL }}">{{ lower .Name }}/</a></li>
         {{ end }}
     </ul>
     <div class="notfound__actions">
-        <a class="btn" href="{{ "/" | absLangURL }}">cd ~</a>
-        <a class="btn" href="{{ "/til/" | absLangURL }}">ls til/</a>
+        <a class="btn" href="{{ printf "%s/" $prefix | absURL }}">cd ~</a>
+        <a class="btn" href="{{ printf "%s/til/" $prefix | absURL }}">ls til/</a>
     </div>
 </div>
+{{ end }}
 <script>
-// GitHub Pages serves this same file for every missing URL, so the requested path is only known in the browser.
+// GitHub Pages serves this same file for every missing URL of both languages, so the language and the requested
+// path are only known in the browser. Keep the block for the URL's language and remove the other from the DOM
+// (the typewriter effect would otherwise spend time on text nobody sees). Without JavaScript both stay visible.
+var path = location.pathname;
+var lang = path === "/pt" || path.indexOf("/pt/") === 0 ? "pt" : "en";
+document.querySelectorAll("[data-notfound-lang]").forEach(function (block) {
+    if (block.getAttribute("data-notfound-lang") !== lang) block.remove();
+});
 // A <wbr> after each slash lets a long path wrap at the slashes instead of in the middle of a word.
 document.querySelectorAll("[data-notfound-path]").forEach(function (el) {
     el.textContent = "";
-    location.pathname.split("/").forEach(function (part, i) {
+    path.split("/").forEach(function (part, i) {
         if (i) {
             el.appendChild(document.createTextNode("/"));
             el.appendChild(document.createElement("wbr"));
