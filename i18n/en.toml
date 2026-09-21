@@ -1,0 +1,74 @@
+[palette_title]
+other = "palette"
+
+[palette_label]
+other = "Palette"
+
+[palette_dark]
+other = "dark"
+
+[palette_light]
+other = "light"
+
+[palette_pink]
+other = "pink"
+
+[side_status_title]
+other = "status"
+
+[status_label]
+other = "status:"
+
+[status_online]
+other = "online"
+
+[location_label]
+other = "> location:"
+
+[location_value]
+other = "Brazil"
+
+[side_socials_title]
+other = "connect"
+
+[socials_nav_label]
+other = "Social media links"
+
+[linkedin_label]
+other = "LinkedIn Profile"
+
+[linkedin_title]
+other = "Connect on LinkedIn"
+
+[github_label]
+other = "GitHub Profile"
+
+[github_title]
+other = "View GitHub Profile"
+
+[side_stack_title]
+other = "stack"
+
+[stack_nav_label]
+other = "Tech stack links"
+
+[side_tils_title]
+other = "latest_til"
+
+[portrait_alt]
+other = "Standing"
+
+[boot_label]
+other = "System boot log"
+
+[boot_indexed]
+other = "Indexed %d TIL entries."
+
+[boot_uptime]
+other = "System up %d years."
+
+[boot_target_gui]
+other = "Reached target Graphical Interface."
+
+[lang_switch_label]
+other = "Read in %s"

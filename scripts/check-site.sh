@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound
+# Groups: layout type palette window picker background typewriter notfound i18n translations
 set -u
 cd "$(dirname "$0")/.."
 
@@ -21,7 +21,7 @@ count_ge() { [ "$(grep -o -- "$2" "$3" | wc -l)" -ge "$1" ]; }
 
 build() {
     echo "build"
-    if hugo --gc --destination "$OUT" >"$OUT.log" 2>&1; then pass "hugo builds"; else fail "hugo builds"; tail -20 "$OUT.log"; fi
+    if hugo --gc --printI18nWarnings --destination "$OUT" >"$OUT.log" 2>&1; then pass "hugo builds"; else fail "hugo builds"; tail -20 "$OUT.log"; fi
     forbid "build log has no WARN or ERROR" grep -Eq "WARN|ERROR" "$OUT.log"
 }
 
@@ -136,7 +136,20 @@ group_notfound() {
     forbid "404 no longer says Page not found in the body" grep -q "<p>Page not found</p>" "$OUT/404.html"
 }
 
-ALL="layout type palette window picker background typewriter notfound"
+group_i18n() {
+    echo "i18n"
+    expect "hugo.toml declares English and Portuguese" sh -c 'grep -q "^\[languages.en\]" hugo.toml && grep -q "^\[languages.pt\]" hugo.toml'
+    expect "English stays at the root" grep -q "defaultContentLanguageInSubdir = false" hugo.toml
+    forbid "no deprecated languageName key" grep -q "languageName" hugo.toml
+    forbid "root config holds no boot lines" grep -q "^\[params.boot\]" hugo.toml
+    expect "i18n files exist" sh -c 'test -s i18n/en.toml && test -s i18n/pt.toml'
+    expect "en and pt define the same i18n keys" bash -c 'diff <(grep "^\[" i18n/en.toml) <(grep "^\[" i18n/pt.toml)'
+    expect "English home declares lang en" grep -q '<html lang="en"' "$OUT/index.html"
+    expect "Portuguese home exists and declares lang pt-BR" grep -q '<html lang="pt-BR"' "$OUT/pt/index.html"
+    expect "Portuguese boot lines come from the pt config" grep -q "Módulos do kernel carregados" "$OUT/pt/index.html"
+}
+
+ALL="layout type palette window picker background typewriter notfound i18n"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

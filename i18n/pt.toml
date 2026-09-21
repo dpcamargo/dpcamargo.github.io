@@ -1,0 +1,74 @@
+[palette_title]
+other = "paleta"
+
+[palette_label]
+other = "Paleta"
+
+[palette_dark]
+other = "escuro"
+
+[palette_light]
+other = "claro"
+
+[palette_pink]
+other = "rosa"
+
+[side_status_title]
+other = "status"
+
+[status_label]
+other = "status:"
+
+[status_online]
+other = "online"
+
+[location_label]
+other = "> local:"
+
+[location_value]
+other = "Brasil"
+
+[side_socials_title]
+other = "conectar"
+
+[socials_nav_label]
+other = "Links de redes sociais"
+
+[linkedin_label]
+other = "Perfil no LinkedIn"
+
+[linkedin_title]
+other = "Conectar no LinkedIn"
+
+[github_label]
+other = "Perfil no GitHub"
+
+[github_title]
+other = "Ver perfil no GitHub"
+
+[side_stack_title]
+other = "stack"
+
+[stack_nav_label]
+other = "Links das tecnologias"
+
+[side_tils_title]
+other = "ultimos_til"
+
+[portrait_alt]
+other = "Dario em pé"
+
+[boot_label]
+other = "Log de inicialização do sistema"
+
+[boot_indexed]
+other = "%d entradas de TIL indexadas."
+
+[boot_uptime]
+other = "Sistema ativo há %d anos."
+
+[boot_target_gui]
+other = "Alvo alcançado: Interface Gráfica."
+
+[lang_switch_label]
+other = "Ler em %s"

@@ -1,8 +1,8 @@
 baseURL = "https://dario.dev.br/"
 title = "Dario Camargo"
 pagination.pagerSize = 3
-locale = "en"
-DefaultContentLanguage = "en"
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
 enableInlineShortcodes = true
 ignoreErrors = ["error-remote-getjson"]
 
@@ -17,29 +17,59 @@ logo = "images/rice.svg"
 palette = "base16-dark"
 header_text = "dario.dev.br"
 
-[params.boot]
-  # since = 2015   # uncomment and set the year you started coding to add a "System up N years." line
+[languages.en]
+  label = "English"
+  locale = "en"
+  weight = 1
 
-  [[params.boot.lines]]
-    text = "Started Software Engineer."
+  [languages.en.params.boot]
+    [[languages.en.params.boot.lines]]
+      text = "Started Software Engineer."
 
-  [[params.boot.lines]]
-    text = "Loaded kernel modules: Go, Java, Python."
+    [[languages.en.params.boot.lines]]
+      text = "Loaded kernel modules: Go, Java, Python."
 
-  [[params.boot.lines]]
-    text = "Reached target Distributed Systems."
+    [[languages.en.params.boot.lines]]
+      text = "Reached target Distributed Systems."
 
-  [[params.boot.lines]]
-    text = "Reached target Reliability Engineering."
+    [[languages.en.params.boot.lines]]
+      text = "Reached target Reliability Engineering."
 
-  [[params.boot.lines]]
-    text = "Mounted Control & Automation Engineering."
+    [[languages.en.params.boot.lines]]
+      text = "Mounted Control & Automation Engineering."
 
-  [[params.boot.lines]]
-    text = "Mounted Go Expert (Full Cycle)."
+    [[languages.en.params.boot.lines]]
+      text = "Mounted Go Expert (Full Cycle)."
 
-  [[params.boot.lines]]
-    text = "Mounted Java Architecture and Development (FIAP)."
+    [[languages.en.params.boot.lines]]
+      text = "Mounted Java Architecture and Development (FIAP)."
+
+[languages.pt]
+  label = "Português"
+  locale = "pt-BR"
+  weight = 2
+
+  [languages.pt.params.boot]
+    [[languages.pt.params.boot.lines]]
+      text = "Iniciado: Engenheiro de Software."
+
+    [[languages.pt.params.boot.lines]]
+      text = "Módulos do kernel carregados: Go, Java, Python."
+
+    [[languages.pt.params.boot.lines]]
+      text = "Alvo alcançado: Sistemas Distribuídos."
+
+    [[languages.pt.params.boot.lines]]
+      text = "Alvo alcançado: Engenharia de Confiabilidade."
+
+    [[languages.pt.params.boot.lines]]
+      text = "Montado: Engenharia de Controle e Automação."
+
+    [[languages.pt.params.boot.lines]]
+      text = "Montado: Go Expert (Full Cycle)."
+
+    [[languages.pt.params.boot.lines]]
+      text = "Montado: Arquitetura e Desenvolvimento Java (FIAP)."
 
 [caches]
   [caches.images]
