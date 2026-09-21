@@ -153,6 +153,13 @@ group_i18n() {
     expect "pt aria labels and alt text are translated" sh -c 'grep -q "Links de redes sociais" "$0/pt/index.html" && grep -q "Dario em pé" "$0/pt/index.html" && grep -q "Log de inicialização do sistema" "$0/pt/index.html"' "$OUT"
     forbid "pt home has no English UI text" grep -Eq "latest_til|Social media links|Indexed [0-9]+|Graphical Interface|Started Software|Tech stack links|LinkedIn Profile" "$OUT/pt/index.html"
     expect "en home keeps its English UI text" sh -c 'grep -q latest_til "$0/index.html" && grep -Eq "Indexed [0-9]+ TIL entries" "$0/index.html" && grep -q "Social media links" "$0/index.html"' "$OUT"
+    expect "pt palette names are translated" sh -c 'grep -q ">escuro<" "$0/pt/index.html" && grep -q ">paleta<" "$0/pt/index.html" && grep -q ">rosa<" "$0/pt/index.html"' "$OUT"
+    expect "en palette names are unchanged" sh -c 'grep -q ">dark<" "$0/index.html" && grep -q ">palette<" "$0/index.html"' "$OUT"
+    expect "theme.js takes the label from the option text" grep -q "option.textContent" assets/js/theme.js
+    expect "the logo links to the language home" grep -q 'pt/" class="page__logo-inner"' "$OUT/pt/index.html"
+    expect "en pages list pt as an alternate" grep -q 'hreflang="pt"' "$OUT/index.html"
+    expect "pt pages list en as an alternate" grep -q 'hreflang="en"' "$OUT/pt/index.html"
+    expect "x-default points at English" grep -Eq 'hreflang="x-default" href="https://[^"]*[^t]/"' "$OUT/pt/index.html"
 }
 
 ALL="layout type palette window picker background typewriter notfound i18n"

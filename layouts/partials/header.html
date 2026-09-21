@@ -1,6 +1,6 @@
 <nav class="main-nav">
     <ul>
-    <a href="{{ .Site.BaseURL }}" class="page__logo-inner">
+    <a href="{{ "/" | absLangURL }}" class="page__logo-inner">
       <span class="head-circle">o</span>
       <span class="head-arrow">➜</span>
       <span class="head-text">{{ .Site.Params.Theme.header_text }}</span>
@@ -14,17 +14,16 @@
     {{ end }}
     <li class="main-nav__item palette-item">
         <button type="button" id="palette-btn" class="btn" aria-expanded="false" aria-controls="palette-popup">
-            <span class="palette-btn__label">dark</span>
+            <span class="palette-btn__label">{{ i18n "palette_dark" }}</span>
         </button>
-        <div id="palette-popup" class="win palette-popup" role="group" aria-label="Palette" hidden>
-            <header class="win__title">palette</header>
+        <div id="palette-popup" class="win palette-popup" role="group" aria-label="{{ i18n "palette_label" }}" hidden>
+            <header class="win__title">{{ i18n "palette_title" }}</header>
             <div class="win__body">
-                <button type="button" class="palette-option" data-palette-value="dark" aria-pressed="false">dark</button>
-                <button type="button" class="palette-option" data-palette-value="light" aria-pressed="false">light</button>
-                <button type="button" class="palette-option" data-palette-value="pink" aria-pressed="false">pink</button>
+                <button type="button" class="palette-option" data-palette-value="dark" aria-pressed="false">{{ i18n "palette_dark" }}</button>
+                <button type="button" class="palette-option" data-palette-value="light" aria-pressed="false">{{ i18n "palette_light" }}</button>
+                <button type="button" class="palette-option" data-palette-value="pink" aria-pressed="false">{{ i18n "palette_pink" }}</button>
             </div>
         </div>
     </li>
     </ul>
 </nav>
-

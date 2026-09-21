@@ -18,9 +18,11 @@
 
     function apply(palette) {
         root.setAttribute("data-palette", palette);
-        if (label) label.textContent = palette;
         options.forEach(function (option) {
-            option.setAttribute("aria-pressed", String(option.getAttribute("data-palette-value") === palette));
+            var active = option.getAttribute("data-palette-value") === palette;
+            option.setAttribute("aria-pressed", String(active));
+            // the option buttons carry the translated palette names, so the label needs no text of its own
+            if (active && label) label.textContent = option.textContent;
         });
     }
 
