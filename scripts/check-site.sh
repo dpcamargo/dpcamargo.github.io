@@ -160,6 +160,12 @@ group_i18n() {
     expect "en pages list pt as an alternate" grep -q 'hreflang="pt"' "$OUT/index.html"
     expect "pt pages list en as an alternate" grep -q 'hreflang="en"' "$OUT/pt/index.html"
     expect "x-default points at English" grep -Eq 'hreflang="x-default" href="https://[^"]*[^t]/"' "$OUT/pt/index.html"
+    expect "lang_switch partial exists" test -s layouts/partials/lang_switch.html
+    forbid "the unused lang.html is gone" test -e layouts/partials/lang.html
+    expect "en pages link to pt" grep -Eq 'class="btn" href="/pt/"[^>]*hreflang="pt"' "$OUT/index.html"
+    expect "pt pages link back to en" grep -Eq 'class="btn" href="/"[^>]*hreflang="en"' "$OUT/pt/index.html"
+    expect "switcher aria-labels are translated" sh -c 'grep -q "Read in Português" "$0/index.html" && grep -q "Ler em English" "$0/pt/index.html"' "$OUT"
+    expect "a page with no translation links to the other home" grep -Eq 'class="btn" href="/pt/"[^>]*hreflang="pt"' "$OUT/404.html"
 }
 
 ALL="layout type palette window picker background typewriter notfound i18n"

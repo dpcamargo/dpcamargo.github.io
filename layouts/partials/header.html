@@ -12,6 +12,7 @@
     {{ range .Site.Menus.main }}
     <li class="main-nav__item"><a class="nav-main-item{{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) (eq ($currentPage.Permalink) (.URL | absLangURL)) }} active{{end}}" href="{{ .URL | absLangURL }}" title="{{ .Title }}">{{ .Name }}</a></li>
     {{ end }}
+    {{ partial "lang_switch.html" . }}
     <li class="main-nav__item palette-item">
         <button type="button" id="palette-btn" class="btn" aria-expanded="false" aria-controls="palette-popup">
             <span class="palette-btn__label">{{ i18n "palette_dark" }}</span>

@@ -1,0 +1,15 @@
+{{- /* The other language as a .btn: the current page's translation, else that language's home.
+     The 404 page is served at any URL, so it never links to its own translation. */ -}}
+{{- $current := site.Language.Lang -}}
+{{- range hugo.Sites -}}
+{{- if ne .Language.Lang $current -}}
+{{- $target := .Language.Lang -}}
+{{- $url := .Home.RelPermalink -}}
+{{- if ne $.Kind "404" -}}
+{{- range $.Translations -}}{{- if eq .Language.Lang $target -}}{{- $url = .RelPermalink -}}{{- end -}}{{- end -}}
+{{- end -}}
+<li class="main-nav__item lang-item">
+    <a class="btn" href="{{ $url }}" lang="{{ .Language.Locale }}" hreflang="{{ .Language.Lang }}" aria-label="{{ printf (i18n "lang_switch_label") .Language.Label }}">{{ .Language.Lang }}</a>
+</li>
+{{- end -}}
+{{- end -}}

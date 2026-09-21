@@ -190,3 +190,33 @@ a.page__logo-inner:active {
     background-color: var(--win-title-bg);
     outline: 0;
 }
+
+/* Language link: a .btn just left of the palette button. The auto margin moves from the palette item to
+   this one, so the two buttons sit together at the right edge. */
+.main-nav li.lang-item {
+    margin-left: auto;
+}
+
+.main-nav li.lang-item::before {
+    content: none;
+}
+
+.main-nav li.lang-item + .palette-item {
+    margin-left: 0;
+}
+
+/* Undo the menu-link hover colour and underline on a link that is a button */
+.main-nav li a.btn,
+.main-nav li a.btn:hover {
+    color: var(--btn-fg);
+    text-shadow: none;
+}
+
+/* .main-nav li a (higher specificity) sets a colour transition; keep the button's own filter transition */
+.main-nav li a.btn {
+    transition: filter 0.15s ease;
+}
+
+.main-nav li a.btn::after {
+    content: none;
+}
