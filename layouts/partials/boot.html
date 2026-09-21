@@ -1,21 +1,21 @@
 {{ with .Site.Params.boot }}
-<section class="boot" aria-label="System boot log">
+<section class="boot" aria-label="{{ i18n "boot_label" }}">
     {{ $i := 0 }}
     {{ range .lines }}
     {{ partial "boot_line.html" (dict "text" .text "i" $i) }}
     {{ $i = add $i 1 }}
     {{ end }}
-    {{ partial "boot_line.html" (dict "text" (printf "Indexed %d TIL entries." (len (where site.RegularPages "Section" "til"))) "i" $i) }}
+    {{ partial "boot_line.html" (dict "text" (printf (i18n "boot_indexed") (len (where site.RegularPages "Section" "til"))) "i" $i) }}
     {{ $i = add $i 1 }}
     {{ with .since }}
-    {{ partial "boot_line.html" (dict "text" (printf "System up %d years." (sub now.Year .)) "i" $i) }}
+    {{ partial "boot_line.html" (dict "text" (printf (i18n "boot_uptime") (sub now.Year .)) "i" $i) }}
     {{ $i = add $i 1 }}
     {{ end }}
     {{ with .busy }}
     {{ partial "boot_line.html" (dict "text" . "busy" true "i" $i) }}
     {{ $i = add $i 1 }}
     {{ end }}
-    {{ partial "boot_line.html" (dict "text" "Reached target Graphical Interface." "i" $i) }}
+    {{ partial "boot_line.html" (dict "text" (i18n "boot_target_gui") "i" $i) }}
     {{ $i = add $i 1 }}
     <div class="boot__swatches" style="--i: {{ $i }}" aria-hidden="true">
         <span style="background: var(--text-header)"></span><span style="background: var(--text-subheader)"></span><span style="background: var(--off-fg)"></span><span style="background: var(--border-pink)"></span><span style="background: var(--border-blue)"></span><span style="background: var(--highlight)"></span><span style="background: var(--muted)"></span><span style="background: var(--text-body)"></span>

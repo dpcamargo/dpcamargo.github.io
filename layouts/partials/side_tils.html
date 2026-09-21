@@ -1,5 +1,5 @@
 <section class="win side__tils">
-    <header class="win__title">latest_til</header>
+    <header class="win__title">{{ i18n "side_tils_title" }}</header>
     <div class="win__body">
         <ul class="til__list">
             {{ range first 5 (where .Site.RegularPages "Section" "til") }}

@@ -147,6 +147,12 @@ group_i18n() {
     expect "English home declares lang en" grep -q '<html lang="en"' "$OUT/index.html"
     expect "Portuguese home exists and declares lang pt-BR" grep -q '<html lang="pt-BR"' "$OUT/pt/index.html"
     expect "Portuguese boot lines come from the pt config" grep -q "Módulos do kernel carregados" "$OUT/pt/index.html"
+    expect "pt sidebar titles are translated" sh -c 'grep -q ultimos_til "$0/pt/index.html" && grep -q ">conectar<" "$0/pt/index.html"' "$OUT"
+    expect "pt status is translated" sh -c 'grep -q "Brasil" "$0/pt/index.html" && grep -q "&gt; local:" "$0/pt/index.html"' "$OUT"
+    expect "pt boot log is translated" sh -c 'grep -q "entradas de TIL indexadas" "$0/pt/index.html" && grep -q "Alvo alcançado: Interface Gráfica" "$0/pt/index.html"' "$OUT"
+    expect "pt aria labels and alt text are translated" sh -c 'grep -q "Links de redes sociais" "$0/pt/index.html" && grep -q "Dario em pé" "$0/pt/index.html" && grep -q "Log de inicialização do sistema" "$0/pt/index.html"' "$OUT"
+    forbid "pt home has no English UI text" grep -Eq "latest_til|Social media links|Indexed [0-9]+|Graphical Interface|Started Software|Tech stack links|LinkedIn Profile" "$OUT/pt/index.html"
+    expect "en home keeps its English UI text" sh -c 'grep -q latest_til "$0/index.html" && grep -Eq "Indexed [0-9]+ TIL entries" "$0/index.html" && grep -q "Social media links" "$0/index.html"' "$OUT"
 }
 
 ALL="layout type palette window picker background typewriter notfound i18n"
