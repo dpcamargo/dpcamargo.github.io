@@ -1,0 +1,38 @@
+/* 404 page (layouts/404.html): a shell session in the content window. Palette tokens only. */
+.notfound p {
+    margin: 0 0 var(--space-3);
+}
+
+.notfound__prompt {
+    color: var(--off-fg);
+}
+
+.notfound__path {
+    color: var(--text-subheader);
+    overflow-wrap: anywhere;
+}
+
+.notfound__error {
+    color: var(--text-header);
+    overflow-wrap: anywhere;
+    text-shadow: 0 0 8px rgba(var(--glow), calc(0.5 * var(--glow-k)));
+}
+
+.notfound__ls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+}
+
+.notfound__ls li::marker {
+    content: none;
+}
+
+.notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}

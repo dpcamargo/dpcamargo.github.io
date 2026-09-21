@@ -1,0 +1,43 @@
+/* Typewriter effect (layouts/partials/typing_init.html, assets/js/typewriter.js).
+   1. `typing` on <html> hides the content window's text before first paint.
+   2. typewriter.js wraps every character in a .tw span, swaps `typing` for `typewriter` and reveals the
+      spans in order by adding .on. Hidden characters still take up space, so the layout never moves.
+   3. When it finishes (or is skipped) the original text is put back; `typewriter` stays on <html>. */
+.typing .win__scroll {
+    visibility: hidden;
+}
+
+.typing .win__title {
+    color: transparent;
+}
+
+.tw {
+    visibility: hidden;
+}
+
+.tw.on {
+    visibility: visible;
+}
+
+/* Block cursor after the last typed character; absolutely positioned so it shifts nothing */
+.tw-cursor {
+    position: relative;
+}
+
+.tw-cursor::after {
+    content: "";
+    position: absolute;
+    left: 100%;
+    top: 0.15em;
+    width: 0.6em;
+    height: 1.1em;
+    background: var(--text-header);
+}
+
+/* The boot log's CSS stagger would hide lines that the typing reveals; typing paces the log instead */
+.typing .boot__line,
+.typing .boot__swatches,
+.typewriter .boot__line,
+.typewriter .boot__swatches {
+    animation: none;
+}

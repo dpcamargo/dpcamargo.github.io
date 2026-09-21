@@ -1,0 +1,11 @@
+<!-- Typewriter effect, step 1: hide the content window's text before first paint so the full text never
+     flashes. assets/js/typewriter.js takes over from here. Skipped for reduced motion; the timeout is a
+     failsafe that shows the text if typewriter.js never runs. -->
+<script>
+(function () {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var root = document.documentElement;
+    root.classList.add("typing");
+    setTimeout(function () { root.classList.remove("typing"); }, 3000);
+})();
+</script>

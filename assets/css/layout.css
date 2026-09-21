@@ -77,13 +77,6 @@ body, html {
     margin-bottom: var(--space-4);
 }
 
-.page__404 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
 .post__header a {
     position: relative;
     z-index: 2;

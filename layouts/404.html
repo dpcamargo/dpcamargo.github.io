@@ -1,5 +1,30 @@
 {{ define "main" }}
-<div class="page__404">
-    <p>Page not found</p>
+<div class="notfound">
+    <p><span class="notfound__prompt">$</span> cd <span class="notfound__path" data-notfound-path>the/page/you/wanted</span></p>
+    <p class="notfound__error">bash: cd: <span data-notfound-path>the/page/you/wanted</span>: No such file or directory</p>
+    <p><span class="notfound__prompt">$</span> ls ~</p>
+    <ul class="notfound__ls">
+        {{ range .Site.Menus.main }}
+        <li><a href="{{ .URL | absLangURL }}">{{ lower .Name }}/</a></li>
+        {{ end }}
+    </ul>
+    <div class="notfound__actions">
+        <a class="btn" href="{{ "/" | absLangURL }}">cd ~</a>
+        <a class="btn" href="{{ "/til/" | absLangURL }}">ls til/</a>
+    </div>
 </div>
+<script>
+// GitHub Pages serves this same file for every missing URL, so the requested path is only known in the browser.
+// A <wbr> after each slash lets a long path wrap at the slashes instead of in the middle of a word.
+document.querySelectorAll("[data-notfound-path]").forEach(function (el) {
+    el.textContent = "";
+    location.pathname.split("/").forEach(function (part, i) {
+        if (i) {
+            el.appendChild(document.createTextNode("/"));
+            el.appendChild(document.createElement("wbr"));
+        }
+        el.appendChild(document.createTextNode(part));
+    });
+});
+</script>
 {{ end }}

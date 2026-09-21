@@ -3,7 +3,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8"/>
-{{ if .Site.Params.noindex }}<meta name="robots" content="noindex" /> {{ end }}
+{{ if or .Site.Params.noindex (eq .Kind "404") }}<meta name="robots" content="noindex" /> {{ end }}
 
 <!-- FontAwesome <https://fontawesome.com/> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -12,15 +12,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" integrity="sha512-IW0nhlW5MgNydsXJO40En2EoCkTTjZhI3yuODrZIc8cQ4h1XcF53PsqDHa09NqnkXuIe0Oiyyj171BqZFwISBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {{ partial "theme_init.html" . }}
+{{ partial "typing_init.html" . }}
 {{- /* One fingerprinted bundle, in cascade order, so a changed stylesheet always gets a new URL (no stale @import caches). */ -}}
 {{ $sheets := slice }}
-{{ range slice "spacing" "colours" "window" "button" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" "background" }}
+{{ range slice "spacing" "colours" "window" "button" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" "background" "typewriter" "notfound" }}
 {{ $sheets = $sheets | append (resources.Get (printf "css/%s.css" .)) }}
 {{ end }}
 {{ $css := $sheets | resources.Concat "css/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ $js := resources.Get "js/theme.js" | minify | fingerprint }}
 <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{ $typing := resources.Get "js/typewriter.js" | minify | fingerprint }}
+<script defer src="{{ $typing.RelPermalink }}" integrity="{{ $typing.Data.Integrity }}"></script>
 
 <!-- favicon -->
 {{ if os.FileExists "static/favicon.ico" }}<link rel="icon" href="{{ "favicon.ico" | absURL }}">{{ end }}
