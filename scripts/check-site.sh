@@ -174,7 +174,14 @@ group_i18n() {
     expect "404 script drops the other language" grep -q "block.remove()" "$OUT/404.html"
 }
 
-ALL="layout type palette window picker background typewriter notfound i18n"
+group_translations() {
+    echo "translations"
+    expect "every English page has an in-sync Portuguese page" python3 scripts/check-translations.py
+    expect "all 8 TIL posts are built in Portuguese" bash -c '[ "$(ls -d "$0"/pt/til/*/ | wc -l)" -ge 8 ]' "$OUT"
+    expect "pt TIL list and about pages exist" sh -c 'test -s "$0/pt/til/index.html" && test -s "$0/pt/about/index.html"' "$OUT"
+}
+
+ALL="layout type palette window picker background typewriter notfound i18n translations"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi
