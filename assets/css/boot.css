@@ -37,6 +37,18 @@
     height: 1.1rem;
 }
 
+/* On a phone the two columns leave the text about 170px, less than one long word ("Confiabilidade.") and it
+   ran out of the window. Let the text wrap under the tag instead. */
+@media screen and (max-width: 480px) {
+    .boot__line {
+        display: block;
+    }
+
+    .boot__tag {
+        margin-right: 0.5rem;
+    }
+}
+
 /* Lines appear one after another, like a real boot */
 @media (prefers-reduced-motion: no-preference) {
     .boot__line,
