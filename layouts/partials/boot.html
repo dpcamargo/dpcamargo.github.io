@@ -19,10 +19,12 @@
     {{ $i = add $i 1 }}
     {{ with hugo.Data.visitor_countries }}
     {{ if gt (len .top) 0 }}
-    {{ partial "boot_line.html" (dict "text" (printf (i18n "boot_visitors") .total_countries) "i" $i) }}
+    {{ $countryCount := int .total_countries }}
+    {{ $visitorsKey := cond (eq $countryCount 1) "boot_visitors_one" "boot_visitors_other" }}
+    {{ partial "boot_line.html" (dict "text" (printf (i18n $visitorsKey) $countryCount) "i" $i) }}
     {{ $i = add $i 1 }}
     {{ range .top }}
-    {{ partial "boot_line.html" (dict "text" (printf "%s — %.0f" .code .count) "i" $i) }}
+    {{ partial "boot_line.html" (dict "text" (printf "%s — %d" .code (int .count)) "i" $i) }}
     {{ $i = add $i 1 }}
     {{ end }}
     {{ end }}

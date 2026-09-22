@@ -79,5 +79,8 @@ other = "minimize window"
 [close_label]
 other = "close window"
 
-[boot_visitors]
-other = "Received visitors from %.0f countries."
+[boot_visitors_one]
+other = "Received visitors from %d country."
+
+[boot_visitors_other]
+other = "Received visitors from %d countries."

@@ -79,5 +79,8 @@ other = "minimizar janela"
 [close_label]
 other = "fechar janela"
 
-[boot_visitors]
-other = "Recebeu visitas de %.0f países."
+[boot_visitors_one]
+other = "Recebeu visitas de %d país."
+
+[boot_visitors_other]
+other = "Recebeu visitas de %d países."
