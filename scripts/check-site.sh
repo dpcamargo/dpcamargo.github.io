@@ -196,6 +196,10 @@ group_minimize() {
     expect "the four sidebar windows are minimizable" count_ge 4 'class="win__minimize"' "$OUT/index.html"
     expect "minimize buttons start expanded" count_ge 4 'aria-expanded="true"' "$OUT/index.html"
     expect "the minimize label is translated" grep -q "minimizar" "$OUT/pt/index.html"
+    expect "sidebar window titles are real headings, for screen-reader navigation" count_ge 4 'h2 class="win__title-text"' "$OUT/index.html"
+    expect "every right-hand box, including the portrait, can be closed" count_ge 5 'class="win__close' "$OUT/index.html"
+    expect "closing reuses window.css's existing [hidden] rule" grep -q '\.win\[hidden\]' assets/css/window.css
+    expect "the close label is translated" grep -q "fechar janela" "$OUT/pt/index.html"
 }
 
 group_jsonld() {

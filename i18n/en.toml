@@ -76,3 +76,5 @@ other = "%s: choose language"
 [minimize_label]
 other = "minimize window"
 
+[close_label]
+other = "close window"

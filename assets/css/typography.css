@@ -233,3 +233,29 @@ th:first-child, td:first-child {
 th {
     text-align: inherit;
 }
+
+/* At phone width a long single word (a title, an identifier, a short table cell like "Operador") has less
+   room than its own length, so the browser is forced to split it somewhere. Two things make that rarer and
+   less ugly: a smaller h1, and a hyphen instead of a raw mid-word break where the page's language has a
+   hyphenation dictionary. Tables get room to scroll instead of crushing every column to fit. */
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        hyphens: auto;
+    }
+
+    .content__body table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .content__body th,
+    .content__body td {
+        overflow-wrap: normal;
+        white-space: nowrap;
+    }
+}

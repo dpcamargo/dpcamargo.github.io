@@ -76,3 +76,5 @@ other = "%s: escolher idioma"
 [minimize_label]
 other = "minimizar janela"
 
+[close_label]
+other = "fechar janela"
