@@ -253,6 +253,10 @@ assert isinstance(d['top'], list) and len(d['top']) <= 5, d['top']
         after=$(cat data/visitor_countries.json)
         [ "$rc" -eq 0 ] && [ "$before" = "$after" ]
     '
+    expect "boot.html reads the visitor-countries data" grep -q "hugo.Data.visitor_countries" layouts/partials/boot.html
+    expect "the boot_visitors key exists in both languages" sh -c 'grep -q "\[boot_visitors\]" i18n/en.toml && grep -q "\[boot_visitors\]" i18n/pt.toml'
+    expect "the workflow has a schedule trigger" grep -q "schedule:" .github/workflows/hugo.yaml
+    expect "the workflow fetches visitor stats before building" grep -q "fetch-visitor-stats.py" .github/workflows/hugo.yaml
 }
 
 ALL="layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon visitors"

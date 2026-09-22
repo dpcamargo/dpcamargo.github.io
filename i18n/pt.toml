@@ -78,3 +78,6 @@ other = "minimizar janela"
 
 [close_label]
 other = "fechar janela"
+
+[boot_visitors]
+other = "Recebeu visitas de %.0f países."
