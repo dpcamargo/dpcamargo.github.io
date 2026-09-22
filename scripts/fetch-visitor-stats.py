@@ -76,6 +76,12 @@ def main():
         api_response = fetch(site_code, token)
         payload = build_payload(api_response)
         write_atomically(DATA_FILE, payload)
+    except urllib.error.HTTPError as e:
+        # The status line alone (e.g. "404 Not Found") doesn't say why; GoatCounter's error
+        # body usually does (a JSON {"error": "..."} or similar), so surface it too.
+        body = e.read().decode("utf-8", errors="replace")[:500]
+        print(f"fetch-visitor-stats: HTTPError: {e.code} {e.reason}: {body}", file=sys.stderr)
+        return 0
     except Exception as e:
         print(f"fetch-visitor-stats: {type(e).__name__}: {e}", file=sys.stderr)
         return 0
