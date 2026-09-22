@@ -162,10 +162,16 @@ group_i18n() {
     expect "x-default points at English" grep -Eq 'hreflang="x-default" href="https://[^"]*[^t]/"' "$OUT/pt/index.html"
     expect "lang_switch partial exists" test -s layouts/partials/lang_switch.html
     forbid "the unused lang.html is gone" test -e layouts/partials/lang.html
-    expect "en pages link to pt" grep -Eq 'class="btn" href="/pt/"[^>]*hreflang="pt"' "$OUT/index.html"
-    expect "pt pages link back to en" grep -Eq 'class="btn" href="/"[^>]*hreflang="en"' "$OUT/pt/index.html"
-    expect "switcher aria-labels are translated" sh -c 'grep -q "Read in Português" "$0/index.html" && grep -q "Ler em English" "$0/pt/index.html"' "$OUT"
-    expect "a page with no translation links to the other home" grep -Eq 'class="btn" href="/pt/"[^>]*hreflang="pt"' "$OUT/404.html"
+    expect "the picker is a details element" grep -q '<details class="lang-picker"' "$OUT/index.html"
+    expect "en pages offer pt" grep -Eq 'class="lang-option" href="/pt/" lang="pt-BR" hreflang="pt"' "$OUT/index.html"
+    expect "pt pages offer en" grep -Eq 'class="lang-option" href="/" lang="en" hreflang="en"' "$OUT/pt/index.html"
+    expect "the current language is marked" grep -Eq 'hreflang="en" aria-current="true"' "$OUT/index.html"
+    expect "the button names its language and purpose" grep -q 'aria-label="en: choose language"' "$OUT/index.html"
+    expect "the picker is translated" sh -c 'grep -q "pt: escolher idioma" "$0/pt/index.html" && grep -q ">idioma<" "$0/pt/index.html"' "$OUT"
+    expect "flags are drawn inline for both languages" sh -c 'grep -q "#b22234" "$0/index.html" && grep -q "#009c3b" "$0/index.html"' "$OUT"
+    expect "a page with no translation offers the other home" grep -Eq 'class="lang-option" href="/pt/" lang="pt-BR" hreflang="pt"' "$OUT/404.html"
+    expect "lang-picker.js is loaded" grep -Eq 'lang-picker[^"]*\.js' "$OUT/index.html"
+    forbid "the old switcher label key is gone" grep -q "lang_switch_label" i18n/en.toml i18n/pt.toml layouts/partials/lang_switch.html
     expect "404 data file has both languages" sh -c 'grep -q "^\[en\]" data/notfound.toml && grep -q "^\[pt\]" data/notfound.toml'
     expect "404 carries the English error" grep -q "No such file or directory" "$OUT/404.html"
     expect "404 carries the Portuguese error" grep -q "Arquivo ou diretório inexistente" "$OUT/404.html"

@@ -70,5 +70,8 @@ other = "Sistema ativo há %d anos."
 [boot_target_gui]
 other = "Alvo alcançado: Interface Gráfica."
 
-[lang_switch_label]
-other = "Ler em %s"
+[lang_title]
+other = "idioma"
+
+[lang_picker_label]
+other = "%s: escolher idioma"

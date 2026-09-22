@@ -1,15 +1,24 @@
-{{- /* The other language as a .btn: the current page's translation, else that language's home.
-     The 404 page is served at any URL, so it never links to its own translation. */ -}}
-{{- $current := site.Language.Lang -}}
-{{- range hugo.Sites -}}
-{{- if ne .Language.Lang $current -}}
-{{- $target := .Language.Lang -}}
-{{- $url := .Home.RelPermalink -}}
-{{- if ne $.Kind "404" -}}
-{{- range $.Translations -}}{{- if eq .Language.Lang $target -}}{{- $url = .RelPermalink -}}{{- end -}}{{- end -}}
-{{- end -}}
+{{- /* Language picker: a button showing the current language opens a small window listing every language;
+       choosing one goes to the current page's translation, else to that language's home. Nothing switches
+       until a language is chosen. <details> keeps it working without JavaScript. */ -}}
+{{- $current := site.Language -}}
 <li class="main-nav__item lang-item">
-    <a class="btn" href="{{ $url }}" lang="{{ .Language.Locale }}" hreflang="{{ .Language.Lang }}" aria-label="{{ printf (i18n "lang_switch_label") .Language.Label }}">{{ .Language.Lang }}</a>
+    <details class="lang-picker">
+        <summary class="btn" aria-label="{{ printf (i18n "lang_picker_label") $current.Lang }}">
+            {{- partial "flag.html" $current.Lang }}<span>{{ $current.Lang }}</span>
+        </summary>
+        <div class="win lang-popup">
+            <header class="win__title">{{ i18n "lang_title" }}</header>
+            <div class="win__body">
+                {{- range hugo.Sites }}
+                {{- $target := .Language.Lang }}
+                {{- $url := .Home.RelPermalink }}
+                {{- /* the 404 page is one file for every URL, so its translation is not a page anyone can reach */}}
+                {{- if ne $.Kind "404" }}{{ range $.Translations }}{{ if eq .Language.Lang $target }}{{ $url = .RelPermalink }}{{ end }}{{ end }}{{ end }}
+                {{- if eq $target $current.Lang }}{{ $url = $.RelPermalink }}{{ end }}
+                <a class="lang-option" href="{{ $url }}" lang="{{ .Language.Locale }}" hreflang="{{ .Language.Lang }}"{{ if eq $target $current.Lang }} aria-current="true"{{ end }}>{{ partial "flag.html" .Language.Lang }}{{ .Language.Label }}</a>
+                {{- end }}
+            </div>
+        </div>
+    </details>
 </li>
-{{- end -}}
-{{- end -}}
