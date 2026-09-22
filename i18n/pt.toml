@@ -72,3 +72,7 @@ other = "idioma"
 
 [lang_picker_label]
 other = "%s: escolher idioma"
+
+[minimize_label]
+other = "minimizar janela"
+

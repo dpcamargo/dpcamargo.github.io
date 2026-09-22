@@ -22,7 +22,7 @@
 {{ partial "typing_init.html" . }}
 {{- /* One fingerprinted bundle, in cascade order, so a changed stylesheet always gets a new URL (no stale @import caches). */ -}}
 {{ $sheets := slice }}
-{{ range slice "spacing" "colours" "window" "button" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" "background" "typewriter" "notfound" }}
+{{ range slice "spacing" "colours" "window" "button" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" "background" "typewriter" "notfound" "minimize" }}
 {{ $sheets = $sheets | append (resources.Get (printf "css/%s.css" .)) }}
 {{ end }}
 {{ $css := $sheets | resources.Concat "css/main.css" | minify | fingerprint }}
@@ -33,6 +33,8 @@
 <script defer src="{{ $typing.RelPermalink }}" integrity="{{ $typing.Data.Integrity }}"></script>
 {{ $picker := resources.Get "js/lang-picker.js" | minify | fingerprint }}
 <script defer src="{{ $picker.RelPermalink }}" integrity="{{ $picker.Data.Integrity }}"></script>
+{{ $minimize := resources.Get "js/minimize.js" | minify | fingerprint }}
+<script defer src="{{ $minimize.RelPermalink }}" integrity="{{ $minimize.Data.Integrity }}"></script>
 
 <!-- favicon -->
 {{ if os.FileExists "static/favicon.ico" }}<link rel="icon" href="{{ "favicon.ico" | absURL }}">{{ end }}

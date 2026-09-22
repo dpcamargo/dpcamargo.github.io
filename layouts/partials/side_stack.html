@@ -1,11 +1,14 @@
-<section class="win side__stack">
-    <header class="win__title">{{ i18n "side_stack_title" }}</header>
+<section class="win win--minimizable side__stack">
+    <header class="win__title">
+        <span class="win__title-text">{{ i18n "side_stack_title" }}</span>
+        <button type="button" class="win__minimize" aria-expanded="true" aria-label="{{ i18n "minimize_label" }}"></button>
+    </header>
     <nav class="win__body socials__nav" aria-label="{{ i18n "stack_nav_label" }}">
         <div class="socials__list">
             <div class="socials__item">
-                <a href="https://go.dev/" 
-                   title="Go" 
-                   target="_blank" 
+                <a href="https://go.dev/"
+                   title="Go"
+                   target="_blank"
                    rel="noopener noreferrer"
                    class="socials__link">
                     <i class="fa-brands fa-golang" aria-hidden="true"></i>
@@ -13,9 +16,9 @@
                 </a>
             </div>
             <div class="socials__item">
-                <a href="https://www.java.com/" 
-                   title="Java" 
-                   target="_blank" 
+                <a href="https://www.java.com/"
+                   title="Java"
+                   target="_blank"
                    rel="noopener noreferrer"
                    class="socials__link">
                     <i class="fa-brands fa-java" aria-hidden="true"></i>
@@ -23,9 +26,9 @@
                 </a>
             </div>
             <div class="socials__item">
-                <a href="https://www.python.org/" 
-                   title="Python" 
-                   target="_blank" 
+                <a href="https://www.python.org/"
+                   title="Python"
+                   target="_blank"
                    rel="noopener noreferrer"
                    class="socials__link">
                     <i class="fa-brands fa-python" aria-hidden="true"></i>

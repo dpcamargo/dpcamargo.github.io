@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound i18n translations
+# Groups: layout type palette window picker background typewriter notfound i18n translations minimize
 set -u
 cd "$(dirname "$0")/.."
 
@@ -188,7 +188,16 @@ group_translations() {
     expect "pt TIL list and about pages exist" sh -c 'test -s "$0/pt/til/index.html" && test -s "$0/pt/about/index.html"' "$OUT"
 }
 
-ALL="layout type palette window picker background typewriter notfound i18n translations"
+group_minimize() {
+    echo "minimize"
+    expect "minimize.css exists and is bundled" sh -c 'test -s assets/css/minimize.css && grep -q "\"minimize\"" layouts/partials/head.html'
+    expect "minimize.js exists and is loaded" sh -c 'test -s assets/js/minimize.js && grep -Eq "minimize[^\"]*\.js" "$0/index.html"' "$OUT"
+    expect "the four sidebar windows are minimizable" count_ge 4 'class="win__minimize"' "$OUT/index.html"
+    expect "minimize buttons start expanded" count_ge 4 'aria-expanded="true"' "$OUT/index.html"
+    expect "the minimize label is translated" grep -q "minimizar" "$OUT/pt/index.html"
+}
+
+ALL="layout type palette window picker background typewriter notfound i18n translations minimize"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

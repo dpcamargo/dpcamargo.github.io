@@ -1,5 +1,8 @@
-<section class="win side__tils">
-    <header class="win__title">{{ i18n "side_tils_title" }}</header>
+<section class="win win--minimizable side__tils">
+    <header class="win__title">
+        <span class="win__title-text">{{ i18n "side_tils_title" }}</span>
+        <button type="button" class="win__minimize" aria-expanded="true" aria-label="{{ i18n "minimize_label" }}"></button>
+    </header>
     <div class="win__body">
         <ul class="til__list">
             {{ range first 5 (where .Site.RegularPages "Section" "til") }}
