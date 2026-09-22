@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon
+# Groups: layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon visitors
 set -u
 cd "$(dirname "$0")/.."
 
@@ -237,7 +237,25 @@ group_favicon() {
     expect "robots.txt is generated and points at the sitemap" sh -c 'grep -q "^Allow: /" "$0/robots.txt" && grep -q "Sitemap: https://dario.dev.br/sitemap.xml" "$0/robots.txt"' "$OUT"
 }
 
-ALL="layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon"
+group_visitors() {
+    echo "visitors"
+    expect "fetch-visitor-stats.py exists and is executable" test -x scripts/fetch-visitor-stats.py
+    expect "the committed data file is valid JSON with the right keys" python3 -c "
+import json
+d = json.load(open('data/visitor_countries.json'))
+assert set(d.keys()) == {'generated', 'total_countries', 'top'}, d.keys()
+assert isinstance(d['top'], list) and len(d['top']) <= 5, d['top']
+"
+    expect "the no-credentials path leaves the data file untouched and exits 0" bash -c '
+        before=$(cat data/visitor_countries.json)
+        env -u GOATCOUNTER_SITE_CODE -u GOATCOUNTER_API_TOKEN python3 scripts/fetch-visitor-stats.py >/dev/null 2>&1
+        rc=$?
+        after=$(cat data/visitor_countries.json)
+        [ "$rc" -eq 0 ] && [ "$before" = "$after" ]
+    '
+}
+
+ALL="layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon visitors"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi
