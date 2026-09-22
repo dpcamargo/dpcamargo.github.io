@@ -72,7 +72,7 @@ group_palette() {
     expect "chroma light styles use the light palette" grep -q 'data-palette="light"' assets/css/chroma.css
     forbid "no pink palette is left" grep -rqE 'data-palette="pink"|palette_pink|data-palette-value="pink"' assets layouts i18n
     expect "dark header logo colours are untouched" sh -c 'grep -q "^\.head-circle {" assets/css/header.css && grep -q "color: gray;" assets/css/header.css'
-    expect "light header logo colours are darkened for contrast" count_ge 3 'data-palette="light"\] \.head-' assets/css/header.css
+    expect "light header logo colours use the light palette's own accent tokens" count_ge 6 'data-palette="light"\] \.head-' assets/css/header.css
 }
 
 group_window() {

@@ -113,22 +113,36 @@ a.page__logo-inner:active {
     color: goldenrod;
 }
 
-/* The dark palette keeps these exact colours (computed contrast against --header-bg #1e2434:
-   gray 3.92:1, cadetblue 5.07:1, goldenrod 6.91:1 — a wash, a cool accent, a warm one, by design,
-   not treated as body text). Against the light header (#f4f5f9) three of the six fall under WCAG
-   AA's 4.5:1: gray 3.63:1, cadetblue 2.80:1, goldenrod a blunt 2.05:1. Darkened versions of the same
-   hues fix that (green and slateblue already clear AA on light, 4.72:1 and 4.87:1, so they're
-   untouched here). */
+/* The dark palette keeps these exact colours (against --header-bg #1e2434: gray 3.92:1, green
+   3.01:1, cadetblue 5.07:1, slateblue 2.92:1, brown 2.18:1, goldenrod 6.91:1 — a decorative prompt,
+   not body text, so under 4.5:1 is an accepted trade-off there). The light palette's header is
+   #dcdcdc, on which every one of those named colours reads as a similar washed-out mid-grey (1.63:1
+   to 5.17:1) — barely distinguishable from each other, let alone from the dark palette. Its own
+   accent tokens (already tuned against this exact background, since --win-bg is the same #dcdcdc)
+   give it a colourful identity of its own instead: 4.5:1 or better on all six. */
 :root[data-palette="light"] .head-circle {
-    color: dimgray; /* 5.04:1 */
+    color: var(--muted); /* 6.46:1 */
+}
+
+:root[data-palette="light"] .head-arrow {
+    color: var(--off-fg); /* 5.52:1 */
 }
 
 :root[data-palette="light"] .head-text {
-    color: #477678; /* darkened cadetblue, 4.67:1 */
+    color: var(--text-subheader); /* 5.47:1 */
+}
+
+:root[data-palette="light"] .head-branch::before,
+:root[data-palette="light"] .head-branch::after {
+    color: #453a85; /* darkened slateblue, no matching token; 6.97:1 */
+}
+
+:root[data-palette="light"] .head-branch {
+    color: var(--text-header); /* 5.35:1 */
 }
 
 :root[data-palette="light"] .head-x {
-    color: #836313; /* darkened goldenrod, 5.13:1 */
+    color: #803770; /* darkened highlight, no matching token; 5.68:1 */
 }
 
 .blinking-underscore {
