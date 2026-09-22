@@ -128,14 +128,16 @@ a.page__logo-inner:active {
     }
 }
 
-/* Palette picker: the button is pinned to the right of the header, its popup opens below it */
+/* Palette picker: the button is pinned to the right of the header, its popup opens below it. The popup is
+   anchored to the right edge of the nav rather than to the button: when the nav wraps, the button can end up
+   alone at the left of a row, and a popup right-aligned to it would run off the left edge of the screen. */
 .main-nav {
     flex: 1;
     min-width: 0;
+    position: relative;
 }
 
 .main-nav li.palette-item {
-    position: relative;
     margin-left: auto;
 }
 
@@ -145,7 +147,8 @@ a.page__logo-inner:active {
 
 .palette-popup {
     position: absolute;
-    top: calc(100% + var(--space-2));
+    top: auto;
+    margin-top: var(--space-2);
     right: 0;
     z-index: 100;
     min-width: 12rem;
