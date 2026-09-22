@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound i18n translations minimize jsonld
+# Groups: layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon
 set -u
 cd "$(dirname "$0")/.."
 
@@ -225,7 +225,17 @@ assert 'BlogPosting' in types, types
     expect "the meta description is no longer dead code" grep -q '<meta name="description" content="Dario Camargo' "$OUT/index.html"
 }
 
-ALL="layout type palette window picker background typewriter notfound i18n translations minimize jsonld"
+group_favicon() {
+    echo "favicon"
+    for f in favicon.ico favicon-16x16.png favicon-32x32.png apple-touch-icon.png; do
+        expect "$f is committed" test -s "static/$f"
+    done
+    expect "the favicon is a real .ico with embedded PNG icons" sh -c 'file static/favicon.ico | grep -q "MS Windows icon resource"'
+    expect "the build links all four icon files" sh -c 'grep -q "favicon.ico" "$0/index.html" && grep -q "favicon-32x32.png" "$0/index.html" && grep -q "favicon-16x16.png" "$0/index.html" && grep -q "apple-touch-icon.png" "$0/index.html"' "$OUT"
+    expect "robots.txt is generated and points at the sitemap" sh -c 'grep -q "^Allow: /" "$0/robots.txt" && grep -q "Sitemap: https://dario.dev.br/sitemap.xml" "$0/robots.txt"' "$OUT"
+}
+
+ALL="layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

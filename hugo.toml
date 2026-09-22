@@ -4,6 +4,7 @@ pagination.pagerSize = 3
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 enableInlineShortcodes = true
+enableRobotsTXT = true
 ignoreErrors = ["error-remote-getjson"]
 
 # Automatically add content sections to main menu
