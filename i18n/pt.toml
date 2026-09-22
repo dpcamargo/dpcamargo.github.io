@@ -10,9 +10,6 @@ other = "escuro"
 [palette_light]
 other = "claro"
 
-[palette_pink]
-other = "rosa"
-
 [side_status_title]
 other = "status"
 

@@ -1,5 +1,5 @@
 (function () {
-    var PALETTES = ["dark", "light", "pink"];
+    var PALETTES = ["dark", "light"];
     var root = document.documentElement;
     var button = document.getElementById("palette-btn");
     var popup = document.getElementById("palette-popup");
@@ -8,6 +8,7 @@
     var query = matchMedia("(prefers-color-scheme: light)");
 
     function valid(value) {
+        if (value === "pink") value = "light";   // the pink palette was renamed light
         return PALETTES.indexOf(value) !== -1 ? value : null;
     }
 

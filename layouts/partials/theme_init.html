@@ -1,12 +1,13 @@
 <!-- Resolve the palette before first paint (stored choice, else OS preference) to avoid a flash.
-     "theme" is the key an older version of the site stored; dark/light there are still valid palettes.
+     "theme" is the key an older version of the site stored; dark/light there are still valid palettes. "pink" is the old name of "light".
      Each key is validated on its own, so a bad "palette" value never hides a good "theme". -->
 <script>
 (function () {
-    var palettes = ["dark", "light", "pink"];
+    var palettes = ["dark", "light"];
     var palette;
     try {
         var chosen = localStorage.getItem("palette"), legacy = localStorage.getItem("theme");
+        if (chosen === "pink") chosen = "light";   // the pink palette was renamed light
         palette = palettes.indexOf(chosen) !== -1 ? chosen : palettes.indexOf(legacy) !== -1 ? legacy : null;
     } catch (e) {}
     if (!palette) palette = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";

@@ -45,54 +45,12 @@
 
     /* background: dot grid (--dot-a) and dithered blobs (--blob-a), both drawn in --dither-ink */
     --dither-ink: var(--border-pink);
-    --dot-a: 0.12;
-    --blob-a: 0.1;
-}
-
-:root[data-palette="light"] {
-	color-scheme: light;
-
-	--link: #3d7a94;
-	--hover: #2f8a82;
-	--bg-body: #f4f5f9;
-    --bg: #dde1ec;
-    --text: #5b6274;
-    --border-pink: #a06fa6;
-    --border-blue: #5f8e99;
-    --text-header: #b8127f;
-    --text-subheader: #167a74;
-    --text-body: #2a3142;
-    --inner-bg: #e8ebf3;
-    --off-fg: #4b752c;
-    --muted: #686f82;
-    --highlight: #d3aad9;
-
-    --header-bg: #f4f5f9;
-    --header-fg: #1a1f2e;
-    --on-highlight: #1a1f2e;
-
-    --glow: 184, 18, 127;
-    --glow-k: 0.3;
-    --off-fg-rgb: 75, 117, 44;
-    --border-blue-rgb: 95, 142, 153;
-    --scan-a: 0.04;
-
-    --win-title-bg: var(--text-body);
-    --win-title-fg: var(--bg-body);
-    --win-bg: var(--bg-body);
-    --win-fg: var(--text-body);
-    --win-border: var(--text-body);
-    --btn-bg: var(--highlight);
-    --btn-fg: var(--on-highlight);
-    --btn-shadow: var(--text-body);
-
-    --dither-ink: var(--border-pink);
-    --dot-a: 0.18;
-    --blob-a: 0.14;
+    --dot-a: 0.4;
+    --blob-a: 0.6;
 }
 
 /* typesafe.ai: pink halftone ground, light-grey windows, black title bars */
-:root[data-palette="pink"] {
+:root[data-palette="light"] {
 	color-scheme: light;
 
 	--link: #0a5f5a;

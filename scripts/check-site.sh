@@ -58,18 +58,19 @@ group_type() {
 group_palette() {
     echo "palette"
     forbid "no data-theme left in assets or layouts" grep -rq "data-theme" assets layouts
-    for palette in dark light pink; do
+    for palette in dark light; do
         expect "colours.css has the $palette palette" grep -q "data-palette=\"$palette\"" assets/css/colours.css
     done
     for token in link hover bg-body bg text border-pink border-blue text-header text-subheader text-body \
         inner-bg off-fg muted highlight header-bg header-fg on-highlight glow glow-k off-fg-rgb border-blue-rgb scan-a \
         win-title-bg win-title-fg win-bg win-fg win-border btn-bg btn-fg btn-shadow dither-ink dot-a blob-a; do
-        expect "--$token is defined in all three palettes" count_ge 3 "^[[:space:]]*--$token:" assets/css/colours.css
+        expect "--$token is defined in both palettes" count_ge 2 "^[[:space:]]*--$token:" assets/css/colours.css
     done
     expect "theme_init sets data-palette" grep -q "data-palette" layouts/partials/theme_init.html
     expect "theme_init still reads the legacy theme key" grep -q '"theme"' layouts/partials/theme_init.html
     expect "built page carries the init script" grep -q "data-palette" "$OUT/index.html"
-    expect "chroma light styles also cover pink" grep -q 'data-palette="pink"' assets/css/chroma.css
+    expect "chroma light styles use the light palette" grep -q 'data-palette="light"' assets/css/chroma.css
+    forbid "no pink palette is left" grep -rqE 'data-palette="pink"|palette_pink|data-palette-value="pink"' assets layouts i18n
 }
 
 group_window() {
@@ -90,7 +91,7 @@ group_picker() {
     expect "button.css is bundled" grep -q '"button"' layouts/partials/head.html
     expect "header has the palette button" grep -Eq 'id="?palette-btn"?' "$OUT/index.html"
     expect "header has the palette popup" grep -Eq 'id="?palette-popup"?' "$OUT/index.html"
-    expect "popup lists three palettes" count_ge 3 "data-palette-value" "$OUT/index.html"
+    expect "popup lists two palettes" count_ge 2 "data-palette-value" "$OUT/index.html"
     expect "button announces its popup state" grep -q "aria-expanded" "$OUT/index.html"
     forbid "sun/moon toggle is gone" grep -rq "theme-toggle" assets layouts
     expect "script wires the popup" grep -q "palette-popup" assets/js/theme.js
@@ -153,7 +154,7 @@ group_i18n() {
     expect "pt aria labels and alt text are translated" sh -c 'grep -q "Links de redes sociais" "$0/pt/index.html" && grep -q "Dario em pé" "$0/pt/index.html" && grep -q "Log de inicialização do sistema" "$0/pt/index.html"' "$OUT"
     forbid "pt home has no English UI text" grep -Eq "latest_til|Social media links|Indexed [0-9]+|Graphical Interface|Started Software|Tech stack links|LinkedIn Profile" "$OUT/pt/index.html"
     expect "en home keeps its English UI text" sh -c 'grep -q latest_til "$0/index.html" && grep -Eq "Indexed [0-9]+ TIL entries" "$0/index.html" && grep -q "Social media links" "$0/index.html"' "$OUT"
-    expect "pt palette names are translated" sh -c 'grep -q ">escuro<" "$0/pt/index.html" && grep -q ">paleta<" "$0/pt/index.html" && grep -q ">rosa<" "$0/pt/index.html"' "$OUT"
+    expect "pt palette names are translated" sh -c 'grep -q ">escuro<" "$0/pt/index.html" && grep -q ">claro<" "$0/pt/index.html" && grep -q ">paleta<" "$0/pt/index.html"' "$OUT"
     expect "en palette names are unchanged" sh -c 'grep -q ">dark<" "$0/index.html" && grep -q ">palette<" "$0/index.html"' "$OUT"
     expect "theme.js takes the label from the option text" grep -q "option.textContent" assets/js/theme.js
     expect "the logo links to the language home" grep -q 'pt/" class="page__logo-inner"' "$OUT/pt/index.html"
