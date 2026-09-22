@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound i18n translations minimize
+# Groups: layout type palette window picker background typewriter notfound i18n translations minimize jsonld
 set -u
 cd "$(dirname "$0")/.."
 
@@ -171,6 +171,7 @@ group_i18n() {
     expect "the picker is translated" sh -c 'grep -q "pt: escolher idioma" "$0/pt/index.html" && grep -q ">idioma<" "$0/pt/index.html"' "$OUT"
     expect "flags are drawn inline for both languages" sh -c 'grep -q "#b22234" "$0/index.html" && grep -q "#009c3b" "$0/index.html"' "$OUT"
     expect "a page with no translation offers the other home" grep -Eq 'class="lang-option" href="/pt/" lang="pt-BR" hreflang="pt"' "$OUT/404.html"
+    expect "the 404 current-language row goes home too, not to /404.html" grep -Eq 'class="lang-option" href="/" lang="en" hreflang="en" aria-current="true"' "$OUT/404.html"
     expect "lang-picker.js is loaded" grep -Eq 'lang-picker[^"]*\.js' "$OUT/index.html"
     forbid "the old switcher label key is gone" grep -q "lang_switch_label" i18n/en.toml i18n/pt.toml layouts/partials/lang_switch.html
     expect "404 data file has both languages" sh -c 'grep -q "^\[en\]" data/notfound.toml && grep -q "^\[pt\]" data/notfound.toml'
@@ -197,7 +198,30 @@ group_minimize() {
     expect "the minimize label is translated" grep -q "minimizar" "$OUT/pt/index.html"
 }
 
-ALL="layout type palette window picker background typewriter notfound i18n translations minimize"
+group_jsonld() {
+    echo "jsonld"
+    expect "jsonld partial exists and is included" sh -c 'test -s layouts/partials/jsonld.html && grep -q "jsonld.html" layouts/partials/head.html'
+    expect "the home page has valid JSON-LD (Person, WebSite)" python3 -c "
+import json, re, sys
+html = open('$OUT/index.html').read()
+m = re.search(r'<script type=\"application/ld\+json\">(.*?)</script>', html, re.S)
+data = json.loads(m.group(1))
+types = {n['@type'] for n in data['@graph']}
+assert types == {'Person', 'WebSite'}, types
+"
+    expect "a TIL post adds a BlogPosting" python3 -c "
+import json, re, sys
+html = open('$OUT/til/go-errgroup/index.html').read()
+m = re.search(r'<script type=\"application/ld\+json\">(.*?)</script>', html, re.S)
+data = json.loads(m.group(1))
+types = {n['@type'] for n in data['@graph']}
+assert 'BlogPosting' in types, types
+"
+    expect "the Portuguese home has a Portuguese description" grep -q "constrói sistemas distribuídos" "$OUT/pt/index.html"
+    expect "the meta description is no longer dead code" grep -q '<meta name="description" content="Dario Camargo' "$OUT/index.html"
+}
+
+ALL="layout type palette window picker background typewriter notfound i18n translations minimize jsonld"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

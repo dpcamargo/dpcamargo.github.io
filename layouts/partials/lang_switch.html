@@ -14,8 +14,12 @@
                 {{- $target := .Language.Lang }}
                 {{- $url := .Home.RelPermalink }}
                 {{- /* the 404 page is one file for every URL, so its translation is not a page anyone can reach */}}
-                {{- if ne $.Kind "404" }}{{ range $.Translations }}{{ if eq .Language.Lang $target }}{{ $url = .RelPermalink }}{{ end }}{{ end }}{{ end }}
+                {{- /* on the 404 every row, including the current language, goes to that language's home: the page
+                       itself is /404.html, and linking a row to it just reloads the same page */}}
+                {{- if ne $.Kind "404" }}
+                {{- range $.Translations }}{{ if eq .Language.Lang $target }}{{ $url = .RelPermalink }}{{ end }}{{ end }}
                 {{- if eq $target $current.Lang }}{{ $url = $.RelPermalink }}{{ end }}
+                {{- end }}
                 <a class="lang-option" href="{{ $url }}" lang="{{ .Language.Locale }}" hreflang="{{ .Language.Lang }}"{{ if eq $target $current.Lang }} aria-current="true"{{ end }}>{{ partial "flag.html" .Language.Lang }}{{ .Language.Label }}</a>
                 {{- end }}
             </div>

@@ -1,0 +1,38 @@
+{{- /* Structured data: a site-wide Person + WebSite, plus a BlogPosting on each TIL post. jsonify escapes every
+       value, so translated titles and descriptions never break the JSON. */ -}}
+{{- $person := printf "%s#person" .Site.BaseURL -}}
+{{- $langs := slice -}}
+{{- range hugo.Sites }}{{ $langs = $langs | append .Language.Lang }}{{ end -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": {{ $person | jsonify }},
+      "name": "Dario Camargo",
+      "url": {{ .Site.BaseURL | jsonify }},
+      "jobTitle": "Software Engineer",
+      "description": {{ .Site.Params.description | jsonify }},
+      "sameAs": ["https://linkedin.com/in/dpcamargo", "https://github.com/dpcamargo"],
+      "knowsLanguage": ["en", "pt-BR", "es"]
+    },
+    {
+      "@type": "WebSite",
+      "name": {{ .Site.Title | jsonify }},
+      "url": {{ .Site.BaseURL | jsonify }},
+      "description": {{ .Site.Params.description | jsonify }},
+      "inLanguage": {{ $langs | jsonify }},
+      "author": { "@id": {{ $person | jsonify }} }
+    }{{ if and (eq .Kind "page") (eq .Section "til") }},
+    {
+      "@type": "BlogPosting",
+      "headline": {{ .Title | jsonify }},
+      "url": {{ .Permalink | jsonify }},
+      "datePublished": {{ .Date.Format "2006-01-02" | jsonify }},
+      "inLanguage": {{ .Site.Language.Lang | jsonify }},
+      "author": { "@id": {{ $person | jsonify }} }
+    }{{ end }}
+  ]
+}
+</script>

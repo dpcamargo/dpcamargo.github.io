@@ -22,6 +22,9 @@ header_text = "dario.dev.br"
   locale = "en"
   weight = 1
 
+  [languages.en.params]
+    description = "Dario Camargo — Software Engineer building distributed backend systems in Go, Java, and Python. TIL notes on Go, distributed systems, and reliability engineering."
+
   [languages.en.params.boot]
     [[languages.en.params.boot.lines]]
       text = "Started Software Engineer."
@@ -48,6 +51,9 @@ header_text = "dario.dev.br"
   label = "Português"
   locale = "pt-BR"
   weight = 2
+
+  [languages.pt.params]
+    description = "Dario Camargo — Engenheiro de Software que constrói sistemas distribuídos de backend em Go, Java e Python. Notas de TIL sobre Go, sistemas distribuídos e engenharia de confiabilidade."
 
   [languages.pt.params.boot]
     [[languages.pt.params.boot.lines]]
