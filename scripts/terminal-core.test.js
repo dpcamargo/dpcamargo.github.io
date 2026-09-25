@@ -15,7 +15,7 @@ const strings = {
 const data = {
     home: "/",
     langs: ["en", "pt"],
-    pages: [{ name: "whoami", url: "/about/" }, { name: "til", url: "/til/" }],
+    pages: [{ name: "whoami", url: "/whoami/" }, { name: "til", url: "/til/" }],
     posts: [
         { slug: "go-errgroup", title: "Go: errgroup", url: "/til/go-errgroup/", date: "2025-06-03", tags: ["go"] },
         { slug: "go-sorting", title: "Go: sorting", url: "/til/go-sorting/", date: "2025-06-01", tags: ["go"] },
@@ -60,7 +60,7 @@ test("resolveCd handles ~, .., page names, paths and slugs", () => {
     assert.deepEqual(core.resolveCd("..", "~", data), { url: "/" });
     assert.deepEqual(core.resolveCd("TIL", "~", data), { url: "/til/" });
     assert.deepEqual(core.resolveCd("~/til/", "~", data), { url: "/til/" });
-    assert.deepEqual(core.resolveCd("whoami", "~/til", data), { url: "/about/" });
+    assert.deepEqual(core.resolveCd("whoami", "~/til", data), { url: "/whoami/" });
     assert.deepEqual(core.resolveCd("go-sorting", "~/til", data), { url: "/til/go-sorting/" });
     assert.deepEqual(core.resolveCd("til/go-sorting", "~", data), { url: "/til/go-sorting/" });
     assert.deepEqual(core.resolveCd("go-sorting", "~", data), { error: "go-sorting" });
@@ -120,7 +120,7 @@ test("cd and cat navigate or explain why not", () => {
 test("simple commands", () => {
     assert.deepEqual(run("clear"), [{ type: "clear" }]);
     assert.deepEqual(run("exit"), [{ type: "exit", text: "logout" }]);
-    assert.deepEqual(run("whoami"), [{ type: "navigate", url: "/about/", missing: "cd: no such file or directory: whoami" }]);
+    assert.deepEqual(run("whoami"), [{ type: "navigate", url: "/whoami/", missing: "cd: no such file or directory: whoami" }]);
     assert.deepEqual(run("contact"), [{ type: "links", items: data.contact }]);
     assert.deepEqual(run("vim"), [{ type: "text", text: "VIM" }]);
     assert.deepEqual(run("nano notes.txt"), [{ type: "text", text: "VIM" }]);

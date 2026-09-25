@@ -210,10 +210,10 @@ import tomllib
 menu = tomllib.load(open('hugo.toml', 'rb'))['menu']['main']
 names = [m['name'] for m in sorted(menu, key=lambda m: m['weight'])]
 assert names == ['whoami', 'TIL'], names
-assert [m['url'] for m in sorted(menu, key=lambda m: m['weight'])] == ['/about/', '/til/']
+assert [m['url'] for m in sorted(menu, key=lambda m: m['weight'])] == ['/whoami/', '/til/']
 "
-    expect "the English about carries the bio" grep -q "distributed backend systems: REST microservices" "$OUT/about/index.html"
-    expect "the Portuguese about carries the bio" grep -q "microsserviços REST" "$OUT/pt/about/index.html"
+    expect "the English about carries the bio" grep -q "distributed backend systems: REST microservices" "$OUT/whoami/index.html"
+    expect "the Portuguese about carries the bio" grep -q "microsserviços REST" "$OUT/pt/whoami/index.html"
     expect "the home window is ~/boot" grep -q 'class="win__title">~/boot' "$OUT/index.html"
 }
 
@@ -228,7 +228,7 @@ assert set(d) == {'home', 'langs', 'pages', 'posts', 'contact', 'neofetch', 'str
 assert d['home'] == '/$prefix', d['home']
 assert d['langs'] == ['en', 'pt'], d['langs']
 assert [p['name'] for p in d['pages']] == ['whoami', 'til'], d['pages']
-assert [p['url'] for p in d['pages']] == ['/${prefix}about/', '/${prefix}til/'], d['pages']
+assert [p['url'] for p in d['pages']] == ['/${prefix}whoami/', '/${prefix}til/'], d['pages']
 assert len(d['posts']) >= 8, len(d['posts'])
 for p in d['posts']:
     assert set(p) == {'slug', 'title', 'url', 'date', 'tags'}, p

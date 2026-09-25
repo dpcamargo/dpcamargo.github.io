@@ -92,7 +92,7 @@ header_text = "dario.dev.br"
   [[menu.main]]
     identifier = "about"
     name = "whoami"
-    url = "/about/"
+    url = "/whoami/"
     weight = 10
 
   [[menu.main]]
