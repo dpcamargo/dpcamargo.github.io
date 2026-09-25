@@ -21,6 +21,7 @@
     var dataPromise = null;
     var busy = false;
     var started = false;
+    var isLogin = false;
 
     function home() {
         return form.getAttribute("data-home");
@@ -262,7 +263,11 @@
             return;
         case "exit":
             block.appendChild(textNode(action.text));
-            return wait(500).then(exitToPage);
+            return wait(500).then(function() {
+                clearAll();
+                ps.textContent = "dario.dev.br login: ";
+                isLogin = true;
+            });
         case "theme":
             var option = document.querySelector('[data-palette-value="' + action.value + '"]');
             if (option) option.click();
@@ -329,6 +334,10 @@
         if (busy) return;
         var line = input.value;
         input.value = "";
+        if (isLogin) {
+            location.assign("/");
+            return;
+        }
         run(line);
     });
 
