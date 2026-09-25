@@ -10,6 +10,8 @@ body, html {
 
 .page {
     height: 100vh;
+    /* mobile browsers size 100vh as if the toolbars were hidden, pushing the bottom gutter off screen */
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
