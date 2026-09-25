@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon visitors
+# Groups: layout type palette window picker background typewriter notfound i18n translations home minimize jsonld favicon visitors
 set -u
 cd "$(dirname "$0")/.."
 
@@ -79,7 +79,7 @@ group_window() {
     echo "window"
     expect "window.css exists" test -s assets/css/window.css
     expect "window.css is bundled" grep -q '"window"' layouts/partials/head.html
-    for page in index.html about/index.html til/index.html til/go-errgroup/index.html 404.html; do
+    for page in index.html til/index.html til/go-errgroup/index.html 404.html; do
         expect "$page has at least five titled windows" count_ge 5 "win__title" "$OUT/$page"
     done
     expect "content window title is a ~/ path" grep -Eq 'win__title[^>]*>~/' "$OUT/index.html"
@@ -188,7 +188,7 @@ group_translations() {
     echo "translations"
     expect "every English page has an in-sync Portuguese page" python3 scripts/check-translations.py
     expect "all 8 TIL posts are built in Portuguese" bash -c '[ "$(ls -d "$0"/pt/til/*/ | wc -l)" -ge 8 ]' "$OUT"
-    expect "pt TIL list and about pages exist" sh -c 'test -s "$0/pt/til/index.html" && test -s "$0/pt/about/index.html"' "$OUT"
+    expect "pt TIL list exists" test -s "$OUT/pt/til/index.html"
 }
 
 group_minimize() {
@@ -202,6 +202,30 @@ group_minimize() {
     expect "every right-hand box, including the portrait, can be closed" count_ge 5 'class="win__close' "$OUT/index.html"
     expect "closing reuses window.css's existing [hidden] rule" grep -q '\.win\[hidden\]' assets/css/window.css
     expect "the close label is translated" grep -q "fechar janela" "$OUT/pt/index.html"
+}
+
+group_home() {
+    echo "home"
+    expect "the menu is whoami then TIL" python3 -c "
+import tomllib
+menu = tomllib.load(open('hugo.toml', 'rb'))['menu']['main']
+names = [m['name'] for m in sorted(menu, key=lambda m: m['weight'])]
+assert names == ['whoami', 'TIL'], names
+assert [m['url'] for m in sorted(menu, key=lambda m: m['weight'])] == ['/', '/til/']
+"
+    forbid "no boot link in the built menu" grep -q '>boot</a>' "$OUT/index.html"
+    expect "the English home carries the bio" grep -q "distributed backend systems: REST microservices" "$OUT/index.html"
+    expect "the Portuguese home carries the bio" grep -q "microsserviços REST" "$OUT/pt/index.html"
+    expect "the home window is ~/whoami" grep -q 'class="win__title">~/whoami' "$OUT/index.html"
+    expect "the home echoes whoami after the boot log" grep -q 'guest@dario:~\$</span> whoami' "$OUT/index.html"
+    expect "the home has exactly one h1" python3 -c "
+import re
+html = open('$OUT/index.html').read()
+assert len(re.findall(r'<h1[ >]', html)) == 1
+"
+    expect "/about/ redirects to the English home" grep -q 'url=https://dario.dev.br/"' "$OUT/about/index.html"
+    expect "/pt/about/ redirects to the Portuguese home" grep -q 'url=https://dario.dev.br/pt/"' "$OUT/pt/about/index.html"
+    forbid "the about content files are gone" test -e content/about
 }
 
 group_jsonld() {
@@ -263,7 +287,7 @@ assert isinstance(d['top'], list) and len(d['top']) <= 5, d['top']
     expect "the workflow fetches visitor stats before building" grep -q "fetch-visitor-stats.py" .github/workflows/hugo.yaml
 }
 
-ALL="layout type palette window picker background typewriter notfound i18n translations minimize jsonld favicon visitors"
+ALL="layout type palette window picker background typewriter notfound i18n translations home minimize jsonld favicon visitors"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

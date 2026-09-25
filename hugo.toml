@@ -90,15 +90,9 @@ header_text = "dario.dev.br"
 
 [menu]
   [[menu.main]]
-    identifier = "home"
-    name = "boot"
-    url = "/"
-    weight = 1
-
-  [[menu.main]]
-    identifier = "about"
+    identifier = "whoami"
     name = "whoami"
-    url = "/about/"
+    url = "/"
     weight = 10
 
   [[menu.main]]
@@ -106,8 +100,6 @@ header_text = "dario.dev.br"
     name = "TIL"
     url = "/til/"
     weight = 20
-
-
 
 [markup.goldmark.renderer]
 unsafe = true

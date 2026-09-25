@@ -17,7 +17,7 @@
                     <header class="win__title">~/{{ replace (lower .Title) " " "_" }}</header>
                     <div class="win__body">
                         <div class="win__scroll">
-                            {{ partial "title.html" . }}
+                            {{ if not .IsHome }}{{ partial "title.html" . }}{{ end }}
                             <div class="page__main">
                                 {{- block "main" . }}{{- end }}
                             </div>
