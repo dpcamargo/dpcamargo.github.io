@@ -23,6 +23,7 @@
     var started = false;
     var isLogin = false;
     var originalPromptHtml = ps.innerHTML;
+    var originalPlaceholder = input.placeholder;
 
     function home() {
         return form.getAttribute("data-home");
@@ -208,28 +209,47 @@
         return Promise.resolve(undefined);
     }
 
-    function disableUI() {
-        document.querySelectorAll(".right__content .win").forEach(function(w) { w.hidden = true; });
-        document.querySelectorAll(".nav-main-item").forEach(function(l) {
-            l.style.pointerEvents = "none";
-            l.style.opacity = "0.5";
-            l.tabIndex = -1;
-        });
-    }
-
-    function enableUI() {
-        document.querySelectorAll(".right__content .win").forEach(function(w) { w.hidden = false; });
-        document.querySelectorAll(".nav-main-item").forEach(function(l) {
-            l.style.pointerEvents = "";
-            l.style.opacity = "";
-            l.tabIndex = 0;
-        });
-    }
-
     function clearAll() {
         metas.clear();
         scroll.textContent = "";
     }
+
+    // exit closes the sidebar windows and disables the language/theme buttons (mouse via .term-locked in
+    // terminal.css, keyboard here); login reopens and re-enables them, same as a fresh page load.
+    // whoami/projects/til and the language/theme buttons, while exit's fake login prompt is up
+    var LOCKED_CONTROLS = ".nav-main-item, #palette-btn, .lang-picker > summary";
+
+    // Closed sidebar windows, dimmed + tooltipped controls (terminal.css draws the tooltip from
+    // data-locked-hint via ::before); the click blocker below is permanent and just checks term-locked.
+    function lockChrome(locked) {
+        document.querySelectorAll(".right__content > .win").forEach(function (win) { win.hidden = locked; });
+        var hint = form.getAttribute("data-nav-locked");
+        document.querySelectorAll(LOCKED_CONTROLS).forEach(function (el) {
+            if (locked) {
+                el.setAttribute("data-locked-hint", hint);
+                el.setAttribute("aria-disabled", "true");
+            } else {
+                el.removeAttribute("data-locked-hint");
+                el.removeAttribute("aria-disabled");
+            }
+        });
+        var summary = document.querySelector(".lang-picker > summary");
+        if (summary) {
+            if (locked) summary.setAttribute("tabindex", "-1");
+            else summary.removeAttribute("tabindex");
+        }
+    }
+
+    // A real click (mouse or keyboard) still reaches these controls under lockChrome — that's what lets them
+    // stay hoverable for the tooltip instead of pointer-events:none. Swallow the click itself here, in the
+    // capture phase so it runs before the palette toggle or the language <details>'s own default action.
+    document.addEventListener("click", function (event) {
+        if (!root.classList.contains("term-locked")) return;
+        if (event.target.closest(LOCKED_CONTROLS)) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+    }, true);
 
     // Keep only the current page's newest block, the way exit leaves a terminal back at the page
     function exitToPage() {
@@ -284,8 +304,11 @@
             block.appendChild(textNode(action.text));
             return wait(500).then(function() {
                 clearAll();
-                disableUI();
-                ps.textContent = "dario.dev.br login: ";
+                ps.innerHTML = '<span class="head-text">dario.dev.br login:</span>';
+                input.placeholder = form.getAttribute("data-login-hint");
+                root.classList.add("term-locked");
+                lockChrome(true);
+                if (winTitle) winTitle.textContent = "logged out";
                 isLogin = true;
             });
         case "theme":
@@ -347,7 +370,8 @@
         root.classList.add("term-ready");
         forceFocus();
         document.addEventListener("click", forceFocus);
-        scroll.scrollTop = scroll.scrollHeight;
+        // Only the home page's boot log is tall enough to need starting scrolled past the fold
+        if (document.querySelector(".boot")) scroll.scrollTop = scroll.scrollHeight;
     }
 
     form.addEventListener("submit", function (event) {
@@ -356,12 +380,24 @@
         var line = input.value;
         input.value = "";
         if (isLogin) {
-            if (line.trim()) {
+            if (line.trim().toLowerCase() === "login") {
                 isLogin = false;
+                root.classList.remove("term-locked");
+                lockChrome(false);
+                input.placeholder = originalPlaceholder;
                 loadData().then(function (data) {
                     clearAll();
-                    enableUI();
                     ps.innerHTML = originalPromptHtml;
+                    // The MOTD is the home page's welcome message, so relogin lands back home: same title,
+                    // path and nav state a real visit to "~" would show, without actually reloading the page.
+                    // The window title says "motd" (what's actually shown), not "boot" (the log we skip).
+                    history.replaceState(null, "", home());
+                    applyMeta({
+                        title: data.homeTitle || document.title,
+                        win: "motd",
+                        active: Array.from(document.querySelectorAll(".main-nav a.nav-main-item")).map(function () { return false; }),
+                        langs: null
+                    });
                     var block = makeBlock(location.pathname);
                     block.appendChild(textNode(data.strings.motd));
                     appendBlock(block, "end");

@@ -1,0 +1,17 @@
+{{ define "main" }}
+
+    <div class="content__body">
+        {{ with .Params.stack }}
+        <ul class="project__badges">
+            {{ range . }}<li class="project__badge">{{ . }}</li>{{ end }}
+        </ul>
+        {{ end }}
+
+        {{ with .Params.repo }}
+        <p><a class="btn" href="{{ . }}" target="_blank" rel="noopener noreferrer">{{ i18n "project_repo" }}</a></p>
+        {{ end }}
+
+        {{ .Content }}
+    </div>
+    {{ if or .Params.math .Site.Params.math }}{{ partial "math.html" . }}{{ end }}
+{{ end }}

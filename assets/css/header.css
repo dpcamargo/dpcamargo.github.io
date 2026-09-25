@@ -1,4 +1,8 @@
 /* Main menu */
+.main-nav {
+    position: relative;
+}
+
 .main-nav ul {
     display: flex;
     flex-flow: row wrap;

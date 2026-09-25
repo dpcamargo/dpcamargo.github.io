@@ -117,6 +117,12 @@ test("cd and cat navigate or explain why not", () => {
     assert.deepEqual(run("cat nope"), [{ type: "text", text: "cat: nope: no such file or directory" }]);
 });
 
+test("a bare section name navigates like cd, but only without arguments and not over a real command", () => {
+    assert.deepEqual(run("til"), [{ type: "navigate", url: "/til/", missing: "cd: no such file or directory: til" }]);
+    assert.deepEqual(run("whoami"), [{ type: "navigate", url: "/whoami/", missing: "cd: no such file or directory: whoami" }]);
+    assert.deepEqual(run("til go-errgroup"), [{ type: "text", text: "zsh: command not found: til" }]);
+});
+
 test("simple commands", () => {
     assert.deepEqual(run("clear"), [{ type: "clear" }]);
     assert.deepEqual(run("exit"), [{ type: "exit", text: "logout" }]);

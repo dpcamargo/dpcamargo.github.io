@@ -242,7 +242,13 @@
         var parsed = parse(line);
         if (!parsed) return [];
         var s = ctx.data.strings;
-        if (!Object.prototype.hasOwnProperty.call(HANDLERS, parsed.cmd)) return [text(fmt(s.notfound, parsed.cmd))];
+        var known = Object.prototype.hasOwnProperty.call(HANDLERS, parsed.cmd);
+        // a bare section name (e.g. typing "til") works like "cd til", as long as it isn't already a command
+        if (!known && !parsed.args.length && findBy(ctx.data.pages, "name", parsed.cmd)) {
+            parsed = { cmd: "cd", args: [parsed.cmd] };
+            known = true;
+        }
+        if (!known) return [text(fmt(s.notfound, parsed.cmd))];
         if (ctx.data.offline && !has(OFFLINE_OK, parsed.cmd)) return [text(s.offline)];
         return HANDLERS[parsed.cmd](parsed.args, ctx);
     }

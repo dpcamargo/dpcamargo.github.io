@@ -22,6 +22,9 @@ other = "online"
 [location_label]
 other = "> local:"
 
+[project_repo]
+other = "Ver no GitHub"
+
 [location_value]
 other = "Brasil"
 
@@ -88,6 +91,12 @@ other = "terminal: digite um comando, help para a lista"
 
 [term_placeholder]
 other = "digite help"
+
+[term_login_hint]
+other = "digite login para entrar de novo"
+
+[term_nav_locked]
+other = "faça login para acessar"
 
 [term_offline]
 other = "terminal: offline, tente recarregar"

@@ -36,3 +36,16 @@ a.btn:active {
     outline: 2px solid var(--text-header);
     outline-offset: 2px;
 }
+
+.btn:disabled {
+    opacity: 0.4;
+    filter: grayscale(60%);
+    cursor: not-allowed;
+}
+
+.btn:disabled:hover,
+.btn:disabled:active {
+    filter: grayscale(60%);
+    transform: none;
+    box-shadow: 3px 3px 0 var(--btn-shadow);
+}

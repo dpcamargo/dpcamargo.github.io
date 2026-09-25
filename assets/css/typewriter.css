@@ -34,6 +34,13 @@
     background: var(--text-header);
 }
 
+/* List markers are generated content, not a DOM text node, so walk() in typewriter.js never wraps them in
+   a .tw span: left alone they'd flash in ahead of their own line's still-typing text. color, not visibility,
+   because that's the one hiding technique every browser's ::marker actually supports. */
+.typewriter:not(.typed) li::marker {
+    color: transparent;
+}
+
 /* The boot log's CSS stagger would hide lines that the typing reveals; typing paces the log instead */
 .typing .boot__line,
 .typing .boot__swatches,

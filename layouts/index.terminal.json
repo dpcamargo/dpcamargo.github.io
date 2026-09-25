@@ -12,4 +12,7 @@
 {{- range $keys }}{{ $strings = merge $strings (dict . (i18n (printf "term_%s" .))) }}{{ end -}}
 {{- $neofetch := dict "stack" "Go, Java, Python" "location" (i18n "location_value") -}}
 {{- $contact := slice (dict "label" "LinkedIn" "url" "https://linkedin.com/in/dpcamargo") (dict "label" "GitHub" "url" "https://github.com/dpcamargo") -}}
-{{- dict "home" ("/" | relLangURL) "langs" $langs "pages" $pages "posts" $posts "contact" $contact "neofetch" $neofetch "strings" $strings | jsonify -}}
+{{- /* Same "<site> – <role>" the home page's own <title> uses (layouts/partials/head.html); relogin's
+       fake return-home needs this to fix the browser tab title without a real navigation. */ -}}
+{{- $homeTitle := printf "%s – %s" site.Title (i18n "home_title_role") -}}
+{{- dict "home" ("/" | relLangURL) "langs" $langs "pages" $pages "posts" $posts "contact" $contact "neofetch" $neofetch "strings" $strings "homeTitle" $homeTitle | jsonify -}}

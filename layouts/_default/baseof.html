@@ -14,7 +14,23 @@
 
             <div class="page__body">
                 <section class="page__content win">
-                    <header class="win__title">~/{{ replace (lower .Title) " " "_" }}</header>
+                    {{- /* Matches the terminal's own cwd for the same page (terminal-core.js cwdFromPath), not
+                           the page's display title: the til section is "~/til" (not "~/today_i_learned",
+                           its front-matter title), a til post's leaf is its slug (not its sentence-length
+                           title, for the same reason the terminal completes "cat" with slugs), and a project
+                           page carries "projects/" ahead of its (short) title: "~/projects/wefood". Every
+                           other page (whoami, home) is just "~/<title>". */}}
+                    {{- $winSegments := slice (replace (lower .Title) " " "_") -}}
+                    {{- if eq .Section "til" -}}
+                    {{- if and .Parent (not .Parent.IsHome) -}}
+                    {{- $winSegments = slice .Section .File.ContentBaseName -}}
+                    {{- else -}}
+                    {{- $winSegments = slice .Section -}}
+                    {{- end -}}
+                    {{- else if and (eq .Section "projects") .Parent (not .Parent.IsHome) -}}
+                    {{- $winSegments = (slice .Section) | append (replace (lower .Title) " " "_") -}}
+                    {{- end -}}
+                    <header class="win__title">~/{{ delimit $winSegments "/" }}</header>
                     <div class="win__body">
                         <div class="win__scroll">
                             {{ if not .IsHome }}{{ partial "title.html" . }}{{ end }}
@@ -31,7 +47,9 @@
                               data-offline="{{ i18n "term_offline" }}"
                               data-enoent="{{ i18n "term_enoent" }}"
                               data-notfound="{{ i18n "term_notfound" }}"
-                              data-segfault="{{ i18n "term_segfault" }}"{{ if .IsHome }}
+                              data-segfault="{{ i18n "term_segfault" }}"
+                              data-login-hint="{{ i18n "term_login_hint" }}"
+                              data-nav-locked="{{ i18n "term_nav_locked" }}"{{ if .IsHome }}
                               data-autofocus{{ end }}>
                             <label class="term__ps" for="term-input">{{ partial "term_ps.html" . }}</label>
                             <input id="term-input" class="term__input" type="text" name="command" autocomplete="off"

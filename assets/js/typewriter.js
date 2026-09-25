@@ -25,6 +25,7 @@
         var frameId = 0;
         var startTime = null;
         var duration = 0;
+        var hasBoot = !!target.querySelector(".boot");
 
         function wrapText(node) {
             var text = node.nodeValue;
@@ -59,9 +60,12 @@
             var child = node.firstChild;
             while (child) {
                 var following = child.nextSibling;
+                // The prompt is chrome, not page content, and it stays hidden until this run finishes anyway:
+                // wrapping its spans would let terminal.js snapshot them pre-reveal (permanently invisible)
+                // for restoring on relogin.
                 if (child.nodeType === 3) {
                     wrapText(child);
-                } else if (child.nodeType === 1 && !SKIP.test(child.tagName)) {
+                } else if (child.nodeType === 1 && !SKIP.test(child.tagName) && !child.classList.contains("term__prompt")) {
                     if (child.matches(UNITS)) wrapUnit(child);
                     else walk(child);
                 }
@@ -101,6 +105,9 @@
             if (startTime === null) startTime = now;
             var progress = duration > 0 ? Math.min(1, (now - startTime) / duration) : 1;
             revealTo(Math.ceil(total * progress));
+            // Only the boot log is tall enough to scroll past the fold while typing; leave every other page's
+            // scroll position alone (an in-page anchor jump, a mid-page restart, etc. shouldn't get yanked back).
+            if (hasBoot && cursor) cursor.scrollIntoView({ block: "nearest" });
             if (next >= steps.length) finish();
             else frameId = requestAnimationFrame(frame);
         }

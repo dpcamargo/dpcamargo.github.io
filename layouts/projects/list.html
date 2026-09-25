@@ -1,0 +1,21 @@
+{{ define "main" }}
+    <header class="content__header">
+        {{ .Content }}
+    </header>
+    <div class="content__body">
+
+        {{ range .Pages }}
+        <article class="post project__card">
+            <header class="post__header">
+                <a href="{{ .RelPermalink }}">{{ .Title | markdownify }}</a>
+            </header>
+            {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+            {{ with .Params.stack }}
+            <ul class="project__badges">
+                {{ range . }}<li class="project__badge">{{ . }}</li>{{ end }}
+            </ul>
+            {{ end }}
+        </article>
+        {{ end }}
+    </div>
+{{ end }}

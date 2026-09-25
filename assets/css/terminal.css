@@ -168,6 +168,58 @@
     font-style: normal;
 }
 
+/* exit's fake login prompt: the sidebar's own links are fully inert (their windows are closed anyway, via
+   .win__close in assets/js/minimize.js). whoami/projects/til and the language/theme buttons stay hoverable
+   instead, so the tooltip below can explain why they don't work; assets/js/terminal.js blocks their actual
+   click while locked. */
+.term-locked .right__content a {
+    pointer-events: none;
+}
+
+.term-locked .nav-main-item,
+.term-locked #palette-btn,
+.term-locked .lang-picker > summary {
+    opacity: 0.4;
+    filter: grayscale(60%);
+    cursor: not-allowed;
+}
+
+/* The tooltip: assets/js/terminal.js sets data-locked-hint (with its text) on each control above while
+   locked, removes it on login. Its own presence gates the rule, so nothing shows once unlocked. ::before,
+   not ::after: .nav-main-item's own ::after already draws its hover underline. */
+.term-locked [data-locked-hint] {
+    position: relative;
+}
+
+.term-locked [data-locked-hint]:hover::before,
+.term-locked [data-locked-hint]:focus-visible::before {
+    content: attr(data-locked-hint);
+    position: absolute;
+    top: 100%;
+    margin-top: var(--space-2);
+    z-index: 100;
+    padding: var(--space-1) var(--space-2);
+    color: var(--win-fg);
+    background-color: var(--win-bg);
+    border: 2px solid var(--win-border);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* whoami/projects/til sit at the left of the header; the language/theme buttons at the right. Anchoring
+   each tooltip to the edge nearest the header's own edge (rather than centering) keeps it on-screen. */
+.term-locked .nav-main-item[data-locked-hint]:hover::before,
+.term-locked .nav-main-item[data-locked-hint]:focus-visible::before {
+    left: 0;
+}
+
+.term-locked #palette-btn[data-locked-hint]:hover::before,
+.term-locked #palette-btn[data-locked-hint]:focus-visible::before,
+.term-locked .lang-picker > summary[data-locked-hint]:hover::before,
+.term-locked .lang-picker > summary[data-locked-hint]:focus-visible::before {
+    right: 0;
+}
+
 @media screen and (max-width: 768px) {
     /* room under the last block for the fixed prompt */
     .term-ready .page__body {

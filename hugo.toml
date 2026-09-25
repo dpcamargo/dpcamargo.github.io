@@ -72,10 +72,16 @@ header_text = "dario.dev.br"
 
 [menu]
   [[menu.main]]
-    identifier = "about"
+    identifier = "whoami"
     name = "whoami"
     url = "/whoami/"
     weight = 10
+
+  [[menu.main]]
+    identifier = "projects"
+    name = "projects"
+    url = "/projects/"
+    weight = 15
 
   [[menu.main]]
     identifier = "til"

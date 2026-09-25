@@ -84,6 +84,33 @@ body, html {
     z-index: 2;
 }
 
+/* Multiple project cards need a visible break between them; til's list doesn't, since each entry is one line */
+.project__card + .project__card {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--win-border);
+}
+
+.project__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    list-style: none;
+}
+
+.project__badge {
+    padding: 0.1em 0.6em;
+    font-size: 0.85em;
+    color: var(--off-fg);
+    border: 1px solid var(--win-border);
+}
+
+.project__badge::marker {
+    content: none;
+}
+
 .right__content {
     display: flex;
     flex-direction: column;
@@ -136,5 +163,10 @@ img {
         flex: none;
         overflow: visible;
         padding: 0;
+    }
+
+    /* full 28.125rem is desktop-sized; phones don't need that much empty space before content starts */
+    .page__body {
+        min-height: 20rem;
     }
 }

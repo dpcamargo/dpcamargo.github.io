@@ -22,6 +22,9 @@ other = "online"
 [location_label]
 other = "> location:"
 
+[project_repo]
+other = "View on GitHub"
+
 [location_value]
 other = "Brazil"
 
@@ -88,6 +91,12 @@ other = "terminal: type a command, help for the list"
 
 [term_placeholder]
 other = "type help"
+
+[term_login_hint]
+other = "type login to log back in"
+
+[term_nav_locked]
+other = "login to access"
 
 [term_offline]
 other = "terminal: offline, try reloading"
