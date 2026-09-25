@@ -1,5 +1,19 @@
-<title>{{ if .IsHome }}{{ .Site.Title }} &ndash; {{ i18n "home_title_role" }}{{ else }}{{ with .Title }}{{ . }} &ndash; {{end}}{{ .Site.Title }}{{ end }}</title>
+{{- $title := .Site.Title -}}
+{{- if .IsHome }}{{ $title = printf "%s – %s" .Site.Title (i18n "home_title_role") }}{{ else }}{{ with .Title }}{{ $title = printf "%s – %s" . site.Title }}{{ end }}{{ end -}}
+<title>{{ $title }}</title>
 {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+<link rel="canonical" href="{{ .Permalink }}">
+
+<!-- Open Graph: the preview card when a link is shared (LinkedIn, WhatsApp, Slack) -->
+<meta property="og:type" content="{{ if and (eq .Kind "page") (eq .Section "til") }}article{{ else }}website{{ end }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ $title }}">
+{{ with .Site.Params.description }}<meta property="og:description" content="{{ . }}">{{ end }}
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ "images/standing.png" | absURL }}">
+<meta property="og:image:alt" content="{{ i18n "portrait_alt" }}">
+<meta property="og:locale" content="{{ replace site.Language.Locale "-" "_" }}">
+<meta name="twitter:card" content="summary">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8"/>

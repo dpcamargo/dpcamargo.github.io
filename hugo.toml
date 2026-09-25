@@ -28,6 +28,9 @@ header_text = "dario.dev.br"
 
   [languages.en.params.boot]
     [[languages.en.params.boot.lines]]
+      text = "Welcome to dario.dev.br: Dario Camargo, software engineer building distributed backend systems in Go, Java, and Python."
+
+    [[languages.en.params.boot.lines]]
       text = "Started Software Engineer."
 
     [[languages.en.params.boot.lines]]
@@ -57,6 +60,9 @@ header_text = "dario.dev.br"
     description = "Dario Camargo — Engenheiro de Software que constrói sistemas distribuídos de backend em Go, Java e Python. Notas de TIL sobre Go, sistemas distribuídos e engenharia de confiabilidade."
 
   [languages.pt.params.boot]
+    [[languages.pt.params.boot.lines]]
+      text = "Bem-vindo ao dario.dev.br: Dario Camargo, engenheiro de software que constrói sistemas distribuídos de backend em Go, Java e Python."
+
     [[languages.pt.params.boot.lines]]
       text = "Iniciado: Engenheiro de Software."
 

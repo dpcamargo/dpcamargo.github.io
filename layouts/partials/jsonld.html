@@ -1,5 +1,6 @@
-{{- /* Structured data: a site-wide Person + WebSite, plus a BlogPosting on each TIL post. jsonify escapes every
-       value, so translated titles and descriptions never break the JSON. */ -}}
+{{- /* Structured data: a site-wide Person + WebSite, plus a BlogPosting on each TIL post. Go's html/template
+       JSON-encodes every value inside an ld+json script on its own, so translated titles and descriptions never
+       break the JSON. Piping through jsonify as well encoded them twice ("\"https://...\""). */ -}}
 {{- $person := printf "%s#person" .Site.BaseURL -}}
 {{- $langs := slice -}}
 {{- range hugo.Sites }}{{ $langs = $langs | append .Language.Lang }}{{ end -}}
@@ -9,29 +10,29 @@
   "@graph": [
     {
       "@type": "Person",
-      "@id": {{ $person | jsonify }},
+      "@id": {{ $person }},
       "name": "Dario Camargo",
-      "url": {{ .Site.BaseURL | jsonify }},
+      "url": {{ .Site.BaseURL }},
       "jobTitle": "Software Engineer",
-      "description": {{ .Site.Params.description | jsonify }},
+      "description": {{ .Site.Params.description }},
       "sameAs": ["https://linkedin.com/in/dpcamargo", "https://github.com/dpcamargo"],
       "knowsLanguage": ["en", "pt-BR", "es"]
     },
     {
       "@type": "WebSite",
-      "name": {{ .Site.Title | jsonify }},
-      "url": {{ .Site.BaseURL | jsonify }},
-      "description": {{ .Site.Params.description | jsonify }},
-      "inLanguage": {{ $langs | jsonify }},
-      "author": { "@id": {{ $person | jsonify }} }
+      "name": {{ .Site.Title }},
+      "url": {{ .Site.BaseURL }},
+      "description": {{ .Site.Params.description }},
+      "inLanguage": {{ $langs }},
+      "author": { "@id": {{ $person }} }
     }{{ if and (eq .Kind "page") (eq .Section "til") }},
     {
       "@type": "BlogPosting",
-      "headline": {{ .Title | jsonify }},
-      "url": {{ .Permalink | jsonify }},
-      "datePublished": {{ .Date.Format "2006-01-02" | jsonify }},
-      "inLanguage": {{ .Site.Language.Lang | jsonify }},
-      "author": { "@id": {{ $person | jsonify }} }
+      "headline": {{ .Title }},
+      "url": {{ .Permalink }},
+      "datePublished": {{ .Date.Format "2006-01-02" }},
+      "inLanguage": {{ .Site.Language.Lang }},
+      "author": { "@id": {{ $person }} }
     }{{ end }}
   ]
 }
