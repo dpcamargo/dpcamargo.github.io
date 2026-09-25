@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound i18n translations home minimize jsonld favicon visitors
+# Groups: layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon visitors
 set -u
 cd "$(dirname "$0")/.."
 
@@ -228,6 +228,31 @@ assert len(re.findall(r'<h1[ >]', html)) == 1
     forbid "the about content files are gone" test -e content/about
 }
 
+group_terminal() {
+    echo "terminal"
+    for lang in en pt; do
+        prefix=$([ "$lang" = pt ] && echo "pt/" || echo "")
+        expect "$lang terminal.json has the expected shape" python3 -c "
+import json
+d = json.load(open('$OUT/${prefix}terminal.json'))
+assert set(d) == {'home', 'langs', 'pages', 'posts', 'contact', 'neofetch', 'strings'}, set(d)
+assert d['home'] == '/$prefix', d['home']
+assert d['langs'] == ['en', 'pt'], d['langs']
+assert [p['name'] for p in d['pages']] == ['whoami', 'til'], d['pages']
+assert [p['url'] for p in d['pages']] == ['/$prefix', '/${prefix}til/'], d['pages']
+assert len(d['posts']) >= 8, len(d['posts'])
+for p in d['posts']:
+    assert set(p) == {'slug', 'title', 'url', 'date', 'tags'}, p
+    assert p['url'] == '/${prefix}til/' + p['slug'] + '/', p
+assert all(isinstance(v, str) and v for v in d['strings'].values()), d['strings']
+assert d['strings']['notfound'].count('%s') == 1 and d['strings']['rm_denied'].count('%s') == 1
+assert isinstance(d['neofetch']['countries'], int)
+"
+    done
+    expect "terminal strings exist in both languages" bash -c 'diff <(grep "^\[term_" i18n/en.toml) <(grep "^\[term_" i18n/pt.toml) && [ "$(grep -c "^\[term_" i18n/en.toml)" -eq 32 ]'
+    expect "Portuguese terminal strings are Portuguese" grep -q "comando não encontrado" "$OUT/pt/terminal.json"
+}
+
 group_jsonld() {
     echo "jsonld"
     expect "jsonld partial exists and is included" sh -c 'test -s layouts/partials/jsonld.html && grep -q "jsonld.html" layouts/partials/head.html'
@@ -287,7 +312,7 @@ assert isinstance(d['top'], list) and len(d['top']) <= 5, d['top']
     expect "the workflow fetches visitor stats before building" grep -q "fetch-visitor-stats.py" .github/workflows/hugo.yaml
 }
 
-ALL="layout type palette window picker background typewriter notfound i18n translations home minimize jsonld favicon visitors"
+ALL="layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon visitors"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

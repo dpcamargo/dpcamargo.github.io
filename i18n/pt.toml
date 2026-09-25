@@ -87,3 +87,99 @@ other = "Recebeu visitas de %d países."
 
 [home_title_role]
 other = "Engenheiro de Software"
+
+[term_input_label]
+other = "terminal: digite um comando, help para a lista"
+
+[term_placeholder]
+other = "digite help"
+
+[term_offline]
+other = "terminal: offline, tente recarregar"
+
+[term_enoent]
+other = "arquivo ou diretório inexistente"
+
+[term_notfound]
+other = "zsh: comando não encontrado: %s"
+
+[term_help_intro]
+other = "comandos disponíveis (Tab completa, ↑/↓ percorre o histórico):"
+
+[term_help_help]
+other = "esta lista"
+
+[term_help_ls]
+other = "lista as páginas, ou os posts dentro de til (ls -l para detalhes)"
+
+[term_help_cd]
+other = "vai para uma página: cd til, cd .., cd ~"
+
+[term_help_cat]
+other = "abre um post de TIL: cat go-errgroup"
+
+[term_help_whoami]
+other = "quem é o Dario"
+
+[term_help_neofetch]
+other = "informações do sistema, mais ou menos"
+
+[term_help_contact]
+other = "LinkedIn e GitHub"
+
+[term_help_theme]
+other = "theme dark | light"
+
+[term_help_lang]
+other = "lang en | pt"
+
+[term_help_clear]
+other = "limpa a tela"
+
+[term_help_exit]
+other = "sai desta sessão"
+
+[term_whoami]
+other = "Dario Camargo, engenheiro de software que constrói sistemas distribuídos de backend em Go, Java e Python. No Mercado Livre desde 2024."
+
+[term_sudo]
+other = "guest não está no arquivo sudoers. Este incidente será reportado."
+
+[term_vim]
+other = "agora você está preso. digite :q para sair"
+
+[term_rm_denied]
+other = "rm: não foi possível remover '%s': Permissão negada"
+
+[term_cat_usage]
+other = "uso: cat <post> (tente ls em til)"
+
+[term_theme_usage]
+other = "uso: theme dark | light"
+
+[term_lang_usage]
+other = "uso: lang en | pt"
+
+[term_logout]
+other = "logout"
+
+[term_panic]
+other = "Kernel panic - not syncing: tentativa de matar o dario"
+
+[term_nf_host]
+other = "host"
+
+[term_nf_stack]
+other = "stack"
+
+[term_nf_location]
+other = "local"
+
+[term_nf_visitors]
+other = "países visitantes"
+
+[term_neofetch_title]
+other = "guest@dario"
+
+[term_segfault]
+other = "segfault (core dumped)"

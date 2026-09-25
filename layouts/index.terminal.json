@@ -1,0 +1,16 @@
+{{- /* Read by assets/js/terminal.js. Keys under "strings" are the i18n keys without their term_ prefix. */ -}}
+{{- $langs := slice -}}
+{{- range hugo.Sites }}{{ $langs = $langs | append .Language.Lang }}{{ end -}}
+{{- $pages := slice -}}
+{{- range site.Menus.main }}{{ $pages = $pages | append (dict "name" (lower .Name) "url" (.URL | relLangURL)) }}{{ end -}}
+{{- $posts := slice -}}
+{{- range where site.RegularPages "Section" "til" -}}
+{{- $posts = $posts | append (dict "slug" .File.ContentBaseName "title" .Title "url" .RelPermalink "date" (.Date.Format "2006-01-02") "tags" (.Params.tags | default (slice))) -}}
+{{- end -}}
+{{- $keys := slice "input_label" "placeholder" "offline" "enoent" "notfound" "help_intro" "help_help" "help_ls" "help_cd" "help_cat" "help_whoami" "help_neofetch" "help_contact" "help_theme" "help_lang" "help_clear" "help_exit" "whoami" "sudo" "vim" "rm_denied" "cat_usage" "theme_usage" "lang_usage" "logout" "panic" "nf_host" "nf_stack" "nf_location" "nf_visitors" "neofetch_title" "segfault" -}}
+{{- $strings := dict -}}
+{{- range $keys }}{{ $strings = merge $strings (dict . (i18n (printf "term_%s" .))) }}{{ end -}}
+{{- $visitors := hugo.Data.visitor_countries -}}
+{{- $neofetch := dict "stack" "Go, Java, Python" "location" (i18n "location_value") "countries" (int ($visitors.total_countries | default 0)) -}}
+{{- $contact := slice (dict "label" "LinkedIn" "url" "https://linkedin.com/in/dpcamargo") (dict "label" "GitHub" "url" "https://github.com/dpcamargo") -}}
+{{- dict "home" ("/" | relLangURL) "langs" $langs "pages" $pages "posts" $posts "contact" $contact "neofetch" $neofetch "strings" $strings | jsonify -}}

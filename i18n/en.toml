@@ -87,3 +87,99 @@ other = "Received visitors from %d countries."
 
 [home_title_role]
 other = "Software Engineer"
+
+[term_input_label]
+other = "terminal: type a command, help for the list"
+
+[term_placeholder]
+other = "type help"
+
+[term_offline]
+other = "terminal: offline, try reloading"
+
+[term_enoent]
+other = "no such file or directory"
+
+[term_notfound]
+other = "zsh: command not found: %s"
+
+[term_help_intro]
+other = "available commands (Tab completes, ↑/↓ recall history):"
+
+[term_help_help]
+other = "this list"
+
+[term_help_ls]
+other = "list pages, or the posts inside til (ls -l for details)"
+
+[term_help_cd]
+other = "go to a page: cd til, cd .., cd ~"
+
+[term_help_cat]
+other = "open a TIL post: cat go-errgroup"
+
+[term_help_whoami]
+other = "who is Dario"
+
+[term_help_neofetch]
+other = "system info, sort of"
+
+[term_help_contact]
+other = "LinkedIn and GitHub"
+
+[term_help_theme]
+other = "theme dark | light"
+
+[term_help_lang]
+other = "lang en | pt"
+
+[term_help_clear]
+other = "clear the screen"
+
+[term_help_exit]
+other = "log out of this session"
+
+[term_whoami]
+other = "Dario Camargo, software engineer building distributed backend systems in Go, Java, and Python. At Mercado Livre since 2024."
+
+[term_sudo]
+other = "guest is not in the sudoers file. This incident will be reported."
+
+[term_vim]
+other = "you are now trapped. type :q to exit"
+
+[term_rm_denied]
+other = "rm: cannot remove '%s': Permission denied"
+
+[term_cat_usage]
+other = "usage: cat <post> (try ls in til)"
+
+[term_theme_usage]
+other = "usage: theme dark | light"
+
+[term_lang_usage]
+other = "usage: lang en | pt"
+
+[term_logout]
+other = "logout"
+
+[term_panic]
+other = "Kernel panic - not syncing: attempted to kill dario"
+
+[term_nf_host]
+other = "host"
+
+[term_nf_stack]
+other = "stack"
+
+[term_nf_location]
+other = "location"
+
+[term_nf_visitors]
+other = "visitor countries"
+
+[term_neofetch_title]
+other = "guest@dario"
+
+[term_segfault]
+other = "segfault (core dumped)"

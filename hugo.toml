@@ -101,6 +101,17 @@ header_text = "dario.dev.br"
     url = "/til/"
     weight = 20
 
+# /terminal.json (and /pt/terminal.json): what the terminal prompt needs to know about the site,
+# rendered by layouts/index.terminal.json and fetched by assets/js/terminal.js on first use
+[outputFormats.terminal]
+  mediaType = "application/json"
+  baseName = "terminal"
+  isPlainText = true
+  notAlternative = true
+
+[outputs]
+  home = ["html", "rss", "terminal"]
+
 [markup.goldmark.renderer]
 unsafe = true
 
