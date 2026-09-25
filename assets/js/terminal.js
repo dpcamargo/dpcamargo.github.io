@@ -207,6 +207,15 @@
         return Promise.resolve(undefined);
     }
 
+    function disableUI() {
+        document.querySelectorAll(".right__content .win").forEach(function(w) { w.hidden = true; });
+        document.querySelectorAll(".nav-main-item").forEach(function(l) {
+            l.style.pointerEvents = "none";
+            l.style.opacity = "0.5";
+            l.tabIndex = -1;
+        });
+    }
+
     function clearAll() {
         metas.clear();
         scroll.textContent = "";
@@ -265,6 +274,7 @@
             block.appendChild(textNode(action.text));
             return wait(500).then(function() {
                 clearAll();
+                disableUI();
                 ps.textContent = "dario.dev.br login: ";
                 isLogin = true;
             });
@@ -335,7 +345,13 @@
         var line = input.value;
         input.value = "";
         if (isLogin) {
-            location.assign("/");
+            if (line.trim().toLowerCase() === "login") {
+                location.assign("/whoami/");
+            } else if (line.trim()) {
+                // If they type a username, we log them in.
+                // The prompt was "login:", so typing a name is normal.
+                location.assign("/whoami/");
+            }
             return;
         }
         run(line);
