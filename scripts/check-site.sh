@@ -251,6 +251,7 @@ assert isinstance(d['neofetch']['countries'], int)
     done
     expect "terminal strings exist in both languages" bash -c 'diff <(grep "^\[term_" i18n/en.toml) <(grep "^\[term_" i18n/pt.toml) && [ "$(grep -c "^\[term_" i18n/en.toml)" -eq 32 ]'
     expect "Portuguese terminal strings are Portuguese" grep -q "comando não encontrado" "$OUT/pt/terminal.json"
+    expect "terminal-core unit tests pass" node --test scripts/terminal-core.test.js
 }
 
 group_jsonld() {
