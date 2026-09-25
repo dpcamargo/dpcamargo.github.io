@@ -1,8 +1,8 @@
 <section class="win win--minimizable side__tils">
     <header class="win__title">
         <h2 class="win__title-text">{{ i18n "side_tils_title" }}</h2>
-        <button type="button" class="win__minimize" aria-expanded="true" aria-label="{{ i18n "minimize_label" }}"></button>
-        <button type="button" class="win__close" aria-label="{{ i18n "close_label" }}"></button>
+        <button type="button" class="win__minimize" aria-expanded="true" aria-label="{{ i18n "minimize_label" }}">{{ partial "icon_win_minimize.html" . }}</button>
+        <button type="button" class="win__close" aria-label="{{ i18n "close_label" }}">{{ partial "icon_win_close.html" . }}</button>
     </header>
     <div class="win__body">
         <ul class="til__list">

@@ -1,8 +1,8 @@
 <section class="win win--minimizable side__socials">
     <header class="win__title">
         <h2 class="win__title-text">{{ i18n "side_socials_title" }}</h2>
-        <button type="button" class="win__minimize" aria-expanded="true" aria-label="{{ i18n "minimize_label" }}"></button>
-        <button type="button" class="win__close" aria-label="{{ i18n "close_label" }}"></button>
+        <button type="button" class="win__minimize" aria-expanded="true" aria-label="{{ i18n "minimize_label" }}">{{ partial "icon_win_minimize.html" . }}</button>
+        <button type="button" class="win__close" aria-label="{{ i18n "close_label" }}">{{ partial "icon_win_close.html" . }}</button>
     </header>
     <nav class="win__body socials__nav" aria-label="{{ i18n "socials_nav_label" }}">
         <div class="socials__list">

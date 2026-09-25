@@ -23,8 +23,12 @@
     text-shadow: none;
 }
 
-.win__minimize {
+.win__minimize,
+.win__close {
     appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex: none;
     width: 1.375rem;
     height: 1.375rem;
@@ -37,13 +41,23 @@
     cursor: pointer;
 }
 
-/* Minimize glyph, restore glyph; swapped by the button's own aria-expanded, no JS text to keep in sync */
-.win__minimize::before {
-    content: "_";
+/* Pixel icons (layouts/partials/icon_win_*.html), sized to leave a 1px margin inside the button's own border */
+.win__icon {
+    width: 0.75rem;
+    height: 0.75rem;
 }
 
-.win__minimize[aria-expanded="false"]::before {
-    content: "□";
+/* Both the minimize bar and the restore frame are in the DOM; only one shows, off the button's own state */
+.win__icon--max {
+    display: none;
+}
+
+.win__minimize[aria-expanded="false"] .win__icon--min {
+    display: none;
+}
+
+.win__minimize[aria-expanded="false"] .win__icon--max {
+    display: block;
 }
 
 .win__minimize:hover {
@@ -58,24 +72,6 @@
 
 /* Close button: hides the whole window (assets/js/minimize.js sets [hidden], which window.css already turns
    into display:none). Not persisted, so it comes back on the next full page load; see the same file. */
-.win__close {
-    appearance: none;
-    flex: none;
-    width: 1.375rem;
-    height: 1.375rem;
-    padding: 0;
-    border: 1px solid var(--win-title-fg);
-    background: transparent;
-    color: var(--win-title-fg);
-    font: inherit;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.win__close::before {
-    content: "✗";
-}
-
 .win__close:hover {
     background: var(--text-header);
     border-color: var(--text-header);

@@ -1,0 +1,4 @@
+{{- /* Both states live in the DOM; minimize.css shows one or the other off the button's own aria-expanded,
+       so no JS text needs to stay in sync with it. Same crispEdges-rect technique as flag.html and
+       icon_win_close.html: a pixel bar/frame, not a font glyph ("_", "□") of uncertain weight. */ -}}
+<svg class="win__icon win__icon--min" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="0" y="6" width="8" height="2" fill="currentColor"/></svg><svg class="win__icon win__icon--max" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 0h8v2H0zM0 6h8v2H0zM0 0h2v8H0zM6 0h2v8H6z"/></svg>
