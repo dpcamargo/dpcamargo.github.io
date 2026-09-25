@@ -84,3 +84,6 @@ other = "Recebeu visitas de %d país."
 
 [boot_visitors_other]
 other = "Recebeu visitas de %d países."
+
+[home_title_role]
+other = "Engenheiro de Software"

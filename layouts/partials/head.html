@@ -1,4 +1,4 @@
-<title>{{ with .Title }}{{ . }} &ndash; {{end}}{{ .Site.Title }}</title>
+<title>{{ if .IsHome }}{{ .Site.Title }} &ndash; {{ i18n "home_title_role" }}{{ else }}{{ with .Title }}{{ . }} &ndash; {{end}}{{ .Site.Title }}{{ end }}</title>
 {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
