@@ -346,11 +346,11 @@
         input.value = "";
         if (isLogin) {
             if (line.trim().toLowerCase() === "login") {
-                location.assign("/whoami/");
+                location.assign("/console/");
             } else if (line.trim()) {
                 // If they type a username, we log them in.
                 // The prompt was "login:", so typing a name is normal.
-                location.assign("/whoami/");
+                location.assign("/console/");
             }
             return;
         }
