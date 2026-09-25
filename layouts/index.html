@@ -1,14 +1,4 @@
 {{ define "main" }}
     {{ partial "boot.html" . }}
-    {{- /* The boot log hands over to a shell that has just run whoami; assets/js/terminal.js drops the .boot
-           block when this page is appended to the scrollback later in a session */}}
-    <p class="term__echo"><span class="term__ps">guest@dario:~$</span> whoami</p>
-    <header class="content__header">
-        <div class="header__container">
-            <h1>{{ .Title }}</h1>
-        </div>
-    </header>
-    <div class="content__body">
-        {{ .Content }}
-    </div>
+    {{ .Content }}
 {{ end }}

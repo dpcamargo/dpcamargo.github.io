@@ -159,7 +159,6 @@ group_i18n() {
     expect "pt palette names are translated" sh -c 'grep -q ">escuro<" "$0/pt/index.html" && grep -q ">claro<" "$0/pt/index.html" && grep -q ">paleta<" "$0/pt/index.html"' "$OUT"
     expect "en palette names are unchanged" sh -c 'grep -q ">dark<" "$0/index.html" && grep -q ">palette<" "$0/index.html"' "$OUT"
     expect "theme.js takes the label from the option text" grep -q "option.textContent" assets/js/theme.js
-    expect "the logo links to the language home" grep -q 'pt/" class="page__logo-inner"' "$OUT/pt/index.html"
     expect "en pages list pt as an alternate" grep -q 'hreflang="pt"' "$OUT/index.html"
     expect "pt pages list en as an alternate" grep -q 'hreflang="en"' "$OUT/pt/index.html"
     expect "x-default points at English" grep -Eq 'hreflang="x-default" href="https://[^"]*[^t]/"' "$OUT/pt/index.html"
@@ -211,21 +210,11 @@ import tomllib
 menu = tomllib.load(open('hugo.toml', 'rb'))['menu']['main']
 names = [m['name'] for m in sorted(menu, key=lambda m: m['weight'])]
 assert names == ['whoami', 'TIL'], names
-assert [m['url'] for m in sorted(menu, key=lambda m: m['weight'])] == ['/', '/til/']
+assert [m['url'] for m in sorted(menu, key=lambda m: m['weight'])] == ['/about/', '/til/']
 "
-    forbid "no boot link in the built menu" grep -q '>boot</a>' "$OUT/index.html"
-    expect "the English home carries the bio" grep -q "distributed backend systems: REST microservices" "$OUT/index.html"
-    expect "the Portuguese home carries the bio" grep -q "microsserviços REST" "$OUT/pt/index.html"
-    expect "the home window is ~/whoami" grep -q 'class="win__title">~/whoami' "$OUT/index.html"
-    expect "the home echoes whoami after the boot log" grep -q 'guest@dario:~\$</span> whoami' "$OUT/index.html"
-    expect "the home has exactly one h1" python3 -c "
-import re
-html = open('$OUT/index.html').read()
-assert len(re.findall(r'<h1[ >]', html)) == 1
-"
-    expect "/about/ redirects to the English home" grep -q 'url=https://dario.dev.br/"' "$OUT/about/index.html"
-    expect "/pt/about/ redirects to the Portuguese home" grep -q 'url=https://dario.dev.br/pt/"' "$OUT/pt/about/index.html"
-    forbid "the about content files are gone" test -e content/about
+    expect "the English about carries the bio" grep -q "distributed backend systems: REST microservices" "$OUT/about/index.html"
+    expect "the Portuguese about carries the bio" grep -q "microsserviços REST" "$OUT/pt/about/index.html"
+    expect "the home window is ~/boot" grep -q 'class="win__title">~/boot' "$OUT/index.html"
 }
 
 group_terminal() {
@@ -239,7 +228,7 @@ assert set(d) == {'home', 'langs', 'pages', 'posts', 'contact', 'neofetch', 'str
 assert d['home'] == '/$prefix', d['home']
 assert d['langs'] == ['en', 'pt'], d['langs']
 assert [p['name'] for p in d['pages']] == ['whoami', 'til'], d['pages']
-assert [p['url'] for p in d['pages']] == ['/$prefix', '/${prefix}til/'], d['pages']
+assert [p['url'] for p in d['pages']] == ['/${prefix}about/', '/${prefix}til/'], d['pages']
 assert len(d['posts']) >= 8, len(d['posts'])
 for p in d['posts']:
     assert set(p) == {'slug', 'title', 'url', 'date', 'tags'}, p
@@ -252,6 +241,23 @@ assert isinstance(d['neofetch']['countries'], int)
     expect "terminal strings exist in both languages" bash -c 'diff <(grep "^\[term_" i18n/en.toml) <(grep "^\[term_" i18n/pt.toml) && [ "$(grep -c "^\[term_" i18n/en.toml)" -eq 32 ]'
     expect "Portuguese terminal strings are Portuguese" grep -q "comando não encontrado" "$OUT/pt/terminal.json"
     expect "terminal-core unit tests pass" node --test scripts/terminal-core.test.js
+    expect "every page carries a hidden prompt" sh -c 'for f in index.html til/index.html til/go-errgroup/index.html pt/index.html; do grep -q "<form class=\"term__prompt\" hidden" "$0/$f" || exit 1; done' "$OUT"
+    expect "the prompt points at this language's terminal.json" sh -c 'grep -q "data-json=\"/terminal.json\"" "$0/index.html" && grep -q "data-json=\"/pt/terminal.json\"" "$0/pt/index.html"' "$OUT"
+    expect "the prompt input is labelled in each language" sh -c 'grep -q "aria-label=\"terminal: type a command" "$0/index.html" && grep -q "aria-label=\"terminal: digite um comando" "$0/pt/index.html"' "$OUT"
+    expect "only the home page autofocuses the prompt" sh -c 'grep -q "data-autofocus" "$0/index.html" && ! grep -q "data-autofocus" "$0/til/index.html"' "$OUT"
+    expect "terminal.css is bundled" grep -q '"terminal"' layouts/partials/head.html
+    expect "terminal-core.js loads before terminal.js" python3 -c "
+import re
+html = open('$OUT/index.html').read()
+core = re.search(r'terminal-core[^\"]*\.js', html)
+term = re.search(r'/js/terminal\.[^\"]*\.js', html)
+assert core and term and core.start() < term.start()
+"
+    expect "the typewriter announces when it is done" grep -q 'typewriter:done' assets/js/typewriter.js
+    forbid "the header no longer carries the prompt" grep -q "page__logo-inner" "$OUT/index.html"
+    expect "the prompt shows the page's path from ~" sh -c 'grep -q "class=\"term__path\">~</span>" "$0/index.html" && grep -q "class=\"term__path\">~/til</span>" "$0/til/index.html" && grep -q "class=\"term__path\">~/til/go-errgroup</span>" "$0/pt/til/go-errgroup/index.html"' "$OUT"
+    expect "the prompt's branch is always main" grep -q 'class="head-branch">main</span>' "$OUT/til/go-errgroup/index.html"
+    forbid "terminal.js never sets innerHTML from command output" grep -Eq 'innerHTML *= *(action|line|value|text)' assets/js/terminal.js
 }
 
 group_jsonld() {

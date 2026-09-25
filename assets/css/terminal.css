@@ -1,0 +1,215 @@
+/* Terminal prompt and scrollback (assets/js/terminal.js). The prompt sits under the content window's scroller,
+   so it stays in view while older blocks scroll up; on a phone it is fixed to the bottom of the screen. */
+.term__prompt:not([hidden]) {
+    display: flex;
+    flex: none;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: var(--space-2) calc(var(--space-4) - var(--frame-inset));
+    border-top: 1px dashed var(--win-border);
+}
+
+.term__prompt:focus-within {
+    border-top-color: var(--text-header);
+}
+
+/* The prompt is a row of its own: only the host shrinks, with an ellipsis, so the path, branch and ✗ stay */
+.term__ps {
+    display: inline-flex;
+    flex: 0 1 auto;
+    gap: 0.6ch;
+    min-width: 0;
+    max-width: 100%;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+
+.term__ps > * {
+    flex: none;
+}
+
+.term__ps > .head-text {
+    display: inline-flex;
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* when space runs out the host gives way first (its much larger shrink factor), then the path */
+.term__host,
+.term__path {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.term__host {
+    flex: 0 1000 auto;
+}
+
+.term__path {
+    flex: 0 1 auto;
+}
+
+.term__input {
+    flex: 1 0 8ch;
+    min-width: 8ch;
+    padding: 0;
+    font: inherit;
+    color: var(--text-body);
+    background: transparent;
+    border: 0;
+    caret-color: var(--text-header);
+}
+
+.term__input:focus {
+    outline: none;
+}
+
+.term__input::placeholder {
+    color: var(--muted);
+}
+
+.term__block + .term__block {
+    margin-top: var(--space-4);
+}
+
+.term__echo {
+    margin: 0 0 var(--space-2);
+    color: var(--text-body);
+}
+
+/* .term__out and .term__art are <pre>: drop typography.css's code-block box */
+.term__out {
+    margin: 0 0 var(--space-2);
+    padding: 0;
+    font: inherit;
+    color: var(--text-body);
+    background: none !important;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.term__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    margin: 0 0 var(--space-2);
+    padding: 0;
+    list-style: none;
+}
+
+.term__list--long {
+    display: block;
+}
+
+.term__list li::marker {
+    content: none;
+}
+
+.term__fill {
+    padding: 0;
+    font: inherit;
+    text-align: left;
+    color: var(--link);
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+.term__fill:hover,
+.term__fill:focus-visible {
+    color: var(--hover);
+    text-decoration: underline;
+}
+
+.term__neofetch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin: 0 0 var(--space-2);
+}
+
+.term__art {
+    margin: 0;
+    padding: 0;
+    background: none !important;
+    border: 0;
+    border-radius: 0;
+    font: inherit;
+    line-height: 1.15;
+    color: var(--text-header);
+}
+
+.term__neofetch dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25rem 1rem;
+    align-content: start;
+    margin: 0;
+}
+
+.term__nf-title {
+    margin: 0 0 var(--space-2);
+    color: var(--text-header);
+}
+
+/* typography.css spaces and italicises definition lists for prose; here they are a plain two-column table */
+.term__neofetch dt {
+    margin: 0;
+    color: var(--off-fg);
+}
+
+.term__neofetch dd {
+    margin: 0;
+    font-style: normal;
+}
+
+@media screen and (max-width: 768px) {
+    /* room under the last block for the fixed prompt */
+    .term-ready .page__body {
+        padding-bottom: calc(var(--gutter) + 3.5rem);
+    }
+
+    .term__prompt:not([hidden]) {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 5;
+        padding: var(--space-2) var(--gutter);
+        background-color: var(--win-bg);
+        border-top: 2px solid var(--win-border);
+    }
+
+    /* 16px keeps iOS from zooming in when the input gets focus */
+    .term__input {
+        font-size: 16px;
+    }
+}
+
+/* On a phone the full prompt leaves little room to type */
+@media screen and (max-width: 480px) {
+    /* a two-line prompt, like a long zsh prompt: the prompt on top, the input under it */
+    .term__prompt:not([hidden]) {
+        flex-wrap: wrap;
+        row-gap: var(--space-1);
+    }
+
+    .term__prompt .term__ps {
+        flex-basis: 100%;
+    }
+
+    /* the whole prompt is wider than a phone: keep the path, drop the o and the host */
+    .term__ps .head-circle,
+    .term__ps .term__host {
+        display: none;
+    }
+
+    .term-ready .page__body {
+        padding-bottom: calc(var(--gutter) + 5rem);
+    }
+}

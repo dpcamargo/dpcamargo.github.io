@@ -140,7 +140,11 @@ other = "limpa a tela"
 other = "sai desta sessão"
 
 [term_whoami]
-other = "Dario Camargo, engenheiro de software que constrói sistemas distribuídos de backend em Go, Java e Python. No Mercado Livre desde 2024."
+other = """
+Sou engenheiro de software e construo sistemas distribuídos de backend: microsserviços REST em Go, Java e Python, projetados para alta disponibilidade e baixa latência. Desde 2024 estou no Mercado Livre, trabalhando no Proximity, a unidade de fast-food da empresa. Lá, projeto APIs, aplico Clean Architecture e Domain-Driven Design e monitoro a produção no Fury, a plataforma interna de desenvolvimento da empresa.
+
+Sou formado em Engenharia de Controle e Automação (UNIP) e tenho especializações de pós-graduação em Desenvolvimento Avançado em Go (Full Cycle) e Arquitetura e Desenvolvimento Java (FIAP). O português é minha língua nativa, sou fluente em inglês e falo espanhol em nível intermediário.
+"""
 
 [term_sudo]
 other = "guest não está no arquivo sudoers. Este incidente será reportado."

@@ -22,6 +22,22 @@
                                 {{- block "main" . }}{{- end }}
                             </div>
                         </div>
+                        {{- /* Terminal prompt (assets/js/terminal.js). Hidden until the script shows it, so the site is unchanged
+                               without JavaScript. The data-* strings are what the prompt needs even when terminal.json fails. */}}
+                        <form class="term__prompt" hidden
+                              data-json="{{ "terminal.json" | relLangURL }}"
+                              data-home="{{ "/" | relLangURL }}"
+                              data-homes="{{ range hugo.Sites }}{{ .Home.RelPermalink }} {{ end }}"
+                              data-offline="{{ i18n "term_offline" }}"
+                              data-enoent="{{ i18n "term_enoent" }}"
+                              data-notfound="{{ i18n "term_notfound" }}"
+                              data-segfault="{{ i18n "term_segfault" }}"{{ if .IsHome }}
+                              data-autofocus{{ end }}>
+                            <label class="term__ps" for="term-input">{{ partial "term_ps.html" . }}</label>
+                            <input id="term-input" class="term__input" type="text" name="command" autocomplete="off"
+                                   autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send"
+                                   aria-label="{{ i18n "term_input_label" }}" placeholder="{{ i18n "term_placeholder" }}">
+                        </form>
                     </div>
                 </section>
 

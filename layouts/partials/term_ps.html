@@ -1,0 +1,5 @@
+{{- /* The zsh-style prompt (formerly the header logo): host, the page's path from ~, and a fixed branch. Used by the terminal
+       prompt in baseof.html and by the home page's echoed whoami line; assets/js/terminal.js copies it for every echoed
+       command and rewrites .term__path on in-place navigation (terminal-core.js cwdFromPath gives the same path). */ -}}
+{{- $path := strings.TrimSuffix "/" (strings.TrimPrefix site.Home.RelPermalink .RelPermalink) -}}
+<span class="head-circle">o</span> <span class="head-arrow">➜</span> <span class="head-text"><span class="term__host">{{ site.Params.Theme.header_text }}:</span><span class="term__path">~{{ with $path }}/{{ . }}{{ end }}</span></span> <span class="head-branch">main</span> <span class="head-x">✗</span>

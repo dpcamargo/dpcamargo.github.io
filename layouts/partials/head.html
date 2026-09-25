@@ -38,7 +38,7 @@
 {{ partial "typing_init.html" . }}
 {{- /* One fingerprinted bundle, in cascade order, so a changed stylesheet always gets a new URL (no stale @import caches). */ -}}
 {{ $sheets := slice }}
-{{ range slice "spacing" "colours" "window" "button" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" "background" "typewriter" "notfound" "minimize" }}
+{{ range slice "spacing" "colours" "window" "button" "header" "layout" "social" "typography" "side_image" "crt" "chroma" "boot" "scrollbar" "background" "typewriter" "terminal" "notfound" "minimize" }}
 {{ $sheets = $sheets | append (resources.Get (printf "css/%s.css" .)) }}
 {{ end }}
 {{ $css := $sheets | resources.Concat "css/main.css" | minify | fingerprint }}
@@ -51,6 +51,10 @@
 <script defer src="{{ $picker.RelPermalink }}" integrity="{{ $picker.Data.Integrity }}"></script>
 {{ $minimize := resources.Get "js/minimize.js" | minify | fingerprint }}
 <script defer src="{{ $minimize.RelPermalink }}" integrity="{{ $minimize.Data.Integrity }}"></script>
+{{ $termCore := resources.Get "js/terminal-core.js" | minify | fingerprint }}
+<script defer src="{{ $termCore.RelPermalink }}" integrity="{{ $termCore.Data.Integrity }}"></script>
+{{ $terminal := resources.Get "js/terminal.js" | minify | fingerprint }}
+<script defer src="{{ $terminal.RelPermalink }}" integrity="{{ $terminal.Data.Integrity }}"></script>
 
 <!-- favicon -->
 {{ if os.FileExists "static/favicon.ico" }}<link rel="icon" href="{{ "favicon.ico" | absURL }}">{{ end }}

@@ -194,7 +194,8 @@
             return [{ type: "exit", text: ctx.data.strings.logout }];
         },
         whoami: function (args, ctx) {
-            return [text(ctx.data.strings.whoami)];
+            var page = ctx.data.pages.filter(function (p) { return p.name === "whoami"; })[0];
+            return [{ type: "navigate", url: page ? page.url : "/", missing: "cd: " + ctx.data.strings.enoent + ": whoami" }];
         },
         neofetch: function (args, ctx) {
             var s = ctx.data.strings;

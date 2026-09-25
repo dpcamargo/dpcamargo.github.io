@@ -140,7 +140,11 @@ other = "clear the screen"
 other = "log out of this session"
 
 [term_whoami]
-other = "Dario Camargo, software engineer building distributed backend systems in Go, Java, and Python. At Mercado Livre since 2024."
+other = """
+I'm a software engineer who builds distributed backend systems: REST microservices in Go, Java, and Python, designed for high availability and low latency. Since 2024 I've been at Mercado Livre, working on Proximity, its fast-food delivery unit. There I design APIs, apply Clean Architecture and Domain-Driven Design, and monitor production on Fury, the company's internal developer platform.
+
+I hold a bachelor's degree in Control and Automation Engineering (UNIP) and postgraduate specializations in Advanced Go Development (Full Cycle) and Java Architecture and Development (FIAP). Portuguese is my native language, I'm fluent in English, and I speak intermediate Spanish.
+"""
 
 [term_sudo]
 other = "guest is not in the sudoers file. This incident will be reported."

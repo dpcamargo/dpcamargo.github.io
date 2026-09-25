@@ -52,28 +52,6 @@
     text-shadow: 0 0 8px rgba(var(--glow), calc(0.4 * var(--glow-k)));
 }
 
-.page__logo-inner {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.25rem;
-    font-weight: 600;
-    margin-right: 2rem;
-    white-space: nowrap;
-    min-width: 0;
-}
-
-a.page__logo-inner:link, a.page__logo-inner:visited {
-    color: inherit;
-    text-decoration: inherit;
-}
-
-a.page__logo-inner:hover,
-a.page__logo-inner:active {
-    opacity: 1;
-    filter: brightness(1.5);
-}
-
 .head-circle {
     color: gray;
 }
@@ -113,7 +91,8 @@ a.page__logo-inner:active {
     color: goldenrod;
 }
 
-/* The dark palette keeps these exact colours (against --header-bg #1e2434: gray 3.92:1, green
+/* The prompt colours, now used by the terminal prompt (layouts/partials/term_ps.html) in the content window.
+   The dark palette keeps these exact colours (against --header-bg #1e2434: gray 3.92:1, green
    3.01:1, cadetblue 5.07:1, slateblue 2.92:1, brown 2.18:1, goldenrod 6.91:1 — a decorative prompt,
    not body text, so under 4.5:1 is an accepted trade-off there). The light palette's header is
    #dcdcdc, on which every one of those named colours reads as a similar washed-out mid-grey (1.63:1
@@ -143,12 +122,6 @@ a.page__logo-inner:active {
 
 :root[data-palette="light"] .head-x {
     color: #803770; /* darkened highlight, no matching token; 5.68:1 */
-}
-
-.blinking-underscore {
-    display: inline-block;
-    color: inherit;
-    animation: blink 1s steps(1) infinite;
 }
 
 @keyframes blink {
