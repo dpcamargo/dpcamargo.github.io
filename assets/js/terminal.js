@@ -346,11 +346,11 @@
         input.value = "";
         if (isLogin) {
             if (line.trim().toLowerCase() === "login") {
-                location.assign("/console/");
+                location.assign("/");
             } else if (line.trim()) {
                 // If they type a username, we log them in.
                 // The prompt was "login:", so typing a name is normal.
-                location.assign("/console/");
+                location.assign("/");
             }
             return;
         }
