@@ -15,6 +15,10 @@
     {{ partial "boot_line.html" (dict "text" . "busy" true "i" $i) }}
     {{ $i = add $i 1 }}
     {{ end }}
+    {{ with .fail }}
+    {{ partial "boot_line.html" (dict "text" . "fail" true "i" $i) }}
+    {{ $i = add $i 1 }}
+    {{ end }}
     {{ partial "boot_line.html" (dict "text" (i18n "boot_target_gui") "i" $i) }}
     {{ $i = add $i 1 }}
     <div class="boot__swatches" style="--i: {{ $i }}" aria-hidden="true">

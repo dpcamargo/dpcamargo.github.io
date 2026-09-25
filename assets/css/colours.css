@@ -21,6 +21,7 @@
     --off-fg: #a3be8c;
     --muted: #878d9d;
     --highlight: #815f86;
+    --error: #ff6b6b;
 
     --header-bg: #1e2434;
     --header-fg: #fff;
@@ -67,6 +68,7 @@
     --off-fg: #2f5f1a;
     --muted: #4a4a4a;
     --highlight: #d65cbb;
+    --error: #c0392b;
 
     --header-bg: #dcdcdc;
     --header-fg: #1e1e1e;

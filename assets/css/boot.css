@@ -23,6 +23,10 @@
     animation: blink 1s steps(1) infinite;
 }
 
+.boot__fail {
+    color: var(--error);
+}
+
 .boot__text {
     color: var(--text-body);
 }

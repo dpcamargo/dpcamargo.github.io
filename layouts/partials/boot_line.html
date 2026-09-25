@@ -1,6 +1,8 @@
 <div class="boot__line" style="--i: {{ .i }}">
     {{- if .busy -}}
     <span class="boot__tag">[ <span class="boot__busy">***</span> ]</span>
+    {{- else if .fail -}}
+    <span class="boot__tag">[<span class="boot__fail">FAILED</span>]</span>
     {{- else -}}
     <span class="boot__tag">[  <span class="boot__ok">OK</span>  ]</span>
     {{- end }}

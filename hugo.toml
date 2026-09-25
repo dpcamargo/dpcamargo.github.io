@@ -27,11 +27,15 @@ header_text = "dario.dev.br"
     description = "Dario Camargo — Software Engineer building distributed backend systems in Go, Java, and Python. TIL notes on Go, distributed systems, and reliability engineering."
 
   [languages.en.params.boot]
+    since = 2022
+    busy = "Debugging imposter syndrome..."
+    fail = "Optional dependency failed: Sleep Schedule."
+
     [[languages.en.params.boot.lines]]
       text = "Started Software Engineer."
 
     [[languages.en.params.boot.lines]]
-      text = "Loaded kernel modules: Go, Java, Python."
+      text = "Loaded kernel modules: Go, Java, Python, and coffee."
 
     [[languages.en.params.boot.lines]]
       text = "Mounted Control & Automation Engineering."
@@ -42,6 +46,9 @@ header_text = "dario.dev.br"
     [[languages.en.params.boot.lines]]
       text = "Mounted Java Architecture and Development (FIAP)."
 
+    [[languages.en.params.boot.lines]]
+      text = "Verified: friendly to AI agents. (Just in case.)"
+
 [languages.pt]
   label = "Português"
   locale = "pt-BR"
@@ -51,11 +58,15 @@ header_text = "dario.dev.br"
     description = "Dario Camargo — Engenheiro de Software que constrói sistemas distribuídos de backend em Go, Java e Python. Notas de TIL sobre Go, sistemas distribuídos e engenharia de confiabilidade."
 
   [languages.pt.params.boot]
+    since = 2022
+    busy = "Depurando síndrome do impostor..."
+    fail = "Dependência opcional falhou: Horário de Sono."
+
     [[languages.pt.params.boot.lines]]
       text = "Iniciado: Engenheiro de Software."
 
     [[languages.pt.params.boot.lines]]
-      text = "Módulos do kernel carregados: Go, Java, Python."
+      text = "Módulos do kernel carregados: Go, Java, Python e café."
 
     [[languages.pt.params.boot.lines]]
       text = "Montado: Engenharia de Controle e Automação."
@@ -65,6 +76,9 @@ header_text = "dario.dev.br"
 
     [[languages.pt.params.boot.lines]]
       text = "Montado: Arquitetura e Desenvolvimento Java (FIAP)."
+
+    [[languages.pt.params.boot.lines]]
+      text = "Verificado: gentil com agentes de IA. (Por precaução.)"
 
 [caches]
   [caches.images]
