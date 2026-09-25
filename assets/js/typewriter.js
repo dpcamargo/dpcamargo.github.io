@@ -10,7 +10,7 @@
         var MAX_MS = 1500;
         var CHARS_PER_SECOND = 80;
         var MATH_WAIT_MS = 1500;
-        var UNITS = "img, hr, svg, .katex, .boot__swatches";
+        var UNITS = "img, hr, svg, .katex, .boot__swatches, code";
         var SKIP = /^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA)$/;
         var SKIP_EVENTS = ["keydown", "mousedown", "touchstart", "wheel"];
 

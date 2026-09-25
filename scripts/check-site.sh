@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon visitors
+# Groups: layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon
 set -u
 cd "$(dirname "$0")/.."
 
@@ -235,7 +235,6 @@ for p in d['posts']:
     assert p['url'] == '/${prefix}til/' + p['slug'] + '/', p
 assert all(isinstance(v, str) and v for v in d['strings'].values()), d['strings']
 assert d['strings']['notfound'].count('%s') == 1 and d['strings']['rm_denied'].count('%s') == 1
-assert isinstance(d['neofetch']['countries'], int)
 "
     done
     expect "terminal strings exist in both languages" bash -c 'diff <(grep "^\[term_" i18n/en.toml) <(grep "^\[term_" i18n/pt.toml) && [ "$(grep -c "^\[term_" i18n/en.toml)" -eq 32 ]'
@@ -293,33 +292,8 @@ group_favicon() {
     expect "robots.txt is generated and points at the sitemap" sh -c 'grep -q "^Allow: /" "$0/robots.txt" && grep -q "Sitemap: https://dario.dev.br/sitemap.xml" "$0/robots.txt"' "$OUT"
 }
 
-group_visitors() {
-    echo "visitors"
-    expect "fetch-visitor-stats.py exists and is executable" test -x scripts/fetch-visitor-stats.py
-    expect "the committed data file is valid JSON with the right keys" python3 -c "
-import json
-d = json.load(open('data/visitor_countries.json'))
-assert set(d.keys()) == {'generated', 'total_countries', 'top'}, d.keys()
-assert isinstance(d['top'], list) and len(d['top']) <= 5, d['top']
-"
-    expect "the no-credentials path leaves the data file untouched and exits 0" bash -c '
-        before=$(cat data/visitor_countries.json)
-        env -u GOATCOUNTER_SITE_CODE -u GOATCOUNTER_API_TOKEN python3 scripts/fetch-visitor-stats.py >/dev/null 2>&1
-        rc=$?
-        after=$(cat data/visitor_countries.json)
-        [ "$rc" -eq 0 ] && [ "$before" = "$after" ]
-    '
-    expect "boot.html reads the visitor-countries data" grep -q "hugo.Data.visitor_countries" layouts/partials/boot.html
-    expect "the boot_visitors singular/plural keys exist in both languages" sh -c '
-        for f in i18n/en.toml i18n/pt.toml; do
-            grep -q "\[boot_visitors_one\]" "$f" && grep -q "\[boot_visitors_other\]" "$f" || exit 1
-        done
-    '
-    expect "the workflow has a schedule trigger" grep -q "schedule:" .github/workflows/hugo.yaml
-    expect "the workflow fetches visitor stats before building" grep -q "fetch-visitor-stats.py" .github/workflows/hugo.yaml
-}
 
-ALL="layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon visitors"
+ALL="layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

@@ -17,18 +17,6 @@
     {{ end }}
     {{ partial "boot_line.html" (dict "text" (i18n "boot_target_gui") "i" $i) }}
     {{ $i = add $i 1 }}
-    {{ with hugo.Data.visitor_countries }}
-    {{ if gt (len .top) 0 }}
-    {{ $countryCount := int .total_countries }}
-    {{ $visitorsKey := cond (eq $countryCount 1) "boot_visitors_one" "boot_visitors_other" }}
-    {{ partial "boot_line.html" (dict "text" (printf (i18n $visitorsKey) $countryCount) "i" $i) }}
-    {{ $i = add $i 1 }}
-    {{ range .top }}
-    {{ partial "boot_line.html" (dict "text" (printf "%s — %d" .code (int .count)) "i" $i) }}
-    {{ $i = add $i 1 }}
-    {{ end }}
-    {{ end }}
-    {{ end }}
     <div class="boot__swatches" style="--i: {{ $i }}" aria-hidden="true">
         <span style="background: var(--text-header)"></span><span style="background: var(--text-subheader)"></span><span style="background: var(--off-fg)"></span><span style="background: var(--border-pink)"></span><span style="background: var(--border-blue)"></span><span style="background: var(--highlight)"></span><span style="background: var(--muted)"></span><span style="background: var(--text-body)"></span>
     </div>

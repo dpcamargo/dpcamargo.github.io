@@ -22,6 +22,7 @@
     var busy = false;
     var started = false;
     var isLogin = false;
+    var originalPromptHtml = ps.innerHTML;
 
     function home() {
         return form.getAttribute("data-home");
@@ -216,6 +217,15 @@
         });
     }
 
+    function enableUI() {
+        document.querySelectorAll(".right__content .win").forEach(function(w) { w.hidden = false; });
+        document.querySelectorAll(".nav-main-item").forEach(function(l) {
+            l.style.pointerEvents = "";
+            l.style.opacity = "";
+            l.tabIndex = 0;
+        });
+    }
+
     function clearAll() {
         metas.clear();
         scroll.textContent = "";
@@ -337,6 +347,7 @@
         root.classList.add("term-ready");
         forceFocus();
         document.addEventListener("click", forceFocus);
+        scroll.scrollTop = scroll.scrollHeight;
     }
 
     form.addEventListener("submit", function (event) {
@@ -345,12 +356,16 @@
         var line = input.value;
         input.value = "";
         if (isLogin) {
-            if (line.trim().toLowerCase() === "login") {
-                location.assign("/");
-            } else if (line.trim()) {
-                // If they type a username, we log them in.
-                // The prompt was "login:", so typing a name is normal.
-                location.assign("/");
+            if (line.trim()) {
+                isLogin = false;
+                loadData().then(function (data) {
+                    clearAll();
+                    enableUI();
+                    ps.innerHTML = originalPromptHtml;
+                    var block = makeBlock(location.pathname);
+                    block.appendChild(textNode(data.strings.motd));
+                    appendBlock(block, "end");
+                });
             }
             return;
         }

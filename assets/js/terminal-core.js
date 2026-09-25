@@ -203,8 +203,7 @@
             return [{ type: "neofetch", title: s.neofetch_title, art: ART, rows: [
                 [s.nf_host, "dario.dev.br"],
                 [s.nf_stack, n.stack],
-                [s.nf_location, n.location],
-                [s.nf_visitors, String(n.countries)]
+                [s.nf_location, n.location]
             ] }];
         },
         contact: function (args, ctx) {

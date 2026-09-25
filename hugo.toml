@@ -34,12 +34,6 @@ header_text = "dario.dev.br"
       text = "Loaded kernel modules: Go, Java, Python."
 
     [[languages.en.params.boot.lines]]
-      text = "Reached target Distributed Systems."
-
-    [[languages.en.params.boot.lines]]
-      text = "Reached target Reliability Engineering."
-
-    [[languages.en.params.boot.lines]]
       text = "Mounted Control & Automation Engineering."
 
     [[languages.en.params.boot.lines]]
@@ -62,12 +56,6 @@ header_text = "dario.dev.br"
 
     [[languages.pt.params.boot.lines]]
       text = "Módulos do kernel carregados: Go, Java, Python."
-
-    [[languages.pt.params.boot.lines]]
-      text = "Alvo alcançado: Sistemas Distribuídos."
-
-    [[languages.pt.params.boot.lines]]
-      text = "Alvo alcançado: Engenharia de Confiabilidade."
 
     [[languages.pt.params.boot.lines]]
       text = "Montado: Engenharia de Controle e Automação."

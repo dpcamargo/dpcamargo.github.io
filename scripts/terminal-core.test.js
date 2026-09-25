@@ -9,7 +9,7 @@ const strings = {
     help_neofetch: "n", help_contact: "ct", help_theme: "t", help_lang: "lg", help_clear: "cl", help_exit: "e",
     whoami: "WHO", sudo: "SUDO", vim: "VIM", rm_denied: "rm: cannot remove '%s': Permission denied",
     cat_usage: "CATUSAGE", theme_usage: "THEMEUSAGE", lang_usage: "LANGUSAGE", logout: "logout", panic: "PANIC",
-    nf_host: "host", nf_stack: "stack", nf_location: "location", nf_visitors: "visitor countries",
+    nf_host: "host", nf_stack: "stack", nf_location: "location",
     neofetch_title: "guest@dario", segfault: "SEGFAULT"
 };
 const data = {
@@ -22,7 +22,7 @@ const data = {
         { slug: "mongo-crud", title: "MongoDB", url: "/til/mongo-crud/", date: "2025-05-30", tags: [] }
     ],
     contact: [{ label: "GitHub", url: "https://github.com/dpcamargo" }],
-    neofetch: { stack: "Go, Java, Python", location: "Brazil", countries: 2 },
+    neofetch: { stack: "Go, Java, Python", location: "Brazil" },
     strings: strings
 };
 const run = (line, cwd = "~", d = data) => core.execute(line, { cwd, data: d });
@@ -133,7 +133,7 @@ test("neofetch reports the site's numbers", () => {
     assert.equal(action.type, "neofetch");
     assert.equal(action.title, "guest@dario");
     assert.ok(action.art.length >= 6);
-    assert.deepEqual(action.rows, [["host", "dario.dev.br"], ["stack", "Go, Java, Python"], ["location", "Brazil"], ["visitor countries", "2"]]);
+    assert.deepEqual(action.rows, [["host", "dario.dev.br"], ["stack", "Go, Java, Python"], ["location", "Brazil"]]);
 });
 
 test("theme and lang validate their argument", () => {

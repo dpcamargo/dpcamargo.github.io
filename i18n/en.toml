@@ -79,11 +79,6 @@ other = "minimize window"
 [close_label]
 other = "close window"
 
-[boot_visitors_one]
-other = "Received visitors from %d country."
-
-[boot_visitors_other]
-other = "Received visitors from %d countries."
 
 [home_title_role]
 other = "Software Engineer"
@@ -179,8 +174,9 @@ other = "stack"
 [term_nf_location]
 other = "location"
 
-[term_nf_visitors]
-other = "visitor countries"
+
+[term_motd]
+other = "Welcome to dario.dev.br.\nThis is an interactive terminal session. Type `help` to see available commands, or `whoami` to learn more about Dario. You can also use the sidebar or navigation menu."
 
 [term_neofetch_title]
 other = "guest@dario"
