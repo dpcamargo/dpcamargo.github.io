@@ -116,6 +116,27 @@
         return pre;
     }
 
+    function motdNode(value) {
+        var div = document.createElement("div");
+        div.className = "term__out term__motd";
+        var paragraphs = value.split(/\n\n+/);
+        paragraphs.forEach(function (para) {
+            var p = document.createElement("p");
+            var parts = para.split(/(`[^`]+`)/);
+            parts.forEach(function (part) {
+                if (part.charAt(0) === "`" && part.charAt(part.length - 1) === "`") {
+                    var code = document.createElement("code");
+                    code.textContent = part.slice(1, -1);
+                    p.appendChild(code);
+                } else if (part) {
+                    p.appendChild(document.createTextNode(part));
+                }
+            });
+            div.appendChild(p);
+        });
+        return div;
+    }
+
     function listNode(action) {
         var list = document.createElement("ul");
         list.className = "term__list" + (action.long ? " term__list--long" : "");
@@ -399,7 +420,7 @@
                         langs: null
                     });
                     var block = makeBlock(location.pathname);
-                    block.appendChild(textNode(data.strings.motd));
+                    block.appendChild(motdNode(data.strings.motd));
                     appendBlock(block, "end");
                 });
             }

@@ -188,7 +188,7 @@ other = "location"
 
 
 [term_motd]
-other = "Welcome to dario.dev.br.\nThis is an interactive terminal session. Type `help` to see available commands, or `whoami` to learn more about Dario. You can also use the sidebar or navigation menu."
+other = "Welcome to dario.dev.br.\n\nThis is an interactive terminal session. Type `help` to see available commands, or `whoami` to learn more about Dario. You can also use the sidebar or navigation menu."
 
 [term_neofetch_title]
 other = "guest@dario"
