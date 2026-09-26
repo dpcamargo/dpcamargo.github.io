@@ -28,7 +28,7 @@
                     {{- $winSegments = slice .Section -}}
                     {{- end -}}
                     {{- else if and (eq .Section "projects") .Parent (not .Parent.IsHome) -}}
-                    {{- $winSegments = (slice .Section) | append (replace (lower .Title) " " "_") -}}
+                    {{- $winSegments = slice .Section .File.ContentBaseName -}}
                     {{- end -}}
                     <header class="win__title">~/{{ delimit $winSegments "/" }}</header>
                     <div class="win__body">

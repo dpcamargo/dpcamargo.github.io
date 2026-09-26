@@ -148,16 +148,29 @@
 
 .main-nav li.palette-item {
     margin-left: auto;
+    position: relative;
 }
 
 .main-nav li.palette-item::before {
     content: none;
 }
 
+.palette-picker > summary {
+    list-style: none;
+}
+
+.palette-picker > summary::-webkit-details-marker {
+    display: none;
+}
+
+.palette-picker[open] > summary {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
 .palette-popup {
     position: absolute;
-    top: auto;
-    margin-top: var(--space-2);
+    top: calc(100% + var(--space-2));
     right: 0;
     z-index: 100;
     min-width: 12rem;

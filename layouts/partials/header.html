@@ -6,16 +6,18 @@
     {{ end }}
     {{ partial "lang_switch.html" . }}
     <li class="main-nav__item palette-item">
-        <button type="button" id="palette-btn" class="btn" aria-expanded="false" aria-controls="palette-popup">
-            <span class="palette-btn__label">{{ i18n "palette_dark" }}</span>
-        </button>
-        <div id="palette-popup" class="win palette-popup" role="group" aria-label="{{ i18n "palette_label" }}" hidden>
-            <header class="win__title">{{ i18n "palette_title" }}</header>
-            <div class="win__body">
-                <button type="button" class="palette-option" data-palette-value="dark" aria-pressed="false">{{ i18n "palette_dark" }}</button>
-                <button type="button" class="palette-option" data-palette-value="light" aria-pressed="false">{{ i18n "palette_light" }}</button>
+        <details class="palette-picker">
+            <summary id="palette-btn" class="btn" aria-label="{{ i18n "palette_label" }}">
+                <span class="palette-btn__label">{{ i18n "palette_dark" }}</span>
+            </summary>
+            <div id="palette-popup" class="win palette-popup" role="group" aria-label="{{ i18n "palette_label" }}">
+                <header class="win__title">{{ i18n "palette_title" }}</header>
+                <div class="win__body">
+                    <button type="button" class="palette-option" data-palette-value="dark" aria-pressed="false">{{ i18n "palette_dark" }}</button>
+                    <button type="button" class="palette-option" data-palette-value="light" aria-pressed="false">{{ i18n "palette_light" }}</button>
+                </div>
             </div>
-        </div>
+        </details>
     </li>
     </ul>
 </nav>

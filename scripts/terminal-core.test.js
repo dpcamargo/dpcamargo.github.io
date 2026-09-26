@@ -5,7 +5,7 @@ const core = require("../assets/js/terminal-core.js");
 
 const strings = {
     offline: "OFFLINE", enoent: "no such file or directory", notfound: "zsh: command not found: %s",
-    help_intro: "INTRO", help_help: "h", help_ls: "l", help_cd: "c", help_cat: "k", help_whoami: "w",
+    help_intro: "INTRO", help_help: "h", help_ls: "l", help_cd: "c", help_pwd: "p", help_cat: "k", help_whoami: "w",
     help_neofetch: "n", help_contact: "ct", help_theme: "t", help_lang: "lg", help_clear: "cl", help_exit: "e",
     whoami: "WHO", sudo: "SUDO", vim: "VIM", rm_denied: "rm: cannot remove '%s': Permission denied",
     cat_usage: "CATUSAGE", theme_usage: "THEMEUSAGE", lang_usage: "LANGUSAGE", logout: "logout", panic: "PANIC",
@@ -125,6 +125,8 @@ test("a bare section name navigates like cd, but only without arguments and not 
 
 test("simple commands", () => {
     assert.deepEqual(run("clear"), [{ type: "clear" }]);
+    assert.deepEqual(run("pwd"), [{ type: "text", text: "~" }]);
+    assert.deepEqual(run("pwd", "~/projects"), [{ type: "text", text: "~/projects" }]);
     assert.deepEqual(run("exit"), [{ type: "exit", text: "logout" }]);
     assert.deepEqual(run("whoami"), [{ type: "navigate", url: "/whoami/", missing: "cd: no such file or directory: whoami" }]);
     assert.deepEqual(run("contact"), [{ type: "links", items: data.contact }]);

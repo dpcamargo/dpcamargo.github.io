@@ -119,6 +119,9 @@ other = "list pages, or the posts inside til (ls -l for details)"
 [term_help_cd]
 other = "go to a page: cd til, cd .., cd ~"
 
+[term_help_pwd]
+other = "print current working directory"
+
 [term_help_cat]
 other = "open a TIL post: cat go-errgroup"
 

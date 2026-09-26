@@ -233,11 +233,11 @@
                 el.removeAttribute("aria-disabled");
             }
         });
-        var summary = document.querySelector(".lang-picker > summary");
-        if (summary) {
-            if (locked) summary.setAttribute("tabindex", "-1");
-            else summary.removeAttribute("tabindex");
-        }
+        var summary = document.querySelectorAll(".lang-picker > summary, .palette-picker > summary");
+        summary.forEach(function (s) {
+            if (locked) s.setAttribute("tabindex", "-1");
+            else s.removeAttribute("tabindex");
+        });
     }
 
     // A real click (mouse or keyboard) still reaches these controls under lockChrome — that's what lets them

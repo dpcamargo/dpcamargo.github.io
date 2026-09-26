@@ -1,6 +1,7 @@
 (function () {
     var PALETTES = ["dark", "light"];
     var root = document.documentElement;
+    var picker = document.querySelector(".palette-picker");
     var button = document.getElementById("palette-btn");
     var popup = document.getElementById("palette-popup");
     var label = button && button.querySelector(".palette-btn__label");
@@ -27,56 +28,38 @@
         });
     }
 
-    function setOpen(open) {
-        popup.hidden = !open;
-        button.setAttribute("aria-expanded", String(open));
-        if (open) {
-            var current = popup.querySelector('[aria-pressed="true"]');
-            if (current) current.focus();
-        }
+    function close() {
+        if (picker) picker.open = false;
     }
 
     // theme_init.html already set the attribute before first paint; sync the button and options to it
     apply(valid(root.getAttribute("data-palette")) || "dark");
 
-    if (button && popup) {
-        button.addEventListener("click", function () {
-            setOpen(popup.hidden);
-        });
-
+    if (picker && popup) {
         options.forEach(function (option) {
-            option.addEventListener("click", function () {
+            option.addEventListener("click", function (event) {
+                event.stopPropagation();
                 var palette = option.getAttribute("data-palette-value");
                 apply(palette);
                 try { localStorage.setItem("palette", palette); } catch (e) {}
-                setOpen(false);
-                button.focus();
+                close();
+                if (button) button.focus();
             });
         });
 
         document.addEventListener("click", function (event) {
-            if (!popup.hidden && !popup.contains(event.target) && !button.contains(event.target)) setOpen(false);
-        });
-
-        // A mouse press on the trigger is a toggle (its click handler), not focus leaving the popup
-        var pressingButton = false;
-        button.addEventListener("mousedown", function () { pressingButton = true; });
-        document.addEventListener("mouseup", function () { pressingButton = false; });
-
-        // Tabbing out of the popup closes it and leaves focus where the browser put it. A null relatedTarget
-        // (window blur, a click on something unfocusable) is left to the click-outside handler above.
-        popup.addEventListener("focusout", function (event) {
-            var next = event.relatedTarget;
-            if (popup.hidden || !next || popup.contains(next)) return;
-            if (button.contains(next) && pressingButton) return;
-            setOpen(false);
+            if (picker.open && !picker.contains(event.target)) close();
         });
 
         document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape" && !popup.hidden) {
-                setOpen(false);
-                button.focus();
+            if (event.key === "Escape" && picker.open) {
+                close();
+                if (button) button.focus();
             }
+        });
+
+        picker.addEventListener("focusout", function (event) {
+            if (picker.open && event.relatedTarget && !picker.contains(event.relatedTarget)) close();
         });
     }
 

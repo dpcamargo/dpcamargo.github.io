@@ -9,12 +9,12 @@
             <header class="post__header">
                 <a href="{{ .RelPermalink }}">{{ .Title | markdownify }}</a>
             </header>
-            {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
             {{ with .Params.stack }}
             <ul class="project__badges">
                 {{ range . }}<li class="project__badge">{{ . }}</li>{{ end }}
             </ul>
             {{ end }}
+            {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
         </article>
         {{ end }}
     </div>

@@ -1,9 +1,9 @@
 // The terminal prompt's logic, with no DOM: parsing, paths, completion, and what each command does, returned as
 // a list of actions that assets/js/terminal.js performs. Unit tests: node --test scripts/terminal-core.test.js
 (function () {
-    var HELP = ["help", "ls", "cd", "cat", "whoami", "neofetch", "contact", "theme", "lang", "clear", "exit"];
+    var HELP = ["help", "ls", "cd", "pwd", "cat", "whoami", "neofetch", "contact", "theme", "lang", "clear", "exit"];
     // Without /terminal.json only these still work; the rest print the offline message
-    var OFFLINE_OK = ["cd", "clear", ":q", ":q!", ":wq"];
+    var OFFLINE_OK = ["cd", "pwd", "clear", ":q", ":q!", ":wq"];
     var THEMES = ["dark", "light"];
     var RM_TARGETS = ["/", "/*", "~", "~/"];
     var HISTORY_MAX = 50;
@@ -177,6 +177,9 @@
             var result = resolveCd(args[0], ctx.cwd, ctx.data);
             if (result.error) return [text("cd: " + enoent + ": " + result.error)];
             return [{ type: "navigate", url: result.url, missing: "cd: " + enoent + ": " + (args[0] || "~") }];
+        },
+        pwd: function (args, ctx) {
+            return [text(ctx.cwd)];
         },
         cat: function (args, ctx) {
             var s = ctx.data.strings;
