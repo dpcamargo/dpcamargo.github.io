@@ -226,6 +226,7 @@
     /* room under the last block for the fixed prompt */
     .term-ready .page__body {
         padding-bottom: calc(var(--gutter) + 3.5rem);
+        scroll-padding-bottom: calc(var(--gutter) + 3.5rem);
     }
 
     .term__prompt:not([hidden]) {
@@ -265,5 +266,6 @@
 
     .term-ready .page__body {
         padding-bottom: calc(var(--gutter) + 5rem);
+        scroll-padding-bottom: calc(var(--gutter) + 5rem);
     }
 }

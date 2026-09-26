@@ -335,7 +335,7 @@
         case "theme":
             var option = document.querySelector('[data-palette-value="' + action.value + '"]');
             if (option) option.click();
-            input.focus();
+            input.focus({ preventScroll: true });
             break;
         case "lang":
             var link = document.querySelector('.lang-option[hreflang="' + action.value + '"]');
@@ -364,6 +364,7 @@
             .catch(function (error) {
                 console.error("terminal:", error);
                 block.appendChild(textNode(form.getAttribute("data-segfault")));
+                block.scrollIntoView({ block: "end" });
             })
             .then(function () { busy = false; });
     }
