@@ -6,7 +6,8 @@
     </head>
 
     <body>
-        <div class="page">
+        <a class="skip-link" href="#main">{{ i18n "skip_link" }}</a>
+        <div class="page{{ if .IsHome }} page--home{{ end }}">
             
             <header class="page__header">
                 {{- partial "header.html" . -}}
@@ -34,9 +35,9 @@
                     <div class="win__body">
                         <div class="win__scroll">
                             {{ if not .IsHome }}{{ partial "title.html" . }}{{ end }}
-                            <div class="page__main">
+                            <main class="page__main" id="main">
                                 {{- block "main" . }}{{- end }}
-                            </div>
+                            </main>
                         </div>
                         {{- /* Terminal prompt (assets/js/terminal.js). Hidden until the script shows it, so the site is unchanged
                                without JavaScript. The data-* strings are what the prompt needs even when terminal.json fails. */}}
@@ -63,12 +64,16 @@
 
                 <section class="right__content">
                         {{- partial "side_image.html" . -}}
-                        {{- partial "side_status.html" . -}}
                         {{- partial "side_socials.html" . -}}
+                        {{- partial "side_status.html" . -}}
                         {{- partial "side_stack.html" . -}}
                         {{- partial "side_tils.html" . -}}
                 </section>
             </div>
+
+            <footer class="page__footer">
+                <p>© {{ now.Year }} Dario Camargo</p>
+            </footer>
 
         </div>
     </body>

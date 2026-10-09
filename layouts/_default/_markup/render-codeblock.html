@@ -1,0 +1,7 @@
+{{- /* Code block with a copy button: the chroma output is wrapped in .codeblock so assets/js/code-copy.js
+       can find the code and swap the button's label. Both labels come from i18n at build time, so nothing
+       user-facing is hardcoded in JS. */ -}}
+<div class="codeblock">
+    {{ (transform.HighlightCodeBlock .).Wrapped }}
+    <button type="button" class="codeblock__copy" data-copied="{{ i18n "code_copied" }}">{{ i18n "code_copy" }}</button>
+</div>

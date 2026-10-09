@@ -49,3 +49,10 @@ a.btn:active {
     transform: none;
     box-shadow: 3px 3px 0 var(--btn-shadow);
 }
+
+/* Touch: a 44px-tall target (WCAG 2.5.8) */
+@media (pointer: coarse) {
+    .btn {
+        min-height: 2.75rem;
+    }
+}

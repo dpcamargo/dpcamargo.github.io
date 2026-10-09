@@ -101,3 +101,18 @@
     background: var(--text-header);
     border-color: var(--text-header);
 }
+
+/* Touch: the 22px pixel buttons grow to 44px (WCAG 2.5.8). The taller title bar is the price; a thumb
+   can actually hit minimize/close. The icon scales with them so it doesn't float in a big empty square. */
+@media (pointer: coarse) {
+    .win__minimize,
+    .win__close {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .win__icon {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+}

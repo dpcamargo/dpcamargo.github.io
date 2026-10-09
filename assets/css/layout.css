@@ -60,6 +60,9 @@ body, html {
     overflow-x: hidden;
     overflow-y: auto;
     overflow-wrap: break-word;
+    /* filtering the projects list hides cards in place; without this the browser's scroll anchoring
+       counteracts the project filter's own scroll to the section title */
+    overflow-anchor: none;
 }
 
 .page__main {
@@ -82,6 +85,43 @@ body, html {
 .post__header a {
     position: relative;
     z-index: 2;
+}
+
+/* Post metadata under the title: the date the post ran, machine-readable via <time datetime> */
+.post__meta {
+    margin: calc(-1 * var(--space-2)) 0 var(--space-4) 0;
+    color: var(--muted);
+}
+
+/* Skip link (WCAG 2.4.1): off-screen until focused, then lands over the header */
+.skip-link {
+    position: absolute;
+    left: var(--space-2);
+    top: -4rem;
+    z-index: 200;
+    padding: var(--space-2) var(--space-3);
+    color: var(--btn-fg);
+    background-color: var(--btn-bg);
+    box-shadow: 3px 3px 0 var(--btn-shadow);
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    top: var(--space-2);
+}
+
+/* The one-line colophon at the bottom of the app shell (the <footer> landmark) */
+.page__footer {
+    flex-shrink: 0;
+    padding: var(--space-1) var(--gutter);
+    color: var(--muted);
+    background-color: var(--header-bg);
+    border-top: 3px solid var(--border-pink);
+}
+
+.page__footer p {
+    margin: 0;
+    font-size: 0.875rem;
 }
 
 /* Multiple project cards need a visible break between them; til's list doesn't, since each entry is one line */
@@ -109,6 +149,50 @@ body, html {
 
 .project__badge::marker {
     content: none;
+}
+
+/* Filter chips (layouts/projects/list.html + assets/js/project-filter.js). The active chip takes the
+   window title-bar colours, the same invert the palette options use */
+.project__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-4) 0;
+}
+
+.project__chip {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-1) var(--space-3);
+    color: var(--win-fg);
+    background: transparent;
+    border: 1px solid var(--win-border);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.project__chip:hover,
+.project__chip:focus-visible {
+    color: var(--win-title-fg);
+    background-color: var(--win-title-bg);
+    outline: 0;
+}
+
+.project__chip[aria-current="true"] {
+    color: var(--win-title-fg);
+    background-color: var(--win-title-bg);
+    box-shadow: 2px 2px 0 var(--win-border);
+}
+
+.project__empty {
+    color: var(--muted);
+}
+
+@media (pointer: coarse) {
+    .project__chip {
+        min-height: 2.75rem;
+    }
 }
 
 .right__content {
@@ -144,6 +228,8 @@ img {
         flex-direction: column;
         overflow-y: auto;
         overflow-x: hidden;
+        /* same as .win__scroll: the filter's hide-in-place must not be counteracted by scroll anchoring */
+        overflow-anchor: none;
     }
 
     .page__content {
@@ -165,8 +251,35 @@ img {
         padding: 0;
     }
 
+    /* On the home page the connect links and the portrait come first: on a phone the boot log pushed
+       them ~1,600-1,950px down. display:contents lets each sidebar window order itself against the
+       content window; every other page keeps reading order (content first, sidebar after). */
+    .right__content {
+        display: contents;
+    }
+
+    .page--home .side__image {
+        order: -3;
+    }
+
+    .page--home .side__socials {
+        order: -2;
+    }
+
+    .page--home .page__content {
+        order: -1;
+    }
+
     /* full 28.125rem is desktop-sized; phones don't need that much empty space before content starts */
     .page__body {
         min-height: 20rem;
+    }
+}
+
+/* Phone width: the header's side inset shrinks with the nav's gaps (header.css) so the whole control
+   row fits one line at 390px */
+@media screen and (max-width: 480px) {
+    .page__header {
+        padding: var(--space-2);
     }
 }

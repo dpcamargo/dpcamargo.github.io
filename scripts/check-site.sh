@@ -2,7 +2,7 @@
 # Build the site and assert structural expectations, one group per visual-redesign task.
 #   scripts/check-site.sh              run every group
 #   scripts/check-site.sh layout type  run only the named groups
-# Groups: layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon
+# Groups: layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon projects
 set -u
 cd "$(dirname "$0")/.."
 
@@ -295,7 +295,19 @@ group_favicon() {
 }
 
 
-ALL="layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon"
+group_projects() {
+    echo "projects"
+    expect "project-filter.js is bundled" grep -q 'js/project-filter.js' layouts/partials/head.html
+    expect "project-filter.js is loaded" grep -Eq 'project-filter[^"]*\.js' "$OUT/index.html"
+    expect "the projects list offers filter chips" count_ge 4 'class="project__chip"' "$OUT/projects/index.html"
+    expect "chip links carry the tech filter" count_ge 3 'projects/?tech=' "$OUT/projects/index.html"
+    expect "project cards carry their stack" count_ge 4 'data-stack="' "$OUT/projects/index.html"
+    expect "the filter's empty state is translated" sh -c 'grep -q "No projects with this technology" "$0/projects/index.html" && grep -q "Ainda não há projetos" "$0/pt/projects/index.html"' "$OUT"
+    expect "pt chips are translated" sh -c 'grep -q ">todos<" "$0/pt/projects/index.html" && grep -q "Filtrar projetos" "$0/pt/projects/index.html"' "$OUT"
+    expect "stack sidebar links filter the projects page" sh -c 'grep -q "projects/?tech=go" "$0/index.html" && grep -q "/pt/projects/?tech=go" "$0/pt/index.html"' "$OUT"
+}
+
+ALL="layout type palette window picker background typewriter notfound i18n translations home terminal minimize jsonld favicon projects"
 build
 for group in ${*:-$ALL}; do
     if declare -F "group_$group" >/dev/null; then "group_$group"; else echo "unknown group: $group"; FAILED=1; fi

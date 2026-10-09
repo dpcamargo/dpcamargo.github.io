@@ -95,10 +95,12 @@
     color: goldenrod;
 }
 
-/* The prompt colours, now used by the terminal prompt (layouts/partials/term_ps.html) in the content window.
-   The dark palette keeps these exact colours (against --header-bg #1e2434: gray 3.92:1, green
-   3.01:1, cadetblue 5.07:1, slateblue 2.92:1, brown 2.18:1, goldenrod 6.91:1 — a decorative prompt,
-   not body text, so under 4.5:1 is an accepted trade-off there). The light palette's header is
+/* The prompt colours, used by the terminal prompt (layouts/partials/term_ps.html) in the content window.
+   The plain .head-* rules above keep the original zsh-flavour colours (against --header-bg #1e2434: gray
+   3.92:1, green 3.01:1, cadetblue 5.07:1, slateblue 2.92:1, brown 2.18:1, goldenrod 6.91:1) as decorative
+   reference values. The prompt itself is read as text — and sits on an input line — so .term__ps brightens
+   every sub-4.5:1 colour to pass WCAG AA against the window background (#1e2434, same value): the o to
+   5.78:1, the arrow to 4.59:1, the branch parens to 4.80:1, main to 5.03:1. The light palette's header is
    #dcdcdc, on which every one of those named colours reads as a similar washed-out mid-grey (1.63:1
    to 5.17:1) — barely distinguishable from each other, let alone from the dark palette. Its own
    accent tokens (already tuned against this exact background, since --win-bg is the same #dcdcdc)
@@ -126,6 +128,24 @@
 
 :root[data-palette="light"] .head-x {
     color: #803770; /* darkened highlight, no matching token; 5.68:1 */
+}
+
+/* The terminal prompt passes AA in the dark palette too; see the comment above the .head-* block */
+.term__ps .head-circle {
+    color: #9e9e9e; /* 5.78:1 */
+}
+
+.term__ps .head-arrow {
+    color: #2ea043; /* 4.59:1 */
+}
+
+.term__ps .head-branch::before,
+.term__ps .head-branch::after {
+    color: #8b83e8; /* 4.80:1 */
+}
+
+.term__ps .head-branch {
+    color: #c9825b; /* 5.03:1 */
 }
 
 @keyframes blink {
@@ -319,5 +339,41 @@
     .lang-popup {
         top: auto;
         margin-top: var(--space-2);
+    }
+
+    /* One row of controls at phone width: the decorative "./" prefix and the wide gaps/paddings give way,
+       so the header stays a single 44px row of tap targets instead of wrapping to two */
+    .main-nav ul {
+        gap: 0 0.5rem;
+    }
+
+    .main-nav li::before {
+        content: none;
+    }
+
+    .main-nav li a.nav-main-item {
+        padding: 0 var(--space-1);
+    }
+
+    .main-nav .btn {
+        padding: var(--space-1) var(--space-2);
+    }
+}
+
+/* Touch: every header control reaches a 44px target (WCAG 2.5.8) without changing how the bar looks
+   on a desktop pointer */
+@media (pointer: coarse) {
+    .main-nav li a.nav-main-item {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+    }
+
+    .main-nav li a.lang-option {
+        min-height: 2.75rem;
+    }
+
+    .palette-option {
+        min-height: 2.75rem;
     }
 }

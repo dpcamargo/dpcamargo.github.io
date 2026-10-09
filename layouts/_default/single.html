@@ -1,5 +1,8 @@
 {{ define "main" }}
 
+    {{ if eq .Section "til" }}
+    <p class="post__meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/06" }}</time></p>
+    {{ end }}
     <div class="content__body">
         {{ .Content }}
     </div>

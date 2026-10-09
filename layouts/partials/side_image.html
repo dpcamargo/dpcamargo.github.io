@@ -1,6 +1,9 @@
+{{- /* The 1024px master (assets/images/standing.png) is resized at build time: WebP for the page, 572px = 2x its
+       286px display size so it stays crisp on retina screens. width/height reserve the box before decode. */ -}}
+{{- $portrait := (resources.Get "images/standing.png").Resize "572x572 webp" -}}
 <div class="side__image win">
     <div class="win__body">
-        <img src="/images/standing.png" alt="{{ i18n "portrait_alt" }}">
+        <img src="{{ $portrait.RelPermalink }}" width="572" height="572" alt="{{ i18n "portrait_alt" }}">
     </div>
     <button type="button" class="win__close win__close--overlay" aria-label="{{ i18n "close_label" }}">{{ partial "icon_win_close.html" . }}</button>
 </div>

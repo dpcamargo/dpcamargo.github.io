@@ -186,10 +186,18 @@
         items.forEach(function (item) {
             var li = document.createElement("li");
             var link = document.createElement("a");
-            link.href = item.url;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-            link.textContent = item.label;
+            if (item.url) {
+                link.href = item.url;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = item.label;
+            } else {
+                // Obfuscated email entry (label + base64 user/domain, not a plain mailto: url): decode
+                // here, at render time, so the address never sits as plain text in terminal.json.
+                var address = atob(item.user) + "@" + atob(item.domain);
+                link.href = "mailto:" + address;
+                link.textContent = address;
+            }
             li.appendChild(link);
             list.appendChild(li);
         });
@@ -458,6 +466,11 @@
 
     function start() {
         if (started) return;
+        // A typed terminal is pointer-and-keyboard territory: on touch the fixed prompt and its on-screen
+        // keyboard ate a quarter of the viewport, so it stays hidden and links do ordinary page loads
+        // instead of appending to the scrollback (started stays false, which is what the click
+        // interceptor below keys on). The page then reads as a normal, tappable site on a phone.
+        if (!matchMedia("(pointer: fine)").matches) return;
         started = true;
         wrapInitial();
         scroll.setAttribute("aria-live", "polite");

@@ -4,8 +4,18 @@
     </header>
     <div class="content__body">
 
+        {{- /* Filter chips (assets/js/project-filter.js): one per stack language the sidebar advertises,
+               matching .Params.stack values ("Java" also covers "Java 21"). The hrefs are real links, so
+               the page still navigates without JS — it just shows everything. */ -}}
+        <nav class="project__filters" aria-label="{{ i18n "projects_filter_label" }}">
+            <a class="project__chip" href="{{ "projects/" | relLangURL }}" data-tech="">{{ i18n "projects_filter_all" }}</a>
+            {{ range slice (dict "label" "Go" "tech" "go") (dict "label" "Java" "tech" "java") (dict "label" "Python" "tech" "python") }}
+            <a class="project__chip" href="{{ "projects/" | relLangURL }}?tech={{ .tech }}" data-tech="{{ .tech }}">{{ .label }}</a>
+            {{ end }}
+        </nav>
+
         {{ range .Pages }}
-        <article class="post project__card">
+        <article class="post project__card" data-stack="{{ lower (delimit .Params.stack "|") }}">
             <header class="post__header">
                 <a href="{{ .RelPermalink }}">{{ .Title | markdownify }}</a>
             </header>
@@ -17,5 +27,7 @@
             {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
         </article>
         {{ end }}
+
+        <p class="project__empty" hidden>{{ i18n "projects_filter_empty" }}</p>
     </div>
 {{ end }}

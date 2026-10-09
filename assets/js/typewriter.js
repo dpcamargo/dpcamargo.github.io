@@ -107,7 +107,10 @@
             revealTo(Math.ceil(total * progress));
             // Only the boot log is tall enough to scroll past the fold while typing; leave every other page's
             // scroll position alone (an in-page anchor jump, a mid-page restart, etc. shouldn't get yanked back).
-            if (hasBoot && cursor) cursor.scrollIntoView({ block: "nearest" });
+            // In the stacked phone layout the "scroller" is the whole page, so following the cursor would yank
+            // the reader past the portrait and connect windows that lead the home page there: only follow it
+            // where the content window scrolls inside its own pane.
+            if (hasBoot && cursor && matchMedia("(min-width: 769px)").matches) cursor.scrollIntoView({ block: "nearest" });
             if (next >= steps.length) finish();
             else frameId = requestAnimationFrame(frame);
         }

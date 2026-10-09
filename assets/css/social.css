@@ -43,13 +43,16 @@
     color: var(--off-fg);
 }
 
-.fa-brands {
-    font-size: 1.8rem;
+/* Brand marks are inline SVG (partials/icon_*.html), monochrome like the Font Awesome glyphs they replaced */
+.brand-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    flex: none;
     color: var(--text-subheader);
     transition: color 0.2s ease;
 }
 
-.socials__link:hover .fa-brands {
+.socials__link:hover .brand-icon {
     color: var(--off-fg);
 }
 
@@ -119,4 +122,32 @@
 
 .status__value {
     color: var(--off-fg);
+}
+
+/* Phones: the sidebar text steps down with the body font (typography.css), and a truncated title is less
+   useful than a wrapped one — "Go: File Naming Co…" tells the reader nothing */
+@media screen and (max-width: 480px) {
+    .socials__text {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .til__list li {
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+    }
+}
+
+/* Touch: 44px-tall link rows (WCAG 2.5.8), so a thumb doesn't hit its neighbour */
+@media (pointer: coarse) {
+    .socials__link {
+        min-height: 2.75rem;
+    }
+
+    .til__list li a {
+        display: inline-block;
+        padding: 0.55rem 0;
+    }
 }

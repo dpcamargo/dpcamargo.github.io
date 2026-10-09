@@ -14,7 +14,7 @@
                    target="_blank"
                    rel="noopener noreferrer"
                    class="socials__link">
-                    <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+                    {{ partial "icon_linkedin.html" . }}
                     <span class="socials__text">LinkedIn</span>
                 </a>
             </div>
@@ -26,8 +26,23 @@
                    target="_blank"
                    rel="noopener noreferrer"
                    class="socials__link">
-                    <i class="fa-brands fa-github" aria-hidden="true"></i>
+                    {{ partial "icon_github.html" . }}
                     <span class="socials__text">GitHub</span>
+                </a>
+            </div>
+            <div class="socials__item">
+                {{- /* href stays "#" (never a plain mailto:) in the static markup; assets/js/contact-email.js
+                       decodes data-email-user/domain into a real mailto: link on load, so a scraper reading
+                       the rendered HTML or this file doesn't find a harvestable address as plain text. */}}
+                <a href="#"
+                   rel="me"
+                   data-email-user="ZHBjYW1hcmdv"
+                   data-email-domain="Z21haWwuY29t"
+                   aria-label="{{ i18n "email_label" }}"
+                   title="{{ i18n "email_title" }}"
+                   class="socials__link">
+                    {{ partial "icon_email.html" . }}
+                    <span class="socials__text">Email</span>
                 </a>
             </div>
         </div>

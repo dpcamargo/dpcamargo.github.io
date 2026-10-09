@@ -170,7 +170,49 @@ pre {
 /* Fix overflow when config markup.highlight.lineNos is true */
 /* See https://github.com/joeroe/risotto/issues/41 */
 .highlight div {
-	overflow-x: auto;
+    overflow-x: auto;
+}
+
+/* Code block wrapper (layouts/_default/_markup/render-codeblock.html): the margin moves from the <pre> to
+   the wrapper so the copy button (assets/js/code-copy.js) can hang over the block's top-right corner
+   without scrolling away with the code */
+.codeblock {
+    position: relative;
+    margin: 0 0 var(--space-4) 0;
+}
+
+.codeblock pre {
+    margin: 0;
+}
+
+.codeblock__copy {
+    appearance: none;
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    padding: var(--space-1) var(--space-2);
+    font: inherit;
+    font-size: 0.875rem;
+    color: var(--win-fg);
+    background-color: var(--win-bg);
+    border: 1px solid var(--win-border);
+    cursor: pointer;
+}
+
+.codeblock__copy:hover {
+    color: var(--win-title-fg);
+    background-color: var(--win-title-bg);
+}
+
+.codeblock__copy:focus-visible {
+    outline: 2px solid var(--text-header);
+    outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+    .codeblock__copy {
+        min-height: 2.75rem;
+    }
 }
 
 /* Emphasis: one weight only, so colour does the work */
@@ -237,10 +279,32 @@ th {
 /* At phone width a long single word (a title, an identifier, a short table cell like "Operador") has less
    room than its own length, so the browser is forced to split it somewhere. Two things make that rarer and
    less ugly: a smaller h1, and a hyphen instead of a raw mid-word break where the page's language has a
-   hyphenation dictionary. Tables get room to scroll instead of crushing every column to fit. */
+   hyphenation dictionary. Tables get room to scroll instead of crushing every column to fit.
+   The 22px body is right for the desktop panes (~76 characters per line) but gives a 390px phone only
+   ~22 characters per line and a five-line h1, so the whole scale steps down one notch on phones. Code
+   drops further (14px) since a code block needs characters, not size: ~25 chars/line becomes ~30. */
 @media screen and (max-width: 480px) {
+    body {
+        font-size: 1rem;
+    }
+
     h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3, h4, h5, h6 {
+        font-size: 1.125rem;
+    }
+
+    pre,
+    code,
+    kbd,
+    samp {
+        font-size: 0.875rem;
     }
 
     h1, h2, h3, h4, h5, h6 {
