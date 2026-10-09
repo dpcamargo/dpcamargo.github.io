@@ -192,8 +192,8 @@
         return { value: head + commonPrefix(matches), options: matches };
     }
 
-    // The arguments a tappable bare command can drill into (assets/js/terminal.js, tap mode): what a
-    // reader can click to actually run the command, "keep clicking until a result is shown". Wider
+    // The arguments a clicked bare command can drill into (assets/js/terminal.js): what a reader can
+    // click to actually run the command, "keep clicking until a result is shown". Wider
     // than argCandidates on purpose — that list is Tab completion and skips one-off grep tags, while
     // these feed execution, and grep's search matches every tag, so every tag is a real hit here.
     function tapCandidates(cmd, cwd, data) {

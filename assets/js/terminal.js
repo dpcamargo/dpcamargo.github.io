@@ -419,7 +419,7 @@
         block.scrollIntoView({ block: "end" });
     }
 
-    function run(line) {
+    function run(line, clicked) {
         busy = true;
         var block = makeBlock(location.pathname);
         block.appendChild(echo(line));
@@ -437,8 +437,8 @@
                 block.scrollIntoView({ block: "end" });
             })
             .then(function () {
-                // every tap-driven result ends with the way back to the command menu
-                if (tapMode) appendMore(block, line);
+                // a clicked command's result ends with the way back to the command menu
+                if (clicked) appendMore(block, line);
                 busy = false;
             });
     }
@@ -494,7 +494,7 @@
         return listNode({ long: false, items: [{ label: "help", fill: "help" }] });
     }
 
-    // "Help must come back and show as an option for more navigation": every tap-driven output ends
+    // "Help must come back and show as an option for more navigation": every clicked output ends
     // with a tappable help row — except the command menu itself and screen-clearing commands
     function appendMore(block, line) {
         var parsed = core.parse(line);
@@ -502,10 +502,10 @@
         block.appendChild(helpOption());
     }
 
-    // Clicking a command name: a bare command that takes arguments (cd, cat, grep, ...) first shows
-    // those arguments as more tappable options — "keep clicking until a result is shown" — and
-    // anything already complete runs
-    function tapCommand(value) {
+    // Clicking a command name sends it: a bare command that takes arguments (cd, cat, grep, ...)
+    // first shows those arguments as more tappable options — "keep clicking until a result is
+    // shown" — and anything already complete runs
+    function clickCommand(value) {
         if (busy) return;
         if (isLogin) {
             if (String(value).trim().toLowerCase() === "login") login();
@@ -526,7 +526,8 @@
                     return;
                 }
             }
-            run(value);
+            // clicked commands come back to the menu; typed ones have the prompt already
+            run(value, true);
         });
     }
 
@@ -633,19 +634,14 @@
         }
     });
 
-    // Tapping a name in help/ls/grep output (or a completion option): it runs the command on touch,
-    // and puts it in the prompt for editing where there is a keyboard. The bar's help/login chip is a
-    // .term__fill too, so one delegated handler covers the scrollback and the bar.
+    // Clicking a name in help/ls/grep output (or a completion option) sends it: a bare command that
+    // takes arguments (cd, cat, grep, ...) first shows those arguments as more tappable options —
+    // "keep clicking until a result is shown" — and anything already complete runs. The bar's
+    // help/login chip is a .term__fill too, so one delegated handler covers the scrollback and the bar.
     document.addEventListener("click", function (event) {
         var fill = event.target.closest(".term__fill");
         if (!fill) return;
-        var value = fill.getAttribute("data-fill");
-        if (tapMode) {
-            tapCommand(value);
-        } else {
-            input.value = value;
-            input.focus();
-        }
+        clickCommand(fill.getAttribute("data-fill"));
     });
 
     // Links to this language's pages append like `cd`; everything a normal link should do stays normal
