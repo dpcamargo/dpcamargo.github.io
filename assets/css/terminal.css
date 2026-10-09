@@ -126,6 +126,10 @@
     text-decoration: underline;
 }
 
+.term__fill-inline {
+    display: inline;
+}
+
 .term__neofetch {
     display: flex;
     flex-wrap: wrap;

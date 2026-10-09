@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.11
 """Check that every English content page has an in-sync Portuguese sibling.
 
     python3 scripts/check-translations.py                  every English page must have a .pt.md sibling
@@ -9,7 +9,10 @@ For each pair, `date`, `tags` and `math` must match and the fenced code blocks m
 """
 import re
 import sys
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 from pathlib import Path
 
 CONTENT = Path("content")

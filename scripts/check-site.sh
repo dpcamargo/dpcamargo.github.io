@@ -185,7 +185,7 @@ group_i18n() {
 
 group_translations() {
     echo "translations"
-    expect "every English page has an in-sync Portuguese page" python3 scripts/check-translations.py
+    expect "every English page has an in-sync Portuguese page" python3.11 scripts/check-translations.py
     expect "all 8 TIL posts are built in Portuguese" bash -c '[ "$(ls -d "$0"/pt/til/*/ | wc -l)" -ge 8 ]' "$OUT"
     expect "pt TIL list exists" test -s "$OUT/pt/til/index.html"
 }
@@ -205,12 +205,12 @@ group_minimize() {
 
 group_home() {
     echo "home"
-    expect "the menu is whoami then TIL" python3 -c "
+    expect "the menu is whoami then TIL" python3.11 -c "
 import tomllib
 menu = tomllib.load(open('hugo.toml', 'rb'))['menu']['main']
 names = [m['name'] for m in sorted(menu, key=lambda m: m['weight'])]
-assert names == ['whoami', 'TIL'], names
-assert [m['url'] for m in sorted(menu, key=lambda m: m['weight'])] == ['/whoami/', '/til/']
+assert names == ['whoami', 'projects', 'TIL'], names
+assert [m['url'] for m in sorted(menu, key=lambda m: m['weight'])] == ['/whoami/', '/projects/', '/til/']
 "
     expect "the English about carries the bio" grep -q "distributed backend systems: REST microservices" "$OUT/whoami/index.html"
     expect "the Portuguese about carries the bio" grep -q "microsserviços REST" "$OUT/pt/whoami/index.html"
@@ -221,14 +221,14 @@ group_terminal() {
     echo "terminal"
     for lang in en pt; do
         prefix=$([ "$lang" = pt ] && echo "pt/" || echo "")
-        expect "$lang terminal.json has the expected shape" python3 -c "
+        expect "$lang terminal.json has the expected shape" python3.11 -c "
 import json
 d = json.load(open('$OUT/${prefix}terminal.json'))
-assert set(d) == {'home', 'langs', 'pages', 'posts', 'contact', 'neofetch', 'strings'}, set(d)
+assert set(d) == {'home', 'langs', 'pages', 'posts', 'contact', 'neofetch', 'strings', 'homeTitle'}, set(d)
 assert d['home'] == '/$prefix', d['home']
 assert d['langs'] == ['en', 'pt'], d['langs']
-assert [p['name'] for p in d['pages']] == ['whoami', 'til'], d['pages']
-assert [p['url'] for p in d['pages']] == ['/${prefix}whoami/', '/${prefix}til/'], d['pages']
+assert [p['name'] for p in d['pages']] == ['whoami', 'projects', 'til'], d['pages']
+assert [p['url'] for p in d['pages']] == ['/${prefix}whoami/', '/${prefix}projects/', '/${prefix}til/'], d['pages']
 assert len(d['posts']) >= 8, len(d['posts'])
 for p in d['posts']:
     assert set(p) == {'slug', 'title', 'url', 'date', 'tags'}, p
@@ -237,7 +237,7 @@ assert all(isinstance(v, str) and v for v in d['strings'].values()), d['strings'
 assert d['strings']['notfound'].count('%s') == 1 and d['strings']['rm_denied'].count('%s') == 1
 "
     done
-    expect "terminal strings exist in both languages" bash -c 'diff <(grep "^\[term_" i18n/en.toml) <(grep "^\[term_" i18n/pt.toml) && [ "$(grep -c "^\[term_" i18n/en.toml)" -eq 32 ]'
+    expect "terminal strings exist in both languages" bash -c 'diff <(grep "^\[term_" i18n/en.toml) <(grep "^\[term_" i18n/pt.toml) && [ "$(grep -c "^\[term_" i18n/en.toml)" -eq 40 ]'
     expect "Portuguese terminal strings are Portuguese" grep -q "comando não encontrado" "$OUT/pt/terminal.json"
     expect "terminal-core unit tests pass" node --test scripts/terminal-core.test.js
     expect "every page carries a hidden prompt" sh -c 'for f in index.html til/index.html til/go-errgroup/index.html pt/index.html; do grep -q "<form class=\"term__prompt\" hidden" "$0/$f" || exit 1; done' "$OUT"
@@ -245,7 +245,7 @@ assert d['strings']['notfound'].count('%s') == 1 and d['strings']['rm_denied'].c
     expect "the prompt input is labelled in each language" sh -c 'grep -q "aria-label=\"terminal: type a command" "$0/index.html" && grep -q "aria-label=\"terminal: digite um comando" "$0/pt/index.html"' "$OUT"
     expect "only the home page autofocuses the prompt" sh -c 'grep -q "data-autofocus" "$0/index.html" && ! grep -q "data-autofocus" "$0/til/index.html"' "$OUT"
     expect "terminal.css is bundled" grep -q '"terminal"' layouts/partials/head.html
-    expect "terminal-core.js loads before terminal.js" python3 -c "
+    expect "terminal-core.js loads before terminal.js" python3.11 -c "
 import re
 html = open('$OUT/index.html').read()
 core = re.search(r'terminal-core[^\"]*\.js', html)
@@ -257,12 +257,14 @@ assert core and term and core.start() < term.start()
     expect "the prompt shows the page's path from ~" sh -c 'grep -q "class=\"term__path\">~</span>" "$0/index.html" && grep -q "class=\"term__path\">~/til</span>" "$0/til/index.html" && grep -q "class=\"term__path\">~/til/go-errgroup</span>" "$0/pt/til/go-errgroup/index.html"' "$OUT"
     expect "the prompt's branch is always main" grep -q 'class="head-branch">main</span>' "$OUT/til/go-errgroup/index.html"
     forbid "terminal.js never sets innerHTML from command output" grep -Eq 'innerHTML *= *(action|line|value|text)' assets/js/terminal.js
+    expect "terminal.js navigates in place" sh -c 'grep -q "history.pushState" assets/js/terminal.js && grep -q "popstate" assets/js/terminal.js && grep -q "DOMParser" assets/js/terminal.js'
+    expect "terminal.js leaves modified clicks alone" grep -q "event.metaKey || event.ctrlKey || event.shiftKey || event.altKey" assets/js/terminal.js
 }
 
 group_jsonld() {
     echo "jsonld"
     expect "jsonld partial exists and is included" sh -c 'test -s layouts/partials/jsonld.html && grep -q "jsonld.html" layouts/partials/head.html'
-    expect "the home page has valid JSON-LD (Person, WebSite)" python3 -c "
+    expect "the home page has valid JSON-LD (Person, WebSite)" python3.11 -c "
 import json, re, sys
 html = open('$OUT/index.html').read()
 m = re.search(r'<script type=\"application/ld\+json\">(.*?)</script>', html, re.S)
@@ -270,7 +272,7 @@ data = json.loads(m.group(1))
 types = {n['@type'] for n in data['@graph']}
 assert types == {'Person', 'WebSite'}, types
 "
-    expect "a TIL post adds a BlogPosting" python3 -c "
+    expect "a TIL post adds a BlogPosting" python3.11 -c "
 import json, re, sys
 html = open('$OUT/til/go-errgroup/index.html').read()
 m = re.search(r'<script type=\"application/ld\+json\">(.*?)</script>', html, re.S)

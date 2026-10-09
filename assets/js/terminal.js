@@ -21,6 +21,7 @@
     var dataPromise = null;
     var busy = false;
     var started = false;
+    var currentPath = location.pathname;
     var isLogin = false;
     var originalPromptHtml = ps.innerHTML;
     var originalPlaceholder = input.placeholder;
@@ -59,7 +60,9 @@
             strings: {
                 offline: form.getAttribute("data-offline"),
                 enoent: form.getAttribute("data-enoent"),
-                notfound: form.getAttribute("data-notfound")
+                notfound: form.getAttribute("data-notfound"),
+                suggest: form.getAttribute("data-suggest"),
+                realcmd: form.getAttribute("data-realcmd")
             },
             offline: true
         };
@@ -125,9 +128,22 @@
             var parts = para.split(/(`[^`]+`)/);
             parts.forEach(function (part) {
                 if (part.charAt(0) === "`" && part.charAt(part.length - 1) === "`") {
-                    var code = document.createElement("code");
-                    code.textContent = part.slice(1, -1);
-                    p.appendChild(code);
+                    var word = part.slice(1, -1);
+                    // a backticked command (e.g. `help`) is clickable, like the help list; anything else stays plain code
+                    if (core.HELP.indexOf(word) !== -1) {
+                        var button = document.createElement("button");
+                        button.type = "button";
+                        button.className = "term__fill term__fill-inline";
+                        button.setAttribute("data-fill", word);
+                        var code = document.createElement("code");
+                        code.textContent = word;
+                        button.appendChild(code);
+                        p.appendChild(button);
+                    } else {
+                        var plain = document.createElement("code");
+                        plain.textContent = word;
+                        p.appendChild(plain);
+                    }
                 } else if (part) {
                     p.appendChild(document.createTextNode(part));
                 }
@@ -146,8 +162,19 @@
             button.type = "button";
             button.className = "term__fill";
             button.setAttribute("data-fill", item.fill);
-            button.textContent = item.label;
             li.appendChild(button);
+            // when the label is "<fill><description>" (e.g. help's "ls    list pages..."), only the
+            // command itself is the button (clickable and underlined); the description is plain,
+            // inert text next to it
+            if (item.label.indexOf(item.fill) === 0 && item.label.length > item.fill.length) {
+                button.textContent = item.label.slice(0, item.fill.length);
+                var desc = document.createElement("span");
+                desc.className = "term__fill-desc";
+                desc.textContent = item.label.slice(item.fill.length);
+                li.appendChild(desc);
+            } else {
+                button.textContent = item.label;
+            }
             list.appendChild(li);
         });
         return list;
@@ -224,10 +251,40 @@
         if (langs && meta.langs !== null) langs.innerHTML = meta.langs;
     }
 
-    // Replaced by in-place navigation in Task 5
-    function navigate(url) {
-        location.assign(url);
-        return Promise.resolve(undefined);
+    // Fetch a page of this site and append its content window to `block`, like a terminal printing it.
+    // Resolves true when appended, false on a 404 (the caller says so), undefined when it fell back to a page load.
+    function navigate(url, block) {
+        var target = new URL(url, location.href);
+        function fullLoad() {
+            location.assign(target.href);
+            return undefined;
+        }
+        return fetch(target.href)
+            .then(function (response) {
+                if (response.status === 404) return false;
+                if (!response.ok) throw new Error(target.pathname + ": " + response.status);
+                return response.text().then(function (html) {
+                    var doc = new DOMParser().parseFromString(html, "text/html");
+                    var content = doc.querySelector(".page__content .win__scroll");
+                    // A page that needs its own scripts (KaTeX) would not run them when appended
+                    if (!content || !content.querySelector(".page__main") || content.querySelector("script")) return fullLoad();
+                    // The boot log belongs to a fresh load only
+                    content.querySelectorAll(".boot").forEach(function (boot) { boot.remove(); });
+                    while (content.firstChild) block.appendChild(content.firstChild);
+                    block.setAttribute("data-url", target.pathname);
+                    var meta = readMeta(doc);
+                    metas.set(block, meta);
+                    history.pushState({ term: true }, "", target.pathname + target.search + target.hash);
+                    currentPath = target.pathname;
+                    applyMeta(meta);
+                    block.scrollIntoView({ block: "start" });
+                    return true;
+                });
+            })
+            .catch(function (error) {
+                console.error("terminal:", error);
+                return fullLoad();
+            });
     }
 
     function clearAll() {
@@ -369,8 +426,24 @@
             .then(function () { busy = false; });
     }
 
+    // The page's own prose (e.g. the home motd) is static HTML; make any code span that names a
+    // command (e.g. `help`, `whoami`) tappable like the rest of the terminal's fill buttons
+    function makeProseCommandsClickable() {
+        scroll.querySelectorAll("code").forEach(function (code) {
+            var word = code.textContent.trim();
+            if (core.HELP.indexOf(word) === -1 || code.parentNode.classList.contains("term__fill")) return;
+            var button = document.createElement("button");
+            button.type = "button";
+            button.className = "term__fill term__fill-inline";
+            button.setAttribute("data-fill", word);
+            code.parentNode.insertBefore(button, code);
+            button.appendChild(code);
+        });
+    }
+
     // The page as loaded becomes the first block of the scrollback
     function wrapInitial() {
+        makeProseCommandsClickable();
         var block = makeBlock(location.pathname);
         while (scroll.firstChild) block.appendChild(scroll.firstChild);
         scroll.appendChild(block);
@@ -433,7 +506,25 @@
     input.addEventListener("focus", loadData, { once: true });
 
     input.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
+        if (event.ctrlKey && !event.metaKey && (event.key === "c" || event.key === "C")) {
+            // ^C interrupts the line: the partial command is echoed with a caret C, like a real shell
+            if (!input.value) return;
+            event.preventDefault();
+            var typed = input.value;
+            input.value = "";
+            pastIndex = past.length;
+            if (isLogin || busy) return;
+            var block = makeBlock(location.pathname);
+            block.appendChild(echo(typed + "^C"));
+            appendBlock(block, "end");
+        } else if (event.ctrlKey && !event.metaKey && (event.key === "l" || event.key === "L")) {
+            // ^L clears the screen, the same as typing clear
+            event.preventDefault();
+            if (isLogin || busy) return;
+            input.value = "";
+            pastIndex = past.length;
+            clearAll();
+        } else if (event.key === "Escape") {
             input.blur();
         } else if (event.key === "Tab") {
             if (!input.value.trim()) return;   // let Tab move focus on
@@ -466,6 +557,44 @@
         if (!fill) return;
         input.value = fill.getAttribute("data-fill");
         input.focus();
+    });
+
+    // Links to this language's pages append like `cd`; everything a normal link should do stays normal
+    document.addEventListener("click", function (event) {
+        if (!started || event.defaultPrevented || event.button !== 0) return;
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        var link = event.target.closest("a[href]");
+        if (!link || link.target || link.hasAttribute("download") || link.closest(".lang-picker")) return;
+        var url = new URL(link.href, location.href);
+        if (url.origin !== location.origin) return;
+        if (url.pathname === location.pathname && url.hash) return;   // an anchor on this page
+        if (!core.isPagePath(url.pathname, home(), homes())) return;
+        event.preventDefault();
+        if (busy) return;
+        busy = true;
+        var line = "cd " + core.cwdFromPath(url.pathname, home());
+        var block = makeBlock(location.pathname);
+        block.appendChild(echo(line));
+        appendBlock(block, "end");
+        navigate(url.href, block).then(function (found) {
+            if (found === false) block.appendChild(textNode("cd: " + form.getAttribute("data-enoent") + ": " + url.pathname));
+            busy = false;
+        });
+    });
+
+    // Back and Forward: show the matching page block again, or load the page if it has scrolled out
+    window.addEventListener("popstate", function () {
+        if (location.pathname === currentPath) return;   // only the #hash changed
+        currentPath = location.pathname;
+        var blocks = scroll.querySelectorAll(".term__block");
+        for (var i = blocks.length - 1; i >= 0; i--) {
+            if (metas.has(blocks[i]) && blocks[i].getAttribute("data-url") === location.pathname) {
+                applyMeta(metas.get(blocks[i]));
+                blocks[i].scrollIntoView({ block: "start" });
+                return;
+            }
+        }
+        location.reload();
     });
 
     // Wait for the typewriter (it rewraps the page's text), with a failsafe in case it never finishes

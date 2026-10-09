@@ -107,6 +107,18 @@ other = "arquivo ou diretório inexistente"
 [term_notfound]
 other = "zsh: comando não encontrado: %s"
 
+[term_suggest]
+other = "você quis dizer: %s?"
+
+[term_realcmd]
+other = "%s é um comando real, mas esta máquina só roda os que o help lista"
+
+[term_grep_usage]
+other = "uso: grep <palavra> (busca em títulos, slugs e tags de TIL)"
+
+[term_grep_none]
+other = "grep: %s: sem correspondências"
+
 [term_help_intro]
 other = "comandos disponíveis (Tab completa, ↑/↓ percorre o histórico):"
 
@@ -124,6 +136,9 @@ other = "imprime o diretório atual"
 
 [term_help_cat]
 other = "abre um post de TIL: cat go-errgroup"
+
+[term_help_grep]
+other = "busca em títulos, slugs e tags de TIL: grep go"
 
 [term_help_whoami]
 other = "quem é o Dario"

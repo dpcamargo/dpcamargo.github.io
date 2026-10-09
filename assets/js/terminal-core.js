@@ -1,11 +1,12 @@
 // The terminal prompt's logic, with no DOM: parsing, paths, completion, and what each command does, returned as
 // a list of actions that assets/js/terminal.js performs. Unit tests: node --test scripts/terminal-core.test.js
 (function () {
-    var HELP = ["help", "ls", "cd", "pwd", "cat", "whoami", "neofetch", "contact", "theme", "lang", "clear", "exit"];
+    var HELP = ["help", "ls", "cd", "pwd", "cat", "grep", "whoami", "neofetch", "contact", "theme", "lang", "clear", "exit"];
     // Without /terminal.json only these still work; the rest print the offline message
     var OFFLINE_OK = ["cd", "pwd", "clear", ":q", ":q!", ":wq"];
     var THEMES = ["dark", "light"];
     var RM_TARGETS = ["/", "/*", "~", "~/"];
+    var REAL_CMDS = ["apt", "awk", "bash", "chown", "chmod", "cp", "curl", "df", "diff", "docker", "du", "echo", "find", "free", "grep", "head", "htop", "ifconfig", "ip", "kill", "less", "ln", "locate", "make", "mkdir", "mv", "netstat", "ping", "ps", "rmdir", "sed", "ssh", "systemctl", "tail", "tar", "top", "touch", "unzip", "wget", "zip"];
     var HISTORY_MAX = 50;
     var RM_LINES = [
         "removed '/usr/bin/go'",
@@ -102,6 +103,15 @@
 
     function argCandidates(cmd, cwd, data) {
         if (cmd === "cat") return slugs(data);
+        if (cmd === "grep") {
+            // only tags shared by more than one post are worth completing to; a one-off tag
+            // would just dump you straight into that single post (cat is for that)
+            var counts = {};
+            data.posts.forEach(function (post) {
+                post.tags.forEach(function (tag) { counts[tag] = (counts[tag] || 0) + 1; });
+            });
+            return Object.keys(counts).filter(function (tag) { return counts[tag] > 1; }).sort();
+        }
         if (cmd === "cd") {
             var names = data.pages.map(function (page) { return page.name; });
             return cwd.indexOf("~/til") === 0 ? names.concat(slugs(data)) : names;
@@ -109,6 +119,48 @@
         if (cmd === "theme") return THEMES;
         if (cmd === "lang") return data.langs;
         return [];
+    }
+
+    // Levenshtein distance, for "did you mean" on a mistyped command (only ever run on short words)
+    function distance(a, b) {
+        var prev = [];
+        var i, j;
+        for (j = 0; j <= b.length; j++) prev[j] = j;
+        for (i = 1; i <= a.length; i++) {
+            var row = [i];
+            for (j = 1; j <= b.length; j++) {
+                row[j] = Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1));
+            }
+            prev = row;
+        }
+        return prev[b.length];
+    }
+
+    // The nearest candidate within edit distance 1 (words up to 3 chars) or 2, as a tappable suggestion line
+    function suggest(word, candidates, label) {
+        var max = word.length <= 3 ? 1 : 2;
+        var best = null;
+        var bestDistance = max + 1;
+        candidates.forEach(function (candidate) {
+            var d = distance(word.toLowerCase(), candidate.name.toLowerCase());
+            if (d > 0 && d < bestDistance) {
+                bestDistance = d;
+                best = candidate;
+            }
+        });
+        if (!best) return null;
+        return { type: "list", long: false, items: [{ label: fmt(label, best.name), fill: best.fill }] };
+    }
+
+    // What an unknown line could have been: a command, or a page ("projetos" -> "cd projects" when typed bare)
+    function suggestions(parsed, ctx) {
+        var candidates = HELP.map(function (name) { return { name: name, fill: name }; });
+        if (!parsed.args.length) {
+            ctx.data.pages.forEach(function (page) { candidates.push({ name: page.name, fill: "cd " + page.name }); });
+        }
+        var hint = suggest(parsed.cmd, candidates, ctx.data.strings.suggest);
+        if (hint && parsed.args.length) hint.items[0].fill += " " + parsed.args.join(" ");
+        return hint;
     }
 
     function commonPrefix(words) {
@@ -153,8 +205,10 @@
     var HANDLERS = {
         help: function (args, ctx) {
             var s = ctx.data.strings;
-            var lines = HELP.map(function (name) { return pad(name, 10) + s["help_" + name]; });
-            return [text(s.help_intro + "\n" + lines.join("\n"))];
+            // a list, not a <pre>: every command name is a tappable button that fills the prompt
+            return [{ type: "text", text: s.help_intro }, { type: "list", long: true, items: HELP.map(function (name) {
+                return { label: pad(name, 10) + s["help_" + name], fill: name };
+            }) }];
         },
         ls: function (args, ctx) {
             var long = has(args, "-l");
@@ -189,6 +243,19 @@
             var missing = "cat: " + args[0] + ": " + s.enoent;
             if (!post) return [text(missing)];
             return [{ type: "navigate", url: post.url, missing: missing }];
+        },
+        grep: function (args, ctx) {
+            var s = ctx.data.strings;
+            if (!args.length) return [text(s.grep_usage)];
+            var terms = args.map(function (arg) { return arg.toLowerCase(); });
+            var hits = ctx.data.posts.filter(function (post) {
+                var hay = (post.slug + " " + post.title + " " + post.tags.join(" ")).toLowerCase();
+                return terms.every(function (term) { return hay.indexOf(term) !== -1; });
+            });
+            if (!hits.length) return [text(fmt(s.grep_none, args.join(" ")))];
+            return [{ type: "list", long: true, items: hits.map(function (post) {
+                return { label: post.date + "  " + post.slug + "  " + post.title, fill: "cat " + post.slug };
+            }) }];
         },
         clear: function () {
             return [{ type: "clear" }];
@@ -251,7 +318,14 @@
             parsed = { cmd: "cd", args: [parsed.cmd] };
             known = true;
         }
-        if (!known) return [text(fmt(s.notfound, parsed.cmd))];
+        if (!known) {
+            // a real shell command gets a shrug instead of a typo hint; anything else gets "did you mean"
+            if (has(REAL_CMDS, parsed.cmd)) return [text(fmt(s.realcmd, parsed.cmd))];
+            var out = [text(fmt(s.notfound, parsed.cmd))];
+            var hint = suggestions(parsed, ctx);
+            if (hint) out.push(hint);
+            return out;
+        }
         if (ctx.data.offline && !has(OFFLINE_OK, parsed.cmd)) return [text(s.offline)];
         return HANDLERS[parsed.cmd](parsed.args, ctx);
     }

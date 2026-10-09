@@ -7,6 +7,8 @@ const strings = {
     offline: "OFFLINE", enoent: "no such file or directory", notfound: "zsh: command not found: %s",
     help_intro: "INTRO", help_help: "h", help_ls: "l", help_cd: "c", help_pwd: "p", help_cat: "k", help_whoami: "w",
     help_neofetch: "n", help_contact: "ct", help_theme: "t", help_lang: "lg", help_clear: "cl", help_exit: "e",
+    help_grep: "g", suggest: "did you mean: %s?", realcmd: "%s is a real command, but not here",
+    grep_usage: "GREPUSAGE", grep_none: "grep: %s: no matches",
     whoami: "WHO", sudo: "SUDO", vim: "VIM", rm_denied: "rm: cannot remove '%s': Permission denied",
     cat_usage: "CATUSAGE", theme_usage: "THEMEUSAGE", lang_usage: "LANGUSAGE", logout: "logout", panic: "PANIC",
     nf_host: "host", nf_stack: "stack", nf_location: "location",
@@ -15,9 +17,9 @@ const strings = {
 const data = {
     home: "/",
     langs: ["en", "pt"],
-    pages: [{ name: "whoami", url: "/whoami/" }, { name: "til", url: "/til/" }],
+    pages: [{ name: "whoami", url: "/whoami/" }, { name: "projects", url: "/projects/" }, { name: "til", url: "/til/" }],
     posts: [
-        { slug: "go-errgroup", title: "Go: errgroup", url: "/til/go-errgroup/", date: "2025-06-03", tags: ["go"] },
+        { slug: "go-errgroup", title: "Go: errgroup", url: "/til/go-errgroup/", date: "2025-06-03", tags: ["go", "concurrency"] },
         { slug: "go-sorting", title: "Go: sorting", url: "/til/go-sorting/", date: "2025-06-01", tags: ["go"] },
         { slug: "mongo-crud", title: "MongoDB", url: "/til/mongo-crud/", date: "2025-05-30", tags: [] }
     ],
@@ -85,18 +87,42 @@ test("unknown commands and HTML are echoed as plain text", () => {
     assert.deepEqual(run("   "), []);
 });
 
-test("help lists every command with its description", () => {
-    const [action] = run("help");
-    assert.equal(action.type, "text");
-    assert.match(action.text, /^INTRO\n/);
-    for (const name of ["help", "ls", "cd", "cat", "whoami", "neofetch", "contact", "theme", "lang", "clear", "exit"]) {
-        assert.match(action.text, new RegExp("^" + name + " +", "m"));
+test("a mistyped command gets a tappable did-you-mean", () => {
+    const [notfound, hint] = run("lst");
+    assert.deepEqual(notfound, { type: "text", text: "zsh: command not found: lst" });
+    assert.deepEqual(hint, { type: "list", long: false, items: [{ label: "did you mean: ls?", fill: "ls" }] });
+    assert.deepEqual(run("hepl")[1].items[0], { label: "did you mean: help?", fill: "help" });
+    // a bare page name is offered as the cd it should have been
+    assert.deepEqual(run("porjects")[1].items[0], { label: "did you mean: projects?", fill: "cd projects" });
+    // with arguments the hint keeps them: "grpe go" -> "grep go"
+    assert.equal(run("grpe go")[1].items[0].fill, "grep go");
+    // far-off words get no suggestion, just the error
+    assert.deepEqual(run("xyzzy"), [{ type: "text", text: "zsh: command not found: xyzzy" }]);
+});
+
+test("a real shell command gets a shrug instead of a hint", () => {
+    assert.deepEqual(run("docker"), [{ type: "text", text: "docker is a real command, but not here" }]);
+    assert.deepEqual(run("apt install vim"), [{ type: "text", text: "apt is a real command, but not here" }]);
+});
+
+test("help is an intro line plus a tappable list of every command", () => {
+    const [intro, list] = run("help");
+    assert.deepEqual(intro, { type: "text", text: "INTRO" });
+    assert.equal(list.type, "list");
+    assert.equal(list.long, true);
+    const names = list.items.map((item) => item.fill);
+    assert.deepEqual(names, core.HELP);
+    assert.equal(names.length, new Set(names).size);
+    for (const item of list.items) {
+        assert.ok(item.label.startsWith(item.fill), item.label);
+        assert.ok(item.label.length > item.fill.length, item.label);
     }
 });
 
 test("ls lists pages at ~ and posts in til", () => {
     assert.deepEqual(run("ls"), [{ type: "list", long: false, items: [
-        { label: "whoami/", fill: "cd whoami" }, { label: "til/", fill: "cd til" }] }]);
+        { label: "whoami/", fill: "cd whoami" }, { label: "projects/", fill: "cd projects" },
+        { label: "til/", fill: "cd til" }] }]);
     const inTil = run("ls", "~/til")[0];
     assert.deepEqual(inTil.items[0], { label: "go-errgroup", fill: "cat go-errgroup" });
     assert.deepEqual(run("ls til")[0].items.length, 3);
@@ -105,6 +131,32 @@ test("ls lists pages at ~ and posts in til", () => {
         { label: "2025-06-01  go-sorting  Go: sorting", fill: "cat go-sorting" },
         { label: "2025-05-30  mongo-crud  MongoDB", fill: "cat mongo-crud" }] });
     assert.deepEqual(run("ls nope"), [{ type: "text", text: "ls: nope: no such file or directory" }]);
+});
+
+test("grep searches TIL titles, slugs and tags", () => {
+    assert.deepEqual(run("grep"), [{ type: "text", text: "GREPUSAGE" }]);
+    const hits = run("grep go-");
+    assert.equal(hits[0].type, "list");
+    assert.equal(hits[0].long, true);
+    assert.deepEqual(hits[0].items.map((item) => item.fill),
+        ["cat go-errgroup", "cat go-sorting", "cat mongo-crud"]);
+    // substring match, like real grep: "go" also lands inside "mongo-crud"
+    assert.deepEqual(run("grep go")[0].items.map((item) => item.fill),
+        ["cat go-errgroup", "cat go-sorting", "cat mongo-crud"]);
+    // every word must match: title, slug or tags
+    assert.deepEqual(run("grep mongo")[0].items, [{ label: "2025-05-30  mongo-crud  MongoDB", fill: "cat mongo-crud" }]);
+    assert.deepEqual(run("grep go concurrency")[0].items, [{ label: "2025-06-03  go-errgroup  Go: errgroup", fill: "cat go-errgroup" }]);
+    assert.equal(run("grep GO-")[0].items.length, 3);
+    assert.deepEqual(run("grep cobol"), [{ type: "text", text: "grep: cobol: no matches" }]);
+});
+
+test("grep completes tags", () => {
+    // the fixture's posts share one tag ("go"), so an open "grep " completes it outright
+    assert.deepEqual(core.complete("grep ", "~", data), { value: "grep go ", options: [] });
+    assert.deepEqual(core.complete("grep z", "~", data), { value: "grep z", options: [] });
+    const withTag = core.complete("grep con", "~", { ...data, posts: [
+        ...data.posts, { slug: "x", title: "X", url: "/til/x/", date: "2025-01-01", tags: ["concurrency"] }] });
+    assert.deepEqual(withTag, { value: "grep concurrency ", options: [] });
 });
 
 test("cd and cat navigate or explain why not", () => {

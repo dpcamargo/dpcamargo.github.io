@@ -107,6 +107,18 @@ other = "no such file or directory"
 [term_notfound]
 other = "zsh: command not found: %s"
 
+[term_suggest]
+other = "did you mean: %s?"
+
+[term_realcmd]
+other = "%s is a real command, but this machine only runs the ones in help"
+
+[term_grep_usage]
+other = "usage: grep <word> (searches TIL titles, slugs and tags)"
+
+[term_grep_none]
+other = "grep: %s: no matches"
+
 [term_help_intro]
 other = "available commands (Tab completes, ↑/↓ recall history):"
 
@@ -124,6 +136,9 @@ other = "print current working directory"
 
 [term_help_cat]
 other = "open a TIL post: cat go-errgroup"
+
+[term_help_grep]
+other = "search TIL titles, slugs and tags: grep go"
 
 [term_help_whoami]
 other = "who is Dario"
