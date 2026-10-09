@@ -259,6 +259,8 @@ assert core and term and core.start() < term.start()
     forbid "terminal.js never sets innerHTML from command output" grep -Eq 'innerHTML *= *(action|line|value|text)' assets/js/terminal.js
     expect "terminal.js navigates in place" sh -c 'grep -q "history.pushState" assets/js/terminal.js && grep -q "popstate" assets/js/terminal.js && grep -q "DOMParser" assets/js/terminal.js'
     expect "terminal.js leaves modified clicks alone" grep -q "event.metaKey || event.ctrlKey || event.shiftKey || event.altKey" assets/js/terminal.js
+    expect "touch gets the tap-driven terminal" sh -c 'grep -q "term__tap" assets/js/terminal.js && grep -q "term__tap" assets/css/terminal.css'
+    expect "core decides what a tapped command can drill into" grep -q "tapCandidates" assets/js/terminal-core.js
 }
 
 group_jsonld() {

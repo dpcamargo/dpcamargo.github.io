@@ -130,6 +130,44 @@
     display: inline;
 }
 
+/* Touch bar: the tappable help (or login) chip that stands in for the typing input. Styled as the
+   site's pixel button; it takes the input's flex slot so the bar keeps its one-line shape */
+.term__tap {
+    flex: 1 0 8ch;
+    min-height: 2.75rem;
+    padding: var(--space-1) var(--space-3);
+    font: inherit;
+    text-align: left;
+    color: var(--btn-fg);
+    background-color: var(--btn-bg);
+    border: 0;
+    box-shadow: 3px 3px 0 var(--btn-shadow);
+    cursor: pointer;
+}
+
+.term__tap:hover,
+.term__tap:focus-visible {
+    color: var(--btn-fg);
+    background-color: var(--btn-bg);
+    filter: brightness(1.15);
+    text-decoration: none;
+    outline: 0;
+}
+
+.term__tap:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+/* Touch: tappable option rows reach 44px (WCAG 2.5.8) */
+@media (pointer: coarse) {
+    .term__list .term__fill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+    }
+}
+
 .term__neofetch {
     display: flex;
     flex-wrap: wrap;

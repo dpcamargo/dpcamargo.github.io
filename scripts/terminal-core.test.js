@@ -242,3 +242,19 @@ test("history survives storage that throws, and dedupes and caps", () => {
     assert.equal(list.length, 50);
     assert.equal(list[0], "cmd 10");
 });
+
+test("tapCandidates lists what a tapped command can run with", () => {
+    // cd drills into the pages (plus .. and ~), and into slugs too when inside ~/til
+    assert.deepEqual(core.tapCandidates("cd", "~", data), ["whoami", "projects", "til", "..", "~"]);
+    assert.deepEqual(core.tapCandidates("cd", "~/til", data),
+        ["whoami", "projects", "til", "go-errgroup", "go-sorting", "mongo-crud", "..", "~"]);
+    assert.deepEqual(core.tapCandidates("cat", "~", data), ["go-errgroup", "go-sorting", "mongo-crud"]);
+    // taps feed execution, so grep offers every tag — including one-off ones argCandidates (Tab) skips
+    assert.deepEqual(core.tapCandidates("grep", "~", data), ["concurrency", "go"]);
+    assert.deepEqual(core.tapCandidates("theme", "~", data), ["dark", "light"]);
+    assert.deepEqual(core.tapCandidates("lang", "~", data), ["en", "pt"]);
+    // commands without arguments have nothing to drill into: tapping runs them
+    assert.deepEqual(core.tapCandidates("help", "~", data), []);
+    assert.deepEqual(core.tapCandidates("ls", "~", data), []);
+    assert.deepEqual(core.tapCandidates("exit", "~", data), []);
+});

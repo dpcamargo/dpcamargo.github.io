@@ -192,6 +192,29 @@
         return { value: head + commonPrefix(matches), options: matches };
     }
 
+    // The arguments a tappable bare command can drill into (assets/js/terminal.js, tap mode): what a
+    // reader can click to actually run the command, "keep clicking until a result is shown". Wider
+    // than argCandidates on purpose — that list is Tab completion and skips one-off grep tags, while
+    // these feed execution, and grep's search matches every tag, so every tag is a real hit here.
+    function tapCandidates(cmd, cwd, data) {
+        if (cmd === "cd") {
+            var names = data.pages.map(function (page) { return page.name; });
+            if (cwd.indexOf("~/til") === 0) names = names.concat(slugs(data));
+            return names.concat(["..", "~"]);
+        }
+        if (cmd === "cat") return slugs(data);
+        if (cmd === "grep") {
+            var seen = {};
+            data.posts.forEach(function (post) {
+                post.tags.forEach(function (tag) { seen[tag] = true; });
+            });
+            return Object.keys(seen).sort();
+        }
+        if (cmd === "theme") return THEMES;
+        if (cmd === "lang") return data.langs;
+        return [];
+    }
+
     function isRmrf(args) {
         var flags = args.filter(function (arg) { return arg.charAt(0) === "-"; }).join("");
         var targets = args.filter(function (arg) { return arg.charAt(0) !== "-"; });
@@ -357,6 +380,7 @@
         isPagePath: isPagePath,
         resolveCd: resolveCd,
         complete: complete,
+        tapCandidates: tapCandidates,
         execute: execute,
         loadHistory: loadHistory,
         saveHistory: saveHistory,

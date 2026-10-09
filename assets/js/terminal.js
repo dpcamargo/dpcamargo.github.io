@@ -25,6 +25,10 @@
     var isLogin = false;
     var originalPromptHtml = ps.innerHTML;
     var originalPlaceholder = input.placeholder;
+    // Touch (no fine pointer) runs the tap-driven terminal: commands are reached by clicking through
+    // options, not typing. The bar keeps a tappable help button where the input would be.
+    var tapMode = !matchMedia("(pointer: fine)").matches;
+    var barChip = null;
 
     function home() {
         return form.getAttribute("data-home");
@@ -396,6 +400,7 @@
                 lockChrome(true);
                 if (winTitle) winTitle.textContent = "logged out";
                 isLogin = true;
+                setBarChip("login");
             });
         case "theme":
             var option = document.querySelector('[data-palette-value="' + action.value + '"]');
@@ -431,7 +436,11 @@
                 block.appendChild(textNode(form.getAttribute("data-segfault")));
                 block.scrollIntoView({ block: "end" });
             })
-            .then(function () { busy = false; });
+            .then(function () {
+                // every tap-driven result ends with the way back to the command menu
+                if (tapMode) appendMore(block, line);
+                busy = false;
+            });
     }
 
     // The page's own prose (e.g. the home motd) is static HTML; make any code span that names a
@@ -464,22 +473,104 @@
         }
     }
 
+    // The bar chip (touch) is the always-there tappable help: "keep a clickable help on a fake terminal
+    // so the user can click it to access the functions". While logged out it becomes the login button.
+    function setBarChip(value) {
+        if (!barChip) return;
+        barChip.setAttribute("data-fill", value);
+        barChip.textContent = value;
+    }
+
+    function setupTapBar() {
+        input.hidden = true;
+        barChip = document.createElement("button");
+        barChip.type = "button";
+        barChip.className = "term__fill term__tap";
+        setBarChip("help");
+        form.appendChild(barChip);
+    }
+
+    function helpOption() {
+        return listNode({ long: false, items: [{ label: "help", fill: "help" }] });
+    }
+
+    // "Help must come back and show as an option for more navigation": every tap-driven output ends
+    // with a tappable help row — except the command menu itself and screen-clearing commands
+    function appendMore(block, line) {
+        var parsed = core.parse(line);
+        if (parsed && (parsed.cmd === "help" || parsed.cmd === "clear" || parsed.cmd === "exit")) return;
+        block.appendChild(helpOption());
+    }
+
+    // Clicking a command name: a bare command that takes arguments (cd, cat, grep, ...) first shows
+    // those arguments as more tappable options — "keep clicking until a result is shown" — and
+    // anything already complete runs
+    function tapCommand(value) {
+        if (busy) return;
+        if (isLogin) {
+            if (String(value).trim().toLowerCase() === "login") login();
+            return;
+        }
+        loadData().then(function (data) {
+            var parsed = core.parse(value);
+            if (parsed && !parsed.args.length && core.HELP.indexOf(parsed.cmd) !== -1) {
+                var options = core.tapCandidates(parsed.cmd, cwd(), data);
+                if (options.length) {
+                    var block = makeBlock(location.pathname);
+                    block.appendChild(echo(value));
+                    block.appendChild(listNode({ long: false, items: options.map(function (option) {
+                        return { label: option, fill: value + " " + option };
+                    }) }));
+                    block.appendChild(helpOption());
+                    appendBlock(block, "end");
+                    return;
+                }
+            }
+            run(value);
+        });
+    }
+
     function start() {
         if (started) return;
-        // A typed terminal is pointer-and-keyboard territory: on touch the fixed prompt and its on-screen
-        // keyboard ate a quarter of the viewport, so it stays hidden and links do ordinary page loads
-        // instead of appending to the scrollback (started stays false, which is what the click
-        // interceptor below keys on). The page then reads as a normal, tappable site on a phone.
-        if (!matchMedia("(pointer: fine)").matches) return;
         started = true;
         wrapInitial();
         scroll.setAttribute("aria-live", "polite");
         form.hidden = false;
         root.classList.add("term-ready");
+        // Touch gets the fake terminal: the prompt bar stays, the typing input gives way to the
+        // tappable help button, and every command is reached by clicking through options
+        if (tapMode) setupTapBar();
         forceFocus();
         document.addEventListener("click", forceFocus);
         // Only the home page's boot log is tall enough to need starting scrolled past the fold
         if (document.querySelector(".boot")) scroll.scrollTop = scroll.scrollHeight;
+    }
+
+    // The fake login prompt's way back in (typed "login", or tapping the bar chip in tap mode)
+    function login() {
+        isLogin = false;
+        root.classList.remove("term-locked");
+        lockChrome(false);
+        input.placeholder = originalPlaceholder;
+        setBarChip("help");
+        loadData().then(function (data) {
+            clearAll();
+            ps.innerHTML = originalPromptHtml;
+            // The MOTD is the home page's welcome message, so relogin lands back home: same title,
+            // path and nav state a real visit to "~" would show, without actually reloading the page.
+            // The window title says "motd" (what's actually shown), not "boot" (the log we skip).
+            history.replaceState(null, "", home());
+            applyMeta({
+                title: data.homeTitle || document.title,
+                win: "motd",
+                active: Array.from(document.querySelectorAll(".main-nav a.nav-main-item")).map(function () { return false; }),
+                langs: null
+            });
+            var block = makeBlock(location.pathname);
+            block.appendChild(motdNode(data.strings.motd));
+            if (tapMode) block.appendChild(helpOption());
+            appendBlock(block, "end");
+        });
     }
 
     form.addEventListener("submit", function (event) {
@@ -488,29 +579,7 @@
         var line = input.value;
         input.value = "";
         if (isLogin) {
-            if (line.trim().toLowerCase() === "login") {
-                isLogin = false;
-                root.classList.remove("term-locked");
-                lockChrome(false);
-                input.placeholder = originalPlaceholder;
-                loadData().then(function (data) {
-                    clearAll();
-                    ps.innerHTML = originalPromptHtml;
-                    // The MOTD is the home page's welcome message, so relogin lands back home: same title,
-                    // path and nav state a real visit to "~" would show, without actually reloading the page.
-                    // The window title says "motd" (what's actually shown), not "boot" (the log we skip).
-                    history.replaceState(null, "", home());
-                    applyMeta({
-                        title: data.homeTitle || document.title,
-                        win: "motd",
-                        active: Array.from(document.querySelectorAll(".main-nav a.nav-main-item")).map(function () { return false; }),
-                        langs: null
-                    });
-                    var block = makeBlock(location.pathname);
-                    block.appendChild(motdNode(data.strings.motd));
-                    appendBlock(block, "end");
-                });
-            }
+            if (line.trim().toLowerCase() === "login") login();
             return;
         }
         run(line);
@@ -564,12 +633,19 @@
         }
     });
 
-    // Tapping a name in ls output (or a completion option) puts it in the prompt
-    scroll.addEventListener("click", function (event) {
+    // Tapping a name in help/ls/grep output (or a completion option): it runs the command on touch,
+    // and puts it in the prompt for editing where there is a keyboard. The bar's help/login chip is a
+    // .term__fill too, so one delegated handler covers the scrollback and the bar.
+    document.addEventListener("click", function (event) {
         var fill = event.target.closest(".term__fill");
         if (!fill) return;
-        input.value = fill.getAttribute("data-fill");
-        input.focus();
+        var value = fill.getAttribute("data-fill");
+        if (tapMode) {
+            tapCommand(value);
+        } else {
+            input.value = value;
+            input.focus();
+        }
     });
 
     // Links to this language's pages append like `cd`; everything a normal link should do stays normal
