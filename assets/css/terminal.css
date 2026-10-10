@@ -159,6 +159,12 @@
     box-shadow: none;
 }
 
+/* The login button lives inside the prompt label (a keyboard device has no bar chip); it must not
+   take the input's growing flex slot there */
+.term__ps .term__tap {
+    flex: none;
+}
+
 /* Touch: tappable option rows reach 44px (WCAG 2.5.8) */
 @media (pointer: coarse) {
     .term__list .term__fill {

@@ -74,7 +74,10 @@
 
     function loadData() {
         if (!dataPromise) {
-            dataPromise = fetch(form.getAttribute("data-json"))
+            // no-cache: terminal.json keeps a stable URL across deploys, so a returning visitor's cached
+            // copy could be older than the fingerprinted JS asking for it (a new command would see
+            // missing strings/data). Revalidate instead of serving from cache.
+            dataPromise = fetch(form.getAttribute("data-json"), { cache: "no-cache" })
                 .then(function (response) {
                     if (!response.ok) throw new Error("terminal.json: " + response.status);
                     return response.json();
@@ -192,9 +195,14 @@
             var link = document.createElement("a");
             if (item.url) {
                 link.href = item.url;
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
                 link.textContent = item.label;
+                if (item.download) {
+                    // a file to save (the CV PDFs), not a page to visit
+                    link.setAttribute("download", item.download);
+                } else {
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                }
             } else {
                 // Obfuscated email entry (label + base64 user/domain, not a plain mailto: url): decode
                 // here, at render time, so the address never sits as plain text in terminal.json.
@@ -290,6 +298,10 @@
                     currentPath = target.pathname;
                     applyMeta(meta);
                     block.scrollIntoView({ block: "start" });
+                    // The page types itself out into the scrollback, the same signature effect as the
+                    // boot log — but with the view left at the section's top and no auto-roll, so the
+                    // reader scrolls down themselves
+                    if (window.playTypewriter) window.playTypewriter(block);
                     return true;
                 });
             })
@@ -395,12 +407,15 @@
             return wait(500).then(function() {
                 clearAll();
                 ps.innerHTML = '<span class="head-text">dario.dev.br login:</span>';
+                // where there is no bar chip to swap (a keyboard device), the login prompt carries
+                // the way back itself
+                if (barChip) setBarChip("login");
+                else ps.appendChild(loginButton());
                 input.placeholder = form.getAttribute("data-login-hint");
                 root.classList.add("term-locked");
                 lockChrome(true);
                 if (winTitle) winTitle.textContent = "logged out";
                 isLogin = true;
-                setBarChip("login");
             });
         case "theme":
             var option = document.querySelector('[data-palette-value="' + action.value + '"]');
@@ -437,7 +452,7 @@
                 block.scrollIntoView({ block: "end" });
             })
             .then(function () {
-                // a clicked command's result ends with the way back to the command menu
+                // a touch result ends with the way back to the command menu
                 if (clicked) appendMore(block, line);
                 busy = false;
             });
@@ -494,8 +509,9 @@
         return listNode({ long: false, items: [{ label: "help", fill: "help" }] });
     }
 
-    // "Help must come back and show as an option for more navigation": every clicked output ends
-    // with a tappable help row — except the command menu itself and screen-clearing commands
+    // "Help must come back and show as an option for more navigation": on touch, every clicked output
+    // ends with a tappable help row — except the command menu itself and screen-clearing commands.
+    // The web version has the typing prompt instead and doesn't need the row.
     function appendMore(block, line) {
         var parsed = core.parse(line);
         if (parsed && (parsed.cmd === "help" || parsed.cmd === "clear" || parsed.cmd === "exit")) return;
@@ -521,13 +537,12 @@
                     block.appendChild(listNode({ long: false, items: options.map(function (option) {
                         return { label: option, fill: value + " " + option };
                     }) }));
-                    block.appendChild(helpOption());
+                    if (tapMode) block.appendChild(helpOption());
                     appendBlock(block, "end");
                     return;
                 }
             }
-            // clicked commands come back to the menu; typed ones have the prompt already
-            run(value, true);
+            run(value, tapMode);
         });
     }
 
@@ -547,7 +562,17 @@
         if (document.querySelector(".boot")) scroll.scrollTop = scroll.scrollHeight;
     }
 
-    // The fake login prompt's way back in (typed "login", or tapping the bar chip in tap mode)
+    // The fake login prompt's way back in: the bar chip on touch, a tappable login button in the
+    // prompt itself where there is no bar chip, and the typed "login" everywhere
+    function loginButton() {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "term__fill term__tap";
+        button.setAttribute("data-fill", "login");
+        button.textContent = "login";
+        return button;
+    }
+
     function login() {
         isLogin = false;
         root.classList.remove("term-locked");

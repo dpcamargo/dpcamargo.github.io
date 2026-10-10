@@ -106,6 +106,12 @@ other = "all"
 [projects_filter_empty]
 other = "No projects with this technology yet."
 
+[cv_english]
+other = "CV (English)"
+
+[cv_portuguese]
+other = "CV (Portuguese)"
+
 
 [home_title_role]
 other = "Software Engineer"
@@ -173,6 +179,9 @@ other = "system info, sort of"
 [term_help_contact]
 other = "LinkedIn, GitHub and Email"
 
+[term_help_cv]
+other = "my CV as a PDF: cv en | cv pt"
+
 [term_help_theme]
 other = "theme dark | light"
 
@@ -203,6 +212,9 @@ other = "rm: cannot remove '%s': Permission denied"
 
 [term_cat_usage]
 other = "usage: cat <post> (try ls in til)"
+
+[term_cv_usage]
+other = "usage: cv [en | pt]"
 
 [term_theme_usage]
 other = "usage: theme dark | light"

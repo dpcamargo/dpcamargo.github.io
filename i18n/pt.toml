@@ -106,6 +106,12 @@ other = "todos"
 [projects_filter_empty]
 other = "Ainda não há projetos com essa tecnologia."
 
+[cv_english]
+other = "CV (inglês)"
+
+[cv_portuguese]
+other = "CV (português)"
+
 
 [home_title_role]
 other = "Engenheiro de Software"
@@ -173,6 +179,9 @@ other = "informações do sistema, mais ou menos"
 [term_help_contact]
 other = "LinkedIn, GitHub e Email"
 
+[term_help_cv]
+other = "meu currículo em PDF: cv en | cv pt"
+
 [term_help_theme]
 other = "theme dark | light"
 
@@ -203,6 +212,9 @@ other = "rm: não foi possível remover '%s': Permissão negada"
 
 [term_cat_usage]
 other = "uso: cat <post> (tente ls em til)"
+
+[term_cv_usage]
+other = "uso: cv [en | pt]"
 
 [term_theme_usage]
 other = "uso: theme dark | light"

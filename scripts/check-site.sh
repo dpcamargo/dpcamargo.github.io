@@ -224,7 +224,7 @@ group_terminal() {
         expect "$lang terminal.json has the expected shape" python3.11 -c "
 import json
 d = json.load(open('$OUT/${prefix}terminal.json'))
-assert set(d) == {'home', 'langs', 'pages', 'posts', 'contact', 'neofetch', 'strings', 'homeTitle'}, set(d)
+assert set(d) == {'home', 'langs', 'pages', 'posts', 'contact', 'cv', 'neofetch', 'strings', 'homeTitle'}, set(d)
 assert d['home'] == '/$prefix', d['home']
 assert d['langs'] == ['en', 'pt'], d['langs']
 assert [p['name'] for p in d['pages']] == ['whoami', 'projects', 'til'], d['pages']
@@ -233,11 +233,15 @@ assert len(d['posts']) >= 8, len(d['posts'])
 for p in d['posts']:
     assert set(p) == {'slug', 'title', 'url', 'date', 'tags'}, p
     assert p['url'] == '/${prefix}til/' + p['slug'] + '/', p
+assert [c['lang'] for c in d['cv']] == ['en', 'pt'], d['cv']
+for c in d['cv']:
+    assert set(c) == {'lang', 'label', 'name', 'url'}, c
+    assert c['url'] == '/cv/' + c['name'] and c['label'], c
 assert all(isinstance(v, str) and v for v in d['strings'].values()), d['strings']
 assert d['strings']['notfound'].count('%s') == 1 and d['strings']['rm_denied'].count('%s') == 1
 "
     done
-    expect "terminal strings exist in both languages" bash -c 'diff <(grep "^\[term_" i18n/en.toml) <(grep "^\[term_" i18n/pt.toml) && [ "$(grep -c "^\[term_" i18n/en.toml)" -eq 40 ]'
+    expect "terminal strings exist in both languages" bash -c 'diff <(grep "^\[term_" i18n/en.toml) <(grep "^\[term_" i18n/pt.toml) && [ "$(grep -c "^\[term_" i18n/en.toml)" -eq 42 ]'
     expect "Portuguese terminal strings are Portuguese" grep -q "comando não encontrado" "$OUT/pt/terminal.json"
     expect "terminal-core unit tests pass" node --test scripts/terminal-core.test.js
     expect "every page carries a hidden prompt" sh -c 'for f in index.html til/index.html til/go-errgroup/index.html pt/index.html; do grep -q "<form class=\"term__prompt\" hidden" "$0/$f" || exit 1; done' "$OUT"
@@ -261,6 +265,8 @@ assert core and term and core.start() < term.start()
     expect "terminal.js leaves modified clicks alone" grep -q "event.metaKey || event.ctrlKey || event.shiftKey || event.altKey" assets/js/terminal.js
     expect "touch gets the tap-driven terminal" sh -c 'grep -q "term__tap" assets/js/terminal.js && grep -q "term__tap" assets/css/terminal.css'
     expect "core decides what a tapped command can drill into" grep -q "tapCandidates" assets/js/terminal-core.js
+    expect "the CV PDFs are shipped" sh -c 'test -s "$0/cv/dario-camargo-cv-en.pdf" && test -s "$0/cv/dario-camargo-cv-pt.pdf"' "$OUT"
+    expect "whoami offers the CV in its own language" sh -c 'grep -q "dario-camargo-cv-en.pdf" "$0/whoami/index.html" && grep -q "dario-camargo-cv-pt.pdf" "$0/pt/whoami/index.html"' "$OUT"
 }
 
 group_jsonld() {

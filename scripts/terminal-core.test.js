@@ -6,11 +6,11 @@ const core = require("../assets/js/terminal-core.js");
 const strings = {
     offline: "OFFLINE", enoent: "no such file or directory", notfound: "zsh: command not found: %s",
     help_intro: "INTRO", help_help: "h", help_ls: "l", help_cd: "c", help_pwd: "p", help_cat: "k", help_whoami: "w",
-    help_neofetch: "n", help_contact: "ct", help_theme: "t", help_lang: "lg", help_clear: "cl", help_exit: "e",
+    help_neofetch: "n", help_contact: "ct", help_cv: "cvh", help_theme: "t", help_lang: "lg", help_clear: "cl", help_exit: "e",
     help_grep: "g", suggest: "did you mean: %s?", realcmd: "%s is a real command, but not here",
     grep_usage: "GREPUSAGE", grep_none: "grep: %s: no matches",
     whoami: "WHO", sudo: "SUDO", vim: "VIM", rm_denied: "rm: cannot remove '%s': Permission denied",
-    cat_usage: "CATUSAGE", theme_usage: "THEMEUSAGE", lang_usage: "LANGUSAGE", logout: "logout", panic: "PANIC",
+    cat_usage: "CATUSAGE", cv_usage: "CVUSAGE", theme_usage: "THEMEUSAGE", lang_usage: "LANGUSAGE", logout: "logout", panic: "PANIC",
     nf_host: "host", nf_stack: "stack", nf_location: "location",
     neofetch_title: "guest@dario", segfault: "SEGFAULT"
 };
@@ -24,6 +24,10 @@ const data = {
         { slug: "mongo-crud", title: "MongoDB", url: "/til/mongo-crud/", date: "2025-05-30", tags: [] }
     ],
     contact: [{ label: "GitHub", url: "https://github.com/dpcamargo" }],
+    cv: [
+        { lang: "en", label: "CV (English)", name: "dario-camargo-cv-en.pdf", url: "/cv/dario-camargo-cv-en.pdf" },
+        { lang: "pt", label: "CV (Portuguese)", name: "dario-camargo-cv-pt.pdf", url: "/cv/dario-camargo-cv-pt.pdf" }
+    ],
     neofetch: { stack: "Go, Java, Python", location: "Brazil" },
     strings: strings
 };
@@ -71,7 +75,7 @@ test("resolveCd handles ~, .., page names, paths and slugs", () => {
 
 test("complete fills a unique match and lists several", () => {
     assert.deepEqual(core.complete("ne", "~", data), { value: "neofetch ", options: [] });
-    assert.deepEqual(core.complete("c", "~", data), { value: "c", options: ["cd", "cat", "contact", "clear"] });
+    assert.deepEqual(core.complete("c", "~", data), { value: "c", options: ["cd", "cat", "contact", "cv", "clear"] });
     assert.deepEqual(core.complete("cat go-e", "~", data), { value: "cat go-errgroup ", options: [] });
     assert.deepEqual(core.complete("cat go-", "~", data), { value: "cat go-", options: ["go-errgroup", "go-sorting"] });
     assert.deepEqual(core.complete("cd t", "~", data), { value: "cd til ", options: [] });
@@ -257,4 +261,19 @@ test("tapCandidates lists what a tapped command can run with", () => {
     assert.deepEqual(core.tapCandidates("help", "~", data), []);
     assert.deepEqual(core.tapCandidates("ls", "~", data), []);
     assert.deepEqual(core.tapCandidates("exit", "~", data), []);
+});
+
+test("cv offers both CV PDFs as downloads, or just the language asked for", () => {
+    const both = run("cv");
+    assert.equal(both.length, 1);
+    assert.equal(both[0].type, "links");
+    assert.deepEqual(both[0].items.map((item) => item.url),
+        ["/cv/dario-camargo-cv-en.pdf", "/cv/dario-camargo-cv-pt.pdf"]);
+    assert.deepEqual(both[0].items.map((item) => item.download),
+        ["dario-camargo-cv-en.pdf", "dario-camargo-cv-pt.pdf"]);
+    assert.deepEqual(run("cv pt")[0].items.map((item) => item.label), ["CV (Portuguese)"]);
+    assert.deepEqual(run("CV EN")[0].items.map((item) => item.url), ["/cv/dario-camargo-cv-en.pdf"]);
+    assert.deepEqual(run("cv fr"), [{ type: "text", text: "CVUSAGE" }]);
+    // nothing to drill into: a tap shows the download rows right away
+    assert.deepEqual(core.tapCandidates("cv", "~", data), []);
 });

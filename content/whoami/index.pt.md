@@ -15,4 +15,6 @@ Desde 2024 estou no **Mercado Livre**, desenvolvendo microsserviços para o Prox
 
 Sou formado em **Engenharia de Controle e Automação** (UNIP) e tenho especializações de pós-graduação em **Desenvolvimento Avançado em Go** (<a href="https://goexpert.fullcycle.com.br/pos-goexpert/" target="_blank">**Full Cycle**</a>) e **Arquitetura e Desenvolvimento Java** (<a href="https://postech.fiap.com.br/curso/arquitetura-desenvolvimento-java" target="_blank">**FIAP**</a>). Antes de software, desenvolvi sistemas de tempo real e visão computacional para automação industrial, com clientes como a Mercedes-Benz. O português é minha língua nativa, sou fluente em inglês e falo espanhol em nível intermediário.
 
+<p><a class="btn" href="/cv/dario-camargo-cv-pt.pdf" download>Baixar currículo (PDF)</a></p>
+
 Ultimamente, meu cargo é Human-in-the-Loop: a IA escreve o código, eu leio o diff, balanço a cabeça duas vezes e finjo que ainda sou engenheiro de software.

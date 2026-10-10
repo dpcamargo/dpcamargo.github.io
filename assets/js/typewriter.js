@@ -10,7 +10,7 @@
         var MAX_MS = 1500;
         var CHARS_PER_SECOND = 80;
         var MATH_WAIT_MS = 1500;
-        var UNITS = "img, hr, svg, .katex, .boot__swatches, code";
+        var UNITS = "img, hr, svg, .katex, .boot__swatches, code, .btn, .project__badge, .project__chip, .codeblock__copy";
         var SKIP = /^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA)$/;
         var SKIP_EVENTS = ["keydown", "mousedown", "touchstart", "wheel"];
 
@@ -105,8 +105,9 @@
             if (startTime === null) startTime = now;
             var progress = duration > 0 ? Math.min(1, (now - startTime) / duration) : 1;
             revealTo(Math.ceil(total * progress));
-            // Only the boot log is tall enough to scroll past the fold while typing; leave every other page's
-            // scroll position alone (an in-page anchor jump, a mid-page restart, etc. shouldn't get yanked back).
+            // Only the boot log glides the view along with the cursor while typing; any other section
+            // stays put at its top and the reader scrolls down themselves (an in-page anchor jump, a
+            // mid-page restart, etc. shouldn't get yanked back either).
             // In the stacked phone layout the "scroller" is the whole page, so following the cursor would yank
             // the reader past the portrait and connect windows that lead the home page there: only follow it
             // where the content window scrolls inside its own pane.
@@ -122,6 +123,9 @@
             duration = Math.min(MAX_MS, (total / CHARS_PER_SECOND) * 1000);
             root.classList.add("typewriter");
             root.classList.remove("typing");
+            // a later run on the same page (a terminal-appended page) re-arms the reveal rules that
+            // .typed turns off, e.g. the transparent list markers in typewriter.css
+            root.classList.remove("typed");
             SKIP_EVENTS.forEach(function (name) {
                 document.addEventListener(name, finish, { passive: true });
             });

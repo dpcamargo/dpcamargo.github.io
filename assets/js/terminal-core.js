@@ -1,7 +1,7 @@
 // The terminal prompt's logic, with no DOM: parsing, paths, completion, and what each command does, returned as
 // a list of actions that assets/js/terminal.js performs. Unit tests: node --test scripts/terminal-core.test.js
 (function () {
-    var HELP = ["help", "ls", "cd", "pwd", "cat", "grep", "whoami", "neofetch", "contact", "theme", "lang", "clear", "exit"];
+    var HELP = ["help", "ls", "cd", "pwd", "cat", "grep", "whoami", "neofetch", "contact", "cv", "theme", "lang", "clear", "exit"];
     // Without /terminal.json only these still work; the rest print the offline message
     var OFFLINE_OK = ["cd", "pwd", "clear", ":q", ":q!", ":wq"];
     var THEMES = ["dark", "light"];
@@ -301,6 +301,17 @@
         },
         contact: function (args, ctx) {
             return [{ type: "links", items: ctx.data.contact }];
+        },
+        cv: function (args, ctx) {
+            // bare cv lists both CV PDFs as download links (the complete options, as clickable
+            // rows); cv en / cv pt narrow to one. A language with no CV gets the usage line.
+            var value = (args[0] || "").toLowerCase();
+            var all = ctx.data.cv || [];
+            var items = value ? all.filter(function (item) { return item.lang === value; }) : all;
+            if (!items.length) return [text(ctx.data.strings.cv_usage)];
+            return [{ type: "links", items: items.map(function (item) {
+                return { label: item.label, url: item.url, download: item.name };
+            }) }];
         },
         theme: function (args, ctx) {
             var value = (args[0] || "").toLowerCase();

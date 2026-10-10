@@ -15,4 +15,6 @@ Since 2024 I've been at **Mercado Livre**, building microservices for Proximity,
 
 I hold a bachelor's degree in **Control and Automation Engineering** (UNIP) and postgraduate specializations in **Advanced Go Development** (<a href="https://goexpert.fullcycle.com.br/pos-goexpert/" target="_blank">**Full Cycle**</a>) and **Java Architecture and Development** (<a href="https://postech.fiap.com.br/curso/arquitetura-desenvolvimento-java" target="_blank">**FIAP**</a>). Before software, I built real-time and computer-vision systems for industrial automation, working with clients like Mercedes-Benz. Portuguese is my native language, I'm fluent in English, and I speak intermediate Spanish.
 
+<p><a class="btn" href="/cv/dario-camargo-cv-en.pdf" download>Download CV (PDF)</a></p>
+
 Lately, my job title is Human-in-the-Loop: AI writes the code, I read the diff, nod twice, and pretend I'm still a software engineer.
