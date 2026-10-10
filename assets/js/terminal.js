@@ -452,6 +452,7 @@
                 block.scrollIntoView({ block: "end" });
             })
             .then(function () {
+                makeProseCommandsClickable(block);
                 // a touch result ends with the way back to the command menu
                 if (clicked) appendMore(block, line);
                 busy = false;
@@ -460,8 +461,8 @@
 
     // The page's own prose (e.g. the home motd) is static HTML; make any code span that names a
     // command (e.g. `help`, `whoami`) tappable like the rest of the terminal's fill buttons
-    function makeProseCommandsClickable() {
-        scroll.querySelectorAll("code").forEach(function (code) {
+    function makeProseCommandsClickable(container) {
+        (container || scroll).querySelectorAll("code").forEach(function (code) {
             var word = code.textContent.trim();
             if (core.HELP.indexOf(word) === -1 || code.parentNode.classList.contains("term__fill")) return;
             var button = document.createElement("button");

@@ -16,41 +16,22 @@
     <div class="win__body">
         <p class="hero__role">{{ i18n "hero_role" }}</p>
         <div class="hero__facts">
-            <details class="hero__tree">
-                <summary class="hero__tree-summary">{{ i18n "hero_current_prefix" }} <strong>Mercado Livre</strong></summary>
-                <ul class="hero__tree-children">
-                    <li>{{ i18n "hero_current_detail" }}</li>
-                </ul>
-            </details>
-            <details class="hero__tree">
-                <summary class="hero__tree-summary">
-                    <span class="hero__tree-label">{{ i18n "hero_location_label" }}:</span>
-                    {{ i18n "hero_location_primary" }}
-                </summary>
-                <ul class="hero__tree-children">
-                    <li>{{ i18n "hero_location_detail" }}</li>
-                </ul>
-            </details>
-            <details class="hero__tree">
-                <summary class="hero__tree-summary">
-                    <span class="hero__tree-label">{{ i18n "hero_availability_label" }}:</span>
-                    {{ i18n "hero_availability_primary" }}
-                </summary>
-                <ul class="hero__tree-children">
-                    <li>{{ i18n "hero_availability_remote" }}</li>
-                    <li>{{ i18n "hero_availability_hybrid" }}</li>
-                </ul>
-            </details>
-            <details class="hero__tree">
-                <summary class="hero__tree-summary">
-                    <span class="hero__tree-label">{{ i18n "hero_languages_label" }}</span>
-                </summary>
-                <ul class="hero__tree-children">
-                    <li>{{ i18n "hero_lang_pt" }}</li>
-                    <li>{{ i18n "hero_lang_en" }}</li>
-                    <li>{{ i18n "hero_lang_es" }}</li>
-                </ul>
-            </details>
+            <p style="margin-bottom: 0.75rem; line-height: 1.4;">
+                <strong>{{ i18n "hero_current_prefix" }} Mercado Livre</strong><br>
+                {{ i18n "hero_current_detail" }}
+            </p>
+            <p style="margin-bottom: 0.75rem; line-height: 1.4;">
+                <strong>{{ i18n "hero_location_label" }}:</strong> {{ i18n "hero_location_primary" }}<br>
+                {{ i18n "hero_location_detail" }}
+            </p>
+            <p style="margin-bottom: 0.75rem; line-height: 1.4;">
+                <strong>{{ i18n "hero_availability_label" }}:</strong> {{ i18n "hero_availability_primary" }}<br>
+                {{ i18n "hero_availability_remote" }}, {{ i18n "hero_availability_hybrid" }}
+            </p>
+            <p style="line-height: 1.4;">
+                <strong>{{ i18n "hero_languages_label" }}:</strong><br>
+                {{ i18n "hero_lang_pt" }}, {{ i18n "hero_lang_en" }}, {{ i18n "hero_lang_es" }}
+            </p>
         </div>
         <div class="hero__ctas">
             {{- /* One button per site language, labelled with that language's own endonym (hugo.toml's
