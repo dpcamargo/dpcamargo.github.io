@@ -14,17 +14,19 @@
         <h2 class="win__title-text">Dario Camargo</h2>
     </header>
     <div class="win__body">
-        <p class="hero__role">{{ i18n "hero_role" | safeHTML }}</p>
+        <p class="hero__role" style="white-space: nowrap;">{{ i18n "hero_role" | safeHTML }}</p>
         <div class="hero__facts">
             <p style="margin-bottom: 0.75rem; line-height: 1.4;">
                 <strong>{{ i18n "hero_current_prefix" }} Mercado Livre</strong><br>
                 {{ i18n "hero_current_detail" }}
             </p>
             <p style="margin-bottom: 0.75rem; line-height: 1.4;">
-                <strong>{{ i18n "hero_location_label" }}:</strong> {{ i18n "hero_location_primary" }}
+                <strong>{{ i18n "hero_location_label" }}:</strong><br>
+                {{ i18n "hero_location_primary" }}
             </p>
             <p style="margin-bottom: 0.75rem; line-height: 1.4;">
-                <strong>{{ i18n "hero_timezone_label" }}:</strong> {{ i18n "hero_location_detail" }}
+                <strong>{{ i18n "hero_timezone_label" }}:</strong><br>
+                {{ i18n "hero_location_detail" }}
             </p>
             <p style="line-height: 1.4;">
                 <strong>{{ i18n "hero_languages_label" }}:</strong><br>
