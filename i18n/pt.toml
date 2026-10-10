@@ -95,7 +95,7 @@ other = "CV (inglês)"
 other = "CV (português)"
 
 [hero_role]
-other = "Engenheiro de Software<br>Go, Java, Python"
+other = "Eng de Software<br>Go, Java, Python"
 
 [hero_current_prefix]
 other = "Atualmente na"
@@ -137,7 +137,7 @@ other = "Português (Nativo)"
 other = "Inglês (Fluente)"
 
 [hero_lang_es]
-other = "Espanhol (Interm.)"
+other = "Espanhol (B2)"
 
 [hero_cta_linkedin]
 other = "Ver LinkedIn"
