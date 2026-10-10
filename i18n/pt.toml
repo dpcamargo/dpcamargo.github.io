@@ -86,7 +86,7 @@ other = "Filtrar projetos por tecnologia"
 other = "todos"
 
 [projects_filter_empty]
-other = "Ainda não há projetos com essa tecnologia."
+other = "Nenhum projeto corresponde aos filtros selecionados."
 
 [cv_english]
 other = "CV (inglês)"
