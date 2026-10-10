@@ -3,7 +3,7 @@ title = "Distributed Tracing with OTEL & Zipkin"
 author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Microservices architecture in Go with context propagation, distributed tracing, and metrics via OpenTelemetry, Zipkin, and Prometheus"
-stack = ["Go", "OpenTelemetry", "Zipkin", "Jaeger", "Prometheus", "Grafana", "Docker"]
+stack = ["Go", "REST", "OpenTelemetry", "Zipkin", "Jaeger", "Prometheus", "Grafana", "Docker"]
 repo = "https://github.com/dpcamargo/otel-distributed-tracing-go"
 +++
 

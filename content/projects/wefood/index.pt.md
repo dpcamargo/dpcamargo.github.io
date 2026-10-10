@@ -3,7 +3,7 @@ title = "WeFood User Service"
 author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Microsserviço Java hexagonal com isolamento estrito de frameworks, RBAC ciente de posse e testes com Testcontainers"
-stack = ["Java 21", "Spring Boot 3", "Spring Security", "PostgreSQL", "Testcontainers", "Docker"]
+stack = ["Java 21", "Spring Boot 3", "Spring Security", "REST", "PostgreSQL", "Testcontainers", "Docker"]
 repo = "https://github.com/dpcamargo/wefood-user-service-spring"
 +++
 
