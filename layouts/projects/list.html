@@ -9,7 +9,7 @@
                the page still navigates without JS — it just shows everything. */ -}}
         <nav class="project__filters" aria-label="{{ i18n "projects_filter_label" }}">
             <a class="project__chip" href="{{ "projects/" | relLangURL }}" data-tech="">{{ i18n "projects_filter_all" }}</a>
-            {{ range slice (dict "label" "Go" "tech" "go") (dict "label" "Java" "tech" "java") (dict "label" "Docker" "tech" "docker") (dict "label" "RabbitMQ" "tech" "rabbitmq") (dict "label" "MySQL" "tech" "mysql") (dict "label" "Redis" "tech" "redis") (dict "label" "MongoDB" "tech" "mongodb") (dict "label" "Gin" "tech" "gin") (dict "label" "Echo" "tech" "echo") (dict "label" "Cobra" "tech" "cobra") (dict "label" "Zap" "tech" "zap") }}
+            {{ range slice (dict "label" "Go" "tech" "go") (dict "label" "Java" "tech" "java") (dict "label" "Docker" "tech" "docker") (dict "label" "Redis" "tech" "redis") (dict "label" "RabbitMQ" "tech" "rabbitmq") (dict "label" "MySQL" "tech" "mysql") (dict "label" "MongoDB" "tech" "mongodb") }}
             <a class="project__chip" href="{{ "projects/" | relLangURL }}?tech={{ .tech }}" data-tech="{{ .tech }}">{{ .label }}</a>
             {{ end }}
         </nav>

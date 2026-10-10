@@ -12,7 +12,8 @@
 
     function currentTech() {
         var match = /[?&]tech=([^&]*)/.exec(location.search);
-        return match ? decodeURIComponent(match[1]).toLowerCase() : "";
+        var val = match ? decodeURIComponent(match[1]).toLowerCase() : "";
+        return val ? val.split(",") : [];
     }
 
     // "java" matches a stack value of "Java 21" (prefix + word boundary), "go" matches only "Go",
@@ -25,7 +26,7 @@
     }
 
     function apply() {
-        var tech = currentTech();
+        var techs = currentTech();
         // Scoped to the block(s) whose own URL still matches the page we're looking at — not every
         // .project__card in the whole scrollback. In-place navigation (terminal.js) appends a freshly
         // fetched page as a new .term__block and pushes its URL before this runs (MutationObserver
@@ -39,11 +40,19 @@
         var scopes = blocks.length ? Array.prototype.slice.call(blocks) : [document];
         scopes.forEach(function (scope) {
             scope.querySelectorAll(CARD).forEach(function (card) {
-                card.hidden = !!tech && !onStack((card.getAttribute("data-stack") || "").toLowerCase(), tech);
+                var cardStack = (card.getAttribute("data-stack") || "").toLowerCase();
+                var match = techs.every(function(t) { return onStack(cardStack, t); });
+                card.hidden = techs.length > 0 && !match;
             });
             scope.querySelectorAll(CHIP).forEach(function (chip) {
-                if ((chip.getAttribute("data-tech") || "") === tech) chip.setAttribute("aria-current", "true");
-                else chip.removeAttribute("aria-current");
+                var chipTech = chip.getAttribute("data-tech") || "";
+                if (!chipTech) {
+                    if (techs.length === 0) chip.setAttribute("aria-current", "true");
+                    else chip.removeAttribute("aria-current");
+                } else {
+                    if (techs.indexOf(chipTech) !== -1) chip.setAttribute("aria-current", "true");
+                    else chip.removeAttribute("aria-current");
+                }
             });
             // one message per projects list: shown only when that list has nothing left
             scope.querySelectorAll(".project__empty").forEach(function (empty) {
@@ -56,8 +65,19 @@
     function filterTo(chip) {
         var tech = chip.getAttribute("data-tech") || "";
         var url = new URL(location.href);
-        if (tech) url.searchParams.set("tech", tech);
+        var techs = currentTech();
+        
+        if (!tech) {
+            techs = [];
+        } else {
+            var idx = techs.indexOf(tech);
+            if (idx !== -1) techs.splice(idx, 1);
+            else techs.push(tech);
+        }
+        
+        if (techs.length > 0) url.searchParams.set("tech", techs.join(","));
         else url.searchParams.delete("tech");
+        
         // replaceState: a filter is a view state of the same page, not a new history entry
         history.replaceState(null, "", url.pathname + url.search + url.hash);
         apply();
@@ -95,7 +115,7 @@
     // fetched list under its "cd ~/projects" echo line and scrolls to that block start; when a tech is
     // active the freshly appended section gets the title anchoring instead, once per block
     function anchorAppended() {
-        if (!currentTech()) return;
+        if (currentTech().length === 0) return;
         var blocks = document.querySelectorAll(".term__block");
         var last = blocks[blocks.length - 1];
         if (!last || last.getAttribute("data-filter-anchored")) return;
