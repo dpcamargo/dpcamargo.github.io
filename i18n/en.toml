@@ -107,7 +107,10 @@ other = "Proximity / Delivery Platforms"
 other = "Location"
 
 [hero_location_primary]
-other = "São Paulo, Brazil"
+other = "São Paulo - Brazil"
+
+[hero_timezone_label]
+other = "Timezone"
 
 [hero_location_detail]
 other = "UTC-3"
