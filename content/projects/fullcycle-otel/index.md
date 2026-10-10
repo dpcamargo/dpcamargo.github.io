@@ -4,7 +4,7 @@ author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Microservices architecture in Go with context propagation, distributed tracing, and metrics via OpenTelemetry, Zipkin, and Prometheus"
 stack = ["Go", "OpenTelemetry", "Zipkin", "Jaeger", "Prometheus", "Grafana", "Docker"]
-repo = "https://github.com/dpcamargo/fullcycle-otel"
+repo = "https://github.com/dpcamargo/otel-distributed-tracing-go"
 +++
 
 Multi-service architecture illustrating end-to-end distributed observability in Go. The system receives a Brazilian postal code (CEP), validates it, resolves geographic location, and queries real-time weather metrics, tracking the entire execution flow across network boundaries:

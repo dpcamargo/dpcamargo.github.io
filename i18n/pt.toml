@@ -10,9 +10,6 @@ other = "escuro"
 [palette_light]
 other = "claro"
 
-[side_status_title]
-other = "status"
-
 [status_label]
 other = "status:"
 
@@ -28,38 +25,23 @@ other = "Ver no GitHub"
 [location_value]
 other = "Brasil"
 
-[side_socials_title]
-other = "conectar"
-
-[socials_nav_label]
-other = "Links de redes sociais"
-
-[linkedin_label]
-other = "Perfil no LinkedIn"
-
 [linkedin_title]
 other = "Conectar no LinkedIn"
 
-[github_label]
-other = "Perfil no GitHub"
-
 [github_title]
 other = "Ver perfil no GitHub"
-
-[email_label]
-other = "Endereço de E-mail"
 
 [email_title]
 other = "Enviar um E-mail"
 
 [side_stack_title]
-other = "stack"
+other = "Projetos"
 
 [stack_nav_label]
-other = "Links das tecnologias"
+other = "Links de filtro de projetos"
 
 [side_tils_title]
-other = "ultimos_til"
+other = "Hoje Eu Aprendi"
 
 [portrait_alt]
 other = "Dario em pé"
@@ -111,6 +93,51 @@ other = "CV (inglês)"
 
 [cv_portuguese]
 other = "CV (português)"
+
+[hero_role]
+other = "Engenheiro de Software | Engenheiro de IA Aplicada | Go, Python, Java | Sistemas Distribuídos | Cloud"
+
+[hero_current_prefix]
+other = "Atualmente na"
+
+[hero_current_detail]
+other = "Proximity / Plataformas de Delivery"
+
+[hero_location_label]
+other = "Localização"
+
+[hero_location_primary]
+other = "São Paulo, Brasil"
+
+[hero_location_detail]
+other = "UTC-3, com ótima sobreposição de horário com o Leste/Centro dos EUA e a Europa"
+
+[hero_availability_label]
+other = "Disponibilidade"
+
+[hero_availability_primary]
+other = "Aberto a"
+
+[hero_availability_remote]
+other = "Remoto (Global)"
+
+[hero_availability_hybrid]
+other = "Oportunidades Híbridas"
+
+[hero_languages_label]
+other = "Idiomas"
+
+[hero_lang_pt]
+other = "Português (Nativo)"
+
+[hero_lang_en]
+other = "Inglês (Fluente)"
+
+[hero_lang_es]
+other = "Espanhol (Intermediário)"
+
+[hero_cta_linkedin]
+other = "Ver LinkedIn"
 
 
 [home_title_role]

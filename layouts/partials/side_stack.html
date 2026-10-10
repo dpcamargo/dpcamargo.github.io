@@ -1,3 +1,6 @@
+{{- /* Quick filter links into the projects list by technology (layouts/projects/list.html +
+       assets/js/project-filter.js). Mirrors that page's own filter chips, kept in sync by hand:
+       any tech added here should also get a chip there, and vice versa. */ -}}
 <section class="win win--minimizable side__stack">
     <header class="win__title">
         <h2 class="win__title-text">{{ i18n "side_stack_title" }}</h2>
@@ -23,11 +26,35 @@
                 </a>
             </div>
             <div class="socials__item">
-                <a href="{{ "projects/" | relLangURL }}?tech=python"
-                   title="Python"
+                <a href="{{ "projects/" | relLangURL }}?tech=docker"
+                   title="Docker"
                    class="socials__link">
-                    {{ partial "icon_python.html" . }}
-                    <span class="socials__text">Python</span>
+                    {{ partial "icon_docker.html" . }}
+                    <span class="socials__text">Docker</span>
+                </a>
+            </div>
+            <div class="socials__item">
+                <a href="{{ "projects/" | relLangURL }}?tech=rabbitmq"
+                   title="RabbitMQ"
+                   class="socials__link">
+                    {{ partial "icon_rabbitmq.html" . }}
+                    <span class="socials__text">RabbitMQ</span>
+                </a>
+            </div>
+            <div class="socials__item">
+                <a href="{{ "projects/" | relLangURL }}?tech=mysql"
+                   title="MySQL"
+                   class="socials__link">
+                    {{ partial "icon_mysql.html" . }}
+                    <span class="socials__text">MySQL</span>
+                </a>
+            </div>
+            <div class="socials__item">
+                <a href="{{ "projects/" | relLangURL }}?tech=redis"
+                   title="Redis"
+                   class="socials__link">
+                    {{ partial "icon_redis.html" . }}
+                    <span class="socials__text">Redis</span>
                 </a>
             </div>
         </div>

@@ -4,7 +4,7 @@ author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Sistema de gestão de pedidos com core de negócio único exposto via REST, gRPC, GraphQL e RabbitMQ"
 stack = ["Go", "gRPC", "GraphQL", "REST", "RabbitMQ", "MySQL", "Docker"]
-repo = "https://github.com/dpcamargo/fullcycle-clean-architecture"
+repo = "https://github.com/dpcamargo/clean-architecture-multitransport-go"
 +++
 
 Serviço de processamento de pedidos construído com princípios de Clean Architecture, desacoplando regras de negócio e casos de uso dos mecanismos de entrega. As mesmas ações de criação e consulta de pedidos são expostas simultaneamente em quatro interfaces distintas sem replicação de lógica:

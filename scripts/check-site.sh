@@ -150,12 +150,12 @@ group_i18n() {
     expect "English home declares lang en" grep -q '<html lang="en"' "$OUT/index.html"
     expect "Portuguese home exists and declares lang pt-BR" grep -q '<html lang="pt-BR"' "$OUT/pt/index.html"
     expect "Portuguese boot lines come from the pt config" grep -q "Módulos do kernel carregados" "$OUT/pt/index.html"
-    expect "pt sidebar titles are translated" sh -c 'grep -q ultimos_til "$0/pt/index.html" && grep -q ">conectar<" "$0/pt/index.html"' "$OUT"
+    expect "pt sidebar titles are translated" sh -c 'grep -q "Hoje Eu Aprendi" "$0/pt/index.html" && grep -q ">Projetos<" "$0/pt/index.html"' "$OUT"
     expect "pt status is translated" sh -c 'grep -q "Brasil" "$0/pt/index.html" && grep -q "&gt; local:" "$0/pt/index.html"' "$OUT"
     expect "pt boot log is translated" sh -c 'grep -q "entradas de TIL indexadas" "$0/pt/index.html" && grep -q "Alvo alcançado: Interface Gráfica" "$0/pt/index.html"' "$OUT"
-    expect "pt aria labels and alt text are translated" sh -c 'grep -q "Links de redes sociais" "$0/pt/index.html" && grep -q "Dario em pé" "$0/pt/index.html" && grep -q "Log de inicialização do sistema" "$0/pt/index.html"' "$OUT"
-    forbid "pt home has no English UI text" grep -Eq "latest_til|Social media links|Indexed [0-9]+|Graphical Interface|Started Software|Tech stack links|LinkedIn Profile" "$OUT/pt/index.html"
-    expect "en home keeps its English UI text" sh -c 'grep -q latest_til "$0/index.html" && grep -Eq "Indexed [0-9]+ TIL entries" "$0/index.html" && grep -q "Social media links" "$0/index.html"' "$OUT"
+    expect "pt aria labels and alt text are translated" sh -c 'grep -q "Links de filtro de projetos" "$0/pt/index.html" && grep -q "Dario em pé" "$0/pt/index.html" && grep -q "Log de inicialização do sistema" "$0/pt/index.html"' "$OUT"
+    forbid "pt home has no English UI text" grep -Eq "Social media links|Indexed [0-9]+|Graphical Interface|Started Software|Project filter links|LinkedIn Profile" "$OUT/pt/index.html"
+    expect "en home keeps its English UI text" sh -c 'grep -q "Today I Learned" "$0/index.html" && grep -Eq "Indexed [0-9]+ TIL entries" "$0/index.html" && grep -q "Project filter links" "$0/index.html"' "$OUT"
     expect "pt palette names are translated" sh -c 'grep -q ">escuro<" "$0/pt/index.html" && grep -q ">claro<" "$0/pt/index.html" && grep -q ">paleta<" "$0/pt/index.html"' "$OUT"
     expect "en palette names are unchanged" sh -c 'grep -q ">dark<" "$0/index.html" && grep -q ">palette<" "$0/index.html"' "$OUT"
     expect "theme.js takes the label from the option text" grep -q "option.textContent" assets/js/theme.js
@@ -194,11 +194,11 @@ group_minimize() {
     echo "minimize"
     expect "minimize.css exists and is bundled" sh -c 'test -s assets/css/minimize.css && grep -q "\"minimize\"" layouts/partials/head.html'
     expect "minimize.js exists and is loaded" sh -c 'test -s assets/js/minimize.js && grep -Eq "minimize[^\"]*\.js" "$0/index.html"' "$OUT"
-    expect "the four sidebar windows are minimizable" count_ge 4 'class="win__minimize"' "$OUT/index.html"
-    expect "minimize buttons start expanded" count_ge 4 'aria-expanded="true"' "$OUT/index.html"
+    expect "the sidebar windows are minimizable" count_ge 2 'class="win__minimize"' "$OUT/index.html"
+    expect "minimize buttons start expanded" count_ge 2 'aria-expanded="true"' "$OUT/index.html"
     expect "the minimize label is translated" grep -q "minimizar" "$OUT/pt/index.html"
-    expect "sidebar window titles are real headings, for screen-reader navigation" count_ge 4 'h2 class="win__title-text"' "$OUT/index.html"
-    expect "every right-hand box, including the portrait, can be closed" count_ge 5 'class="win__close' "$OUT/index.html"
+    expect "sidebar window titles are real headings, for screen-reader navigation" count_ge 3 'h2 class="win__title-text"' "$OUT/index.html"
+    expect "every right-hand box, including the portrait, can be closed" count_ge 3 'class="win__close' "$OUT/index.html"
     expect "closing reuses window.css's existing [hidden] rule" grep -q '\.win\[hidden\]' assets/css/window.css
     expect "the close label is translated" grep -q "fechar janela" "$OUT/pt/index.html"
 }

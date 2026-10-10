@@ -4,7 +4,7 @@ author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Configurable HTTP middleware rate limiter in Go supporting IP and Token strategies with Redis persistence"
 stack = ["Go", "Redis", "Docker", "Middleware", "Strategy Pattern"]
-repo = "https://github.com/dpcamargo/fullcycle-rate-limiter"
+repo = "https://github.com/dpcamargo/redis-rate-limiter-go"
 +++
 
 HTTP middleware designed to protect web services against traffic spikes and abuse. Implements rate limiting based on client IP addresses or custom access tokens with independent limits and block windows:

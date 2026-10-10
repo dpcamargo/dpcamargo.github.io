@@ -19,7 +19,7 @@
                            the page's display title: the til section is "~/til" (not "~/today_i_learned",
                            its front-matter title), a til post's leaf is its slug (not its sentence-length
                            title, for the same reason the terminal completes "cat" with slugs), and a project
-                           page carries "projects/" ahead of its (short) title: "~/projects/wefood". Every
+                           page carries "projects/" ahead of its (short) title: "~/projects/<slug>". Every
                            other page (whoami, home) is just "~/<title>". */}}
                     {{- $winSegments := slice (replace (lower .Title) " " "_") -}}
                     {{- if eq .Section "til" -}}
@@ -63,9 +63,8 @@
                 </section>
 
                 <section class="right__content">
+                        {{- partial "side_hero.html" . -}}
                         {{- partial "side_image.html" . -}}
-                        {{- partial "side_socials.html" . -}}
-                        {{- partial "side_status.html" . -}}
                         {{- partial "side_stack.html" . -}}
                         {{- partial "side_tils.html" . -}}
                 </section>
@@ -73,6 +72,14 @@
 
             <footer class="page__footer">
                 <p>© {{ now.Year }} Dario Camargo</p>
+                <div class="footer__status">
+                    <span class="status__dot" aria-hidden="true"></span>
+                    <span class="status__label">{{ i18n "status_label" }}</span>
+                    <span class="status__value">{{ i18n "status_online" }}</span>
+                    <span class="footer__sep" aria-hidden="true">·</span>
+                    <span class="status__label">{{ i18n "location_label" }}</span>
+                    <span class="status__value">{{ i18n "location_value" }}</span>
+                </div>
             </footer>
 
         </div>

@@ -10,9 +10,6 @@ other = "dark"
 [palette_light]
 other = "light"
 
-[side_status_title]
-other = "status"
-
 [status_label]
 other = "status:"
 
@@ -28,38 +25,23 @@ other = "View on GitHub"
 [location_value]
 other = "Brazil"
 
-[side_socials_title]
-other = "connect"
-
-[socials_nav_label]
-other = "Social media links"
-
-[linkedin_label]
-other = "LinkedIn Profile"
-
 [linkedin_title]
 other = "Connect on LinkedIn"
 
-[github_label]
-other = "GitHub Profile"
-
 [github_title]
 other = "View GitHub Profile"
-
-[email_label]
-other = "Email Address"
 
 [email_title]
 other = "Send an Email"
 
 [side_stack_title]
-other = "stack"
+other = "Projects"
 
 [stack_nav_label]
-other = "Tech stack links"
+other = "Project filter links"
 
 [side_tils_title]
-other = "latest_til"
+other = "Today I Learned"
 
 [portrait_alt]
 other = "Dario standing"
@@ -111,6 +93,51 @@ other = "CV (English)"
 
 [cv_portuguese]
 other = "CV (Portuguese)"
+
+[hero_role]
+other = "Software Engineer | Applied AI Engineer | Go, Python, Java | Distributed Systems | Cloud"
+
+[hero_current_prefix]
+other = "Currently at"
+
+[hero_current_detail]
+other = "Proximity / Delivery Platforms"
+
+[hero_location_label]
+other = "Location"
+
+[hero_location_primary]
+other = "São Paulo, Brazil"
+
+[hero_location_detail]
+other = "UTC-3, ideal overlap with US Eastern/Central and Europe"
+
+[hero_availability_label]
+other = "Availability"
+
+[hero_availability_primary]
+other = "Open to"
+
+[hero_availability_remote]
+other = "Remote (Global)"
+
+[hero_availability_hybrid]
+other = "Hybrid Opportunities"
+
+[hero_languages_label]
+other = "Languages"
+
+[hero_lang_pt]
+other = "Portuguese (Native)"
+
+[hero_lang_en]
+other = "English (Fluent)"
+
+[hero_lang_es]
+other = "Spanish (Intermediate)"
+
+[hero_cta_linkedin]
+other = "View LinkedIn"
 
 
 [home_title_role]

@@ -26,17 +26,30 @@
 
     function apply() {
         var tech = currentTech();
-        document.querySelectorAll(CARD).forEach(function (card) {
-            card.hidden = !!tech && !onStack((card.getAttribute("data-stack") || "").toLowerCase(), tech);
-        });
-        document.querySelectorAll(CHIP).forEach(function (chip) {
-            if ((chip.getAttribute("data-tech") || "") === tech) chip.setAttribute("aria-current", "true");
-            else chip.removeAttribute("aria-current");
-        });
-        // one message per projects list: shown only when that list has nothing left
-        document.querySelectorAll(".project__empty").forEach(function (empty) {
-            var body = empty.closest(".content__body");
-            empty.hidden = !body || !!body.querySelector(CARD + ":not([hidden])");
+        // Scoped to the block(s) whose own URL still matches the page we're looking at — not every
+        // .project__card in the whole scrollback. In-place navigation (terminal.js) appends a freshly
+        // fetched page as a new .term__block and pushes its URL before this runs (MutationObserver
+        // fires asynchronously), so by the time apply() executes, location.search already belongs to
+        // whatever the reader navigated TO. A global querySelectorAll would re-filter using that new
+        // URL and retroactively un-hide cards in an *earlier*, unrelated list block still sitting above
+        // in the scrollback — growing its height and shoving the block the reader actually navigated to
+        // out of view, defeating its own scrollIntoView (reported: filter by a tech, scroll down, open a
+        // project — the view lands back on the now-taller old list instead of the new page).
+        var blocks = document.querySelectorAll('.term__block[data-url="' + location.pathname + '"]');
+        var scopes = blocks.length ? Array.prototype.slice.call(blocks) : [document];
+        scopes.forEach(function (scope) {
+            scope.querySelectorAll(CARD).forEach(function (card) {
+                card.hidden = !!tech && !onStack((card.getAttribute("data-stack") || "").toLowerCase(), tech);
+            });
+            scope.querySelectorAll(CHIP).forEach(function (chip) {
+                if ((chip.getAttribute("data-tech") || "") === tech) chip.setAttribute("aria-current", "true");
+                else chip.removeAttribute("aria-current");
+            });
+            // one message per projects list: shown only when that list has nothing left
+            scope.querySelectorAll(".project__empty").forEach(function (empty) {
+                var body = empty.closest(".content__body");
+                empty.hidden = !body || !!body.querySelector(CARD + ":not([hidden])");
+            });
         });
     }
 

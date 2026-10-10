@@ -91,17 +91,7 @@
     color: var(--off-fg);
 }
 
-/* Status line */
-.status__line {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-}
-
-.status__line + .status__line {
-    margin-top: var(--space-1);
-}
-
+/* Status/location: reused inline in the footer status bar (layouts/_default/baseof.html, assets/css/layout.css) */
 .status__dot {
     display: inline-block;
     width: 12px;

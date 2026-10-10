@@ -4,7 +4,7 @@ author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Middleware HTTP configurável em Go para controle de taxa por IP e Token com persistência no Redis"
 stack = ["Go", "Redis", "Docker", "Middleware", "Strategy Pattern"]
-repo = "https://github.com/dpcamargo/fullcycle-rate-limiter"
+repo = "https://github.com/dpcamargo/redis-rate-limiter-go"
 +++
 
 Middleware HTTP projetado para proteção de serviços web contra sobrecarga e abuso de requisições. Implementa limitação de taxa por endereço IP ou token de acesso com limites e tempos de bloqueio independentes:

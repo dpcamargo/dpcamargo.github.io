@@ -1,0 +1,92 @@
+{{- /* High-impact identity card: name, title, current employer, and quick recruiter-facing facts
+       (location, availability, languages), plus one-click CTAs (CV per language, LinkedIn, GitHub,
+       Email) that work with zero interaction with the terminal. Sits first in right__content (see
+       baseof.html) so it is above the fold on every page, desktop and mobile, without requiring any
+       command to be typed. No minimize/close buttons (unlike the other sidebar windows): the CTAs
+       must stay reachable, never hidden behind an extra click.
+
+       The four facts below (current role, location, availability, languages) are each a native
+       <details>/<summary> tree node — no JS needed, same progressive-enhancement pattern as the
+       palette/language pickers. Collapsed, the summary line alone is already a complete, readable
+       fact; the "+" just reveals supporting detail one level deeper, like a file tree. */ -}}
+<section class="win side__hero">
+    <header class="win__title">
+        <h2 class="win__title-text">Dario Camargo</h2>
+    </header>
+    <div class="win__body">
+        <p class="hero__role">{{ i18n "hero_role" }}</p>
+        <div class="hero__facts">
+            <details class="hero__tree">
+                <summary class="hero__tree-summary">{{ i18n "hero_current_prefix" }} <strong>Mercado Livre</strong></summary>
+                <ul class="hero__tree-children">
+                    <li>{{ i18n "hero_current_detail" }}</li>
+                </ul>
+            </details>
+            <details class="hero__tree">
+                <summary class="hero__tree-summary">
+                    <span class="hero__tree-label">{{ i18n "hero_location_label" }}:</span>
+                    {{ i18n "hero_location_primary" }}
+                </summary>
+                <ul class="hero__tree-children">
+                    <li>{{ i18n "hero_location_detail" }}</li>
+                </ul>
+            </details>
+            <details class="hero__tree">
+                <summary class="hero__tree-summary">
+                    <span class="hero__tree-label">{{ i18n "hero_availability_label" }}:</span>
+                    {{ i18n "hero_availability_primary" }}
+                </summary>
+                <ul class="hero__tree-children">
+                    <li>{{ i18n "hero_availability_remote" }}</li>
+                    <li>{{ i18n "hero_availability_hybrid" }}</li>
+                </ul>
+            </details>
+            <details class="hero__tree">
+                <summary class="hero__tree-summary">
+                    <span class="hero__tree-label">{{ i18n "hero_languages_label" }}</span>
+                </summary>
+                <ul class="hero__tree-children">
+                    <li>{{ i18n "hero_lang_pt" }}</li>
+                    <li>{{ i18n "hero_lang_en" }}</li>
+                    <li>{{ i18n "hero_lang_es" }}</li>
+                </ul>
+            </details>
+        </div>
+        <div class="hero__ctas">
+            {{- /* One button per site language, labelled with that language's own endonym (hugo.toml's
+                   languages.<lang>.label, e.g. "English"/"Português") so a recruiter always sees exactly
+                   which CV they're about to get, regardless of which language they're reading the site
+                   in — not just "Download CV (PDF)" guessing from the current locale. */ -}}
+            {{ range hugo.Sites }}
+            <a class="btn hero__cta" href="{{ printf "/cv/dario-camargo-cv-%s.pdf" .Language.Lang }}" download>
+                <span>CV ({{ .Language.Label }})</span>
+            </a>
+            {{ end }}
+            <a class="btn hero__cta"
+               href="https://linkedin.com/in/dpcamargo"
+               rel="me noopener noreferrer"
+               target="_blank"
+               title="{{ i18n "linkedin_title" }}">
+                {{ partial "icon_linkedin.html" . }}
+                <span>{{ i18n "hero_cta_linkedin" }}</span>
+            </a>
+            <a class="btn hero__cta"
+               href="https://github.com/dpcamargo"
+               rel="me noopener noreferrer"
+               target="_blank"
+               title="{{ i18n "github_title" }}">
+                {{ partial "icon_github.html" . }}
+                <span>GitHub</span>
+            </a>
+            <a class="btn hero__cta"
+               href="#"
+               rel="me"
+               data-email-user="ZHBjYW1hcmdv"
+               data-email-domain="Z21haWwuY29t"
+               title="{{ i18n "email_title" }}">
+                {{ partial "icon_email.html" . }}
+                <span>Email</span>
+            </a>
+        </div>
+    </div>
+</section>

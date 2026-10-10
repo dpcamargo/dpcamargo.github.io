@@ -1,0 +1,117 @@
+/* High-impact identity card (layouts/partials/side_hero.html). First window in the sidebar, no
+   minimize/close chrome: it must stay visible and its CTAs reachable without any extra click. */
+.side__hero .win__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.hero__role {
+    margin: 0;
+    color: var(--text-header);
+    font-size: 1.1em;
+}
+
+.hero__facts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: 0.9em;
+}
+
+/* Tree node: <details class="hero__tree"><summary>…</summary><ul class="hero__tree-children">…</ul></details>
+   Native disclosure widget, same progressive-enhancement pattern as the palette/language pickers —
+   works with no JS. Collapsed, the summary alone is a complete fact; expanding reveals one level of
+   supporting detail, like a file tree. */
+.hero__tree {
+    color: var(--text-body);
+}
+
+.hero__tree-summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.hero__tree-summary::-webkit-details-marker {
+    display: none;
+}
+
+/* "+"/"-" node marker, same convention as .til__list's "~ " (assets/css/social.css) */
+.hero__tree-summary::before {
+    content: "+ ";
+    color: var(--muted);
+}
+
+.hero__tree[open] > .hero__tree-summary::before {
+    content: "- ";
+}
+
+.hero__tree-summary strong {
+    color: var(--off-fg);
+}
+
+.hero__tree-label {
+    color: var(--text-subheader);
+}
+
+.hero__tree-children {
+    list-style: none;
+    margin: var(--space-1) 0 0;
+    padding: 0 0 0 1.25rem;
+}
+
+.hero__tree-children li::marker {
+    content: none;
+}
+
+.hero__tree-children li::before {
+    content: "├─ ";
+    color: var(--muted);
+}
+
+.hero__tree-children li:last-child::before {
+    content: "└─ ";
+}
+
+/* Touch: a 44px-tall node row (WCAG 2.5.8), matching the rest of the site's tap targets */
+@media (pointer: coarse) {
+    .hero__tree-summary {
+        display: flex;
+        align-items: center;
+        min-height: 2.75rem;
+    }
+}
+
+.hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+}
+
+.hero__cta {
+    flex: 1 1 auto;
+    justify-content: center;
+    font-size: 0.9em;
+}
+
+.hero__cta .brand-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: currentColor;
+}
+
+/* Phones: one CTA per row reads better than a cramped wrap, and the card sits right above the fold */
+@media screen and (max-width: 480px) {
+    .hero__cta {
+        flex: 1 1 100%;
+    }
+}
+
+/* On the home page the hero leads the whole reading order on phones, ahead of the portrait and connect
+   links (see the .page--home ordering in layout.css), so the CTAs are the very first thing reachable. */
+@media screen and (max-width: 768px) {
+    .page--home .side__hero {
+        order: -4;
+    }
+}

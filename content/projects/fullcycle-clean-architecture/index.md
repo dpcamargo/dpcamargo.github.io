@@ -4,7 +4,7 @@ author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Order management system sharing a single business core exposed via REST, gRPC, GraphQL, and RabbitMQ"
 stack = ["Go", "gRPC", "GraphQL", "REST", "RabbitMQ", "MySQL", "Docker"]
-repo = "https://github.com/dpcamargo/fullcycle-clean-architecture"
+repo = "https://github.com/dpcamargo/clean-architecture-multitransport-go"
 +++
 
 Order processing service built with Clean Architecture, decoupling core domain logic and use cases from delivery mechanisms. The exact same business actions (creating and listing orders) run simultaneously across four distinct transport protocols without duplication:

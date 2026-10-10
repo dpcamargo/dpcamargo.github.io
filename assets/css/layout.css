@@ -110,10 +110,17 @@ body, html {
     top: var(--space-2);
 }
 
-/* The one-line colophon at the bottom of the app shell (the <footer> landmark) */
+/* The one-line colophon at the bottom of the app shell (the <footer> landmark). Status/location live
+   here (moved from the sidebar), so the status bar reads like a real status bar: always visible, no
+   scrolling or sidebar card needed. */
 .page__footer {
     flex-shrink: 0;
     padding: var(--space-1) var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
     color: var(--muted);
     background-color: var(--header-bg);
     border-top: 3px solid var(--border-pink);
@@ -122,6 +129,17 @@ body, html {
 .page__footer p {
     margin: 0;
     font-size: 0.875rem;
+}
+
+.footer__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.875rem;
+}
+
+.footer__sep {
+    color: var(--muted);
 }
 
 /* Multiple project cards need a visible break between them; til's list doesn't, since each entry is one line */
@@ -260,10 +278,6 @@ img {
 
     .page--home .side__image {
         order: -3;
-    }
-
-    .page--home .side__socials {
-        order: -2;
     }
 
     .page--home .page__content {
