@@ -19,6 +19,12 @@
     // "java" matches a stack value of "Java 21" (prefix + word boundary), "go" matches only "Go",
     // never "MongoDB"
     function onStack(stack, tech) {
+        if (tech === "sql") {
+            return onStack(stack, "mysql") || onStack(stack, "postgresql");
+        }
+        if (tech === "nosql") {
+            return onStack(stack, "mongodb");
+        }
         return stack.split("|").some(function (value) {
             value = value.replace(/^\s+|\s+$/g, "");
             return value === tech || value.indexOf(tech + " ") === 0;
