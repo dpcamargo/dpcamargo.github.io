@@ -110,7 +110,7 @@ other = "Location"
 other = "São Paulo, Brazil"
 
 [hero_location_detail]
-other = "UTC-3, ideal overlap with US Eastern/Central and Europe"
+other = "UTC-3"
 
 [hero_availability_label]
 other = "Availability"
