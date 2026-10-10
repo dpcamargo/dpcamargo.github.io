@@ -3,7 +3,7 @@ title = "High-Throughput Go Rate Limiter"
 author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Configurable HTTP middleware rate limiter in Go supporting IP and Token strategies with Redis persistence"
-stack = ["Go", "Redis", "Docker", "Middleware", "Strategy Pattern"]
+stack = ["Go", "Echo", "Redis", "Docker", "Middleware"]
 repo = "https://github.com/dpcamargo/redis-rate-limiter-go"
 +++
 

@@ -6,7 +6,7 @@ description = "Ferramenta CLI de alta performance para testes de carga e benchma
 
 [params]
 repo = "https://github.com/dpcamargo/http-load-tester-cli-go"
-stack = ["go", "docker"]
+stack = ["Go", "Cobra", "Zap", "Docker"]
 +++
 
 Ferramenta de linha de comando de alta performance para benchmarking e testes de carga HTTP desenvolvida em Go, projetada para simular tráfego concorrente e validar capacidade de serviços.

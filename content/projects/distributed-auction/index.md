@@ -6,7 +6,7 @@ description = "High-concurrency auction engine in Go with batched bid ingestion,
 
 [params]
 repo = "https://github.com/dpcamargo/distributed-auction-system-go"
-stack = ["go", "docker"]
+stack = ["Go", "MongoDB", "Gin", "Zap", "Docker"]
 +++
 
 High-concurrency auction engine written in Go, architected to ingest large volumes of competitive bids, batch writes efficiently to MongoDB, and manage time-delimited auction lifecycles.

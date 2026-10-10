@@ -3,7 +3,7 @@ title = "Clean Architecture Multitransporte"
 author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Sistema de gestão de pedidos com core de negócio único exposto via REST, gRPC, GraphQL e RabbitMQ"
-stack = ["Go", "gRPC", "GraphQL", "REST", "RabbitMQ", "MySQL", "Docker"]
+stack = ["Go", "Gin", "gRPC", "GraphQL", "RabbitMQ", "MySQL", "Docker"]
 repo = "https://github.com/dpcamargo/clean-architecture-multitransport-go"
 +++
 

@@ -6,7 +6,7 @@ description = "Motor de leilões de alta concorrência em Go com ingestão de la
 
 [params]
 repo = "https://github.com/dpcamargo/distributed-auction-system-go"
-stack = ["go", "docker"]
+stack = ["Go", "MongoDB", "Gin", "Zap", "Docker"]
 +++
 
 Motor de leilões de alta concorrência em Go, projetado para suportar alto volume de lances simultâneos com escrita em lote no MongoDB e gerenciamento de ciclo de vida com expiração automática.

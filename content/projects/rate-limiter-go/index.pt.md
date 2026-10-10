@@ -3,7 +3,7 @@ title = "Rate Limiter em Go com Redis"
 author = "Dario Camargo"
 date = "2026-09-25T00:00:00-03:00"
 description = "Middleware HTTP configurável em Go para controle de taxa por IP e Token com persistência no Redis"
-stack = ["Go", "Redis", "Docker", "Middleware", "Strategy Pattern"]
+stack = ["Go", "Echo", "Redis", "Docker", "Middleware"]
 repo = "https://github.com/dpcamargo/redis-rate-limiter-go"
 +++
 
