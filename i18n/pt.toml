@@ -95,7 +95,7 @@ other = "CV (inglês)"
 other = "CV (português)"
 
 [hero_role]
-other = "Engenheiro de Software<br>Engenheiro de IA Aplicada<br>Go, Python, Java<br>Sistemas Distribuídos<br>Cloud"
+other = "Engenheiro de Software<br>Go, Java, Python"
 
 [hero_current_prefix]
 other = "Atualmente na"
