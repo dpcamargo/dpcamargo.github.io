@@ -35,11 +35,12 @@
                    languages.<lang>.label, e.g. "English"/"Português") so a recruiter always sees exactly
                    which CV they're about to get, regardless of which language they're reading the site
                    in — not just "Download CV (PDF)" guessing from the current locale. */ -}}
-            {{ range hugo.Sites }}
-            <a class="btn hero__cta" href="{{ printf "/cv/dario-camargo-cv-%s.pdf" .Language.Lang }}" download>
-                <span>CV ({{ .Language.Label }})</span>
+            <a class="btn hero__cta" href="/cv/dario-camargo-cv-en.pdf" download>
+                <span>CV (English)</span>
             </a>
-            {{ end }}
+            <a class="btn hero__cta" href="/cv/dario-camargo-cv-pt.pdf" download>
+                <span>CV (Português)</span>
+            </a>
             <a class="btn hero__cta"
                href="https://linkedin.com/in/dpcamargo"
                rel="me noopener noreferrer"
